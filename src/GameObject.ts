@@ -22,11 +22,11 @@ class GameObject {
         xVel: number,
         yVel: number,
     ) {
+        this.loadImage(imgUrl);
         this.xPos = xPos;
         this.yPos = yPos;
         this.xVel = xVel;
         this.yVel = yVel;
-        this.loadImage(imgUrl);
     }
 
     /**
