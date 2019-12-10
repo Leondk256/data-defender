@@ -14,9 +14,10 @@ class Game {
         this.canvas.height = window.innerHeight;
         // Set the context of the canvas
         this.ctx = this.canvas.getContext("2d");
+
         // Create a ship
         this.ship = new Ship(
-            "./assets/images/SpaceShooterRedux/PNG/playerShip1_blue.png",
+            "./assets/images/ship.png",
             this.canvas.width / 2,
             this.canvas.height / 2,
             5,
@@ -32,10 +33,11 @@ class Game {
      * Method game loop
      */
     public loop = () => {
-        // Draw the ship
-        this.ship.draw(this.ctx);
         // Clear the canvas
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+        // Draw the ship
+        this.ship.draw(this.ctx);
 
         // Request the next animation frame
         requestAnimationFrame(this.loop);
