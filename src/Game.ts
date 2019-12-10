@@ -2,6 +2,8 @@ class Game {
     private readonly canvas: HTMLCanvasElement;
     private readonly ctx: CanvasRenderingContext2D;
 
+    private ship: Ship;
+
     private currentScreen: GameScreen;
     public constructor(canvasId: HTMLCanvasElement) {
         // Construct all of the canvas
