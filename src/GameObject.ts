@@ -4,7 +4,6 @@ class GameObject {
     protected xVel: number;
     protected yVel: number;
     protected image: HTMLImageElement;
-    protected ctx: CanvasRenderingContext2D;
 
     /**
      * Constructor
@@ -14,12 +13,11 @@ class GameObject {
      * @param yVel number
      * @param image HTMLImageElement
      */
-    protected constructor(xPos: number, yPos: number, xVel: number, yVel: number, ctx: CanvasRenderingContext2D, image: HTMLImageElement) {
+    protected constructor(xPos: number, yPos: number, xVel: number, yVel: number, image: HTMLImageElement) {
         this.xPos = xPos;
         this.yPos = yPos;
         this.xVel = xVel;
         this.yVel = yVel;
-        this.ctx = ctx;
         this.image = image;
     }
 
