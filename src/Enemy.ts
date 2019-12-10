@@ -8,7 +8,7 @@ class Enemy extends GameObject {
      * @param yVel number
      * @param image HTMLImageElement
      */
-    protected constructor(xPos: number, yPos: number, xVel: number, yVel: number, ctx: CanvasRenderingContext2D, image: HTMLImageElement) {
-        super(xPos, yPos, xVel, yVel, ctx, image)
+    protected constructor(xPos: number, yPos: number, xVel: number, yVel: number, image: HTMLImageElement) {
+        super(xPos, yPos, xVel, yVel, image)
     }
 }
