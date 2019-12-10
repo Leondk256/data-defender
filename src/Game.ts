@@ -2,6 +2,7 @@ class Game {
     private readonly canvas: HTMLCanvasElement;
     private readonly ctx: CanvasRenderingContext2D;
 
+    private currentScreen: GameScreen;
     public constructor(canvasId: HTMLCanvasElement) {
         // Construct all of the canvas
         this.canvas = canvasId;
@@ -9,6 +10,7 @@ class Game {
         this.canvas.height = window.innerHeight;
         // Set the context of the canvas
         this.ctx = this.canvas.getContext("2d");
+        this.currentScreen = new StartScreen(this.canvas, this.ctx)
 
         this.loop();
     }
@@ -21,6 +23,9 @@ class Game {
 
         // Clear the canvas
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+        //draw the current screen
+        this.currentScreen.draw();
 
         // Request the next animation frame
         requestAnimationFrame(this.loop);
