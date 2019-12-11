@@ -8,6 +8,7 @@ class LevelScreen extends GameScreen {
     private lives: number;
     private score: number;
     private life: HTMLImageElement;
+    private ship: Ship;
 
     private facebookBoss: FacebookBoss;
     // private ship: Ship;
@@ -28,6 +29,16 @@ class LevelScreen extends GameScreen {
             this.canvas.height / 2,
             10,
             20
+        );
+
+        // Create a ship
+        this.ship = new Ship(
+            "./assets/images/ship.png",
+            this.canvas.width / 2,
+            this.canvas.height / 2,
+            5,
+            5,
+            this.keyboardListener,
         );
     }
 
@@ -50,6 +61,15 @@ class LevelScreen extends GameScreen {
             // }
             this.facebookBoss.draw(this.ctx);
             this.facebookBoss.move(this.canvas);
+
+        // Move the Ship
+        this.ship.move(this.canvas);
+
+        // Draw the Ship
+        this.ship.draw(this.ctx);
+
+        // Shoot with the Ship
+        this.ship.shoot(this.ctx);
         // });
     }
 
