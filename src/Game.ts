@@ -6,7 +6,7 @@ class Game {
     private ship: Ship;
     private currentScreen: StartScreen;
     private gameScreen: GameScreen;
-    
+
     public constructor(canvasId: HTMLCanvasElement) {
         // Construct all of the canvas
         this.canvas = canvasId;
