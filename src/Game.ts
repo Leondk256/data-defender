@@ -3,7 +3,6 @@ class Game {
     private readonly ctx: CanvasRenderingContext2D;
     public keyboardListener: KeyboardListener;
 
-    private ship: Ship;
     private currentScreen: GameScreen;
 
     public constructor(canvasId: HTMLCanvasElement) {
@@ -19,17 +18,6 @@ class Game {
         this.currentScreen = new StartScreen(this.canvas, this.ctx);
         //call keyboard listener
         this.keyboardListener = new KeyboardListener();
-
-        // Create a ship
-        this.ship = new Ship(
-            "./assets/images/ship.png",
-            this.canvas.width / 2,
-            this.canvas.height / 2,
-            5,
-            5,
-            this.keyboardListener,
-        );
-
         // Loop the game
         this.loop();
     }
@@ -46,9 +34,6 @@ class Game {
 
         // Draw the current screen
         this.currentScreen.draw();
-
-        // Draw the Ship
-        this.ship.draw(this.ctx);
 
         // Request the next animation frame
         requestAnimationFrame(this.loop);
