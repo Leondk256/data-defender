@@ -47,9 +47,6 @@ class Game {
         // Draw the current screen
         this.currentScreen.draw();
 
-        // Move the Ship
-        this.ship.move(this.canvas);
-
         // Draw the Ship
         this.ship.draw(this.ctx);
 
