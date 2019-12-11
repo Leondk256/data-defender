@@ -20,7 +20,7 @@ class StartScreen extends GameScreen {
 
     public draw() {
         // 1. add 'Asteroids' text
-        this.writeTextToCanvas("Data-Defender", 140, this.canvas.width / 2, 150);
+        this.writeTextToCanvas("DATA DEFENDER", 70, this.canvas.width / 2, 150);
 
         // 2. add 'Press to play' text
         this.writeTextToCanvas(
