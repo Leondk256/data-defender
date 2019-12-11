@@ -112,7 +112,7 @@ class LevelScreen extends GameScreen {
         this.lives = 3;
         this.score = 400;
         this.keyboardListener = keyboardListener;
-        this.facebookBoss = new FacebookBoss("./assets/images/enemy.png", 1500, 500, 0, 10);
+        this.facebookBoss = new FacebookBoss("./assets/images/enemy.png", this.canvas.width - 300, this.canvas.height - 800, 0, 10);
         this.ship = new Ship("./assets/images/ship.png", this.canvas.width / 2, this.canvas.height / 2, 5, 5, this.keyboardListener);
     }
     draw() {
