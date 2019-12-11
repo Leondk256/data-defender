@@ -1,9 +1,7 @@
 // tslint:disable member-ordering
+///<reference path="Gamescreen.ts"/>
 
-class LevelScreen {
-
-    private readonly canvas: HTMLCanvasElement;
-    private readonly ctx: CanvasRenderingContext2D;
+class LevelScreen extends GameScreen {
 
     private keyboardListener: KeyboardListener;
 
@@ -15,12 +13,11 @@ class LevelScreen {
     // private ship: Ship;
     // private keyboardListener: KeyboardListener;
 
-    public constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
-        this.canvas = canvas;
-        this.ctx = ctx;
+    public constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, keyboardListener: KeyboardListener) {
+        super(canvas,ctx);
         this.lives = 3;
         this.score = 400;
-        // this.keyboardListener = keyboardListener;
+        this.keyboardListener = keyboardListener;
 
         // this.life = new Image();
         // this.life.src = "./assets/images/SpaceShooterRedux/PNG/UI/playerLife1_blue.png";

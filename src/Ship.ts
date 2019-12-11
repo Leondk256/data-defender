@@ -1,6 +1,8 @@
 ///<reference path="GameObject.ts"/>
+
 class Ship extends GameObject {
-    public keyboardListener: KeyboardListener;
+    private keyboardListener: KeyboardListener;
+    private gameObject: GameObject;
 
     /**
      * Construct a new Ship object.
@@ -60,6 +62,20 @@ class Ship extends GameObject {
             && this.yPos + this.img.height / 2 < canvas.height
         ) {
             this.yPos += this.yVel;
+        }
+    }
+
+    public shoot(ctx: CanvasRenderingContext2D) {
+        this.gameObject = new GameObject(
+            "./assets/images/beam.png",
+            this.xPos + 30,
+            this.yPos,
+            0,
+            0,
+        );
+
+        if (this.keyboardListener.isKeyDown(KeyboardListener.KEY_SPACE)) {
+            this.gameObject.draw(ctx);
         }
     }
 }
