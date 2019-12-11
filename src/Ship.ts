@@ -65,17 +65,44 @@ class Ship extends GameObject {
         }
     }
 
-    public shoot(ctx: CanvasRenderingContext2D) {
-        this.gameObject = new GameObject(
-            "./assets/images/beam.png",
-            this.xPos + 30,
-            this.yPos,
-            0,
-            0,
-        );
-
+    /**
+     * Shoot with Ship functionality
+     * @param ctx
+     * @param gameObject
+     */
+    public shoot(ctx: CanvasRenderingContext2D, gameObject: GameObject) {
+        // Create laser when spacebar pressed
         if (this.keyboardListener.isKeyDown(KeyboardListener.KEY_SPACE)) {
+            // Create the laser gameObject
+            this.gameObject = new GameObject(
+                "./assets/images/beam.png",
+                this.xPos + 30,
+                this.yPos,
+                0,
+                0,
+            );
+            // Draw it after it has been created
             this.gameObject.draw(ctx);
+
+            // Check if the laser shot hits the facebook boss
+            if (this.gameObject.getYPos() + this.gameObject.getImgHeight() > gameObject.getYPos()
+                && this.gameObject.getYPos() < gameObject.getYPos() + gameObject.getImgHeight()
+                && this.gameObject.getXPos() + this.gameObject.getImgWidth() > gameObject.getXPos()
+                && this.gameObject.getXPos() < gameObject.getXPos() + gameObject.getImgWidth()
+            ) {
+                console.log("Collision!");
+            }
         }
+    }
+
+    /**
+     * Check if the Ship is colliding with a projectile
+     * @param gameObject
+     */
+    public isCollidingWithProjectile(gameObject: GameObject): boolean {
+        return this.yPos + this.img.height > gameObject.getYPos()
+            && this.yPos < gameObject.getYPos() + gameObject.getImgHeight()
+            && this.xPos + this.img.width > gameObject.getXPos()
+            && this.xPos < gameObject.getXPos() + gameObject.getImgWidth();
     }
 }

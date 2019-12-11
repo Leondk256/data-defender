@@ -47,7 +47,7 @@ class GameObject {
     }
 
     /**
-     * Let the asteroid move itself with its own given speed. It should also handle the offscreen
+     * Let the game object move itself with its own given speed. It should also handle the offscreen
      * events correctly
      *
      * @param canvas the canvas
@@ -82,5 +82,49 @@ class GameObject {
         this.img = new Image();
         // Now, set the src to start loading the image
         this.img.src = source;
+    }
+
+    /**
+     * Set the X position
+     * @param xPos
+     */
+    public setXPos(xPos: number) {
+        this.xPos = xPos;
+    }
+
+    /**
+     * Get the X position
+     */
+    public getXPos(): number {
+        return this.xPos;
+    }
+
+    /**
+     * Set the Y position
+     * @param yPos
+     */
+    public setYPos(yPos: number) {
+        this.yPos = yPos;
+    }
+
+    /**
+     * Get the Y position
+     */
+    public getYPos(): number {
+        return this.yPos;
+    }
+
+    /**
+     * Get the image width
+     */
+    public getImgWidth(): number {
+        return this.img.width;
+    }
+
+    /**
+     * Get the image height
+     */
+    public getImgHeight(): number {
+        return this.img.height;
     }
 }

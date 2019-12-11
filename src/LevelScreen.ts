@@ -11,8 +11,6 @@ class LevelScreen extends GameScreen {
     private ship: Ship;
 
     private facebookBoss: FacebookBoss;
-    // private ship: Ship;
-    // private keyboardListener: KeyboardListener;
 
     public constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, keyboardListener: KeyboardListener) {
         super(canvas,ctx);
@@ -55,6 +53,12 @@ class LevelScreen extends GameScreen {
         //     "right",
         // );
 
+
+
+        if (this.ship.isCollidingWithProjectile(this.facebookBoss) === true) {
+            // console.log('ja');
+        }
+
         // Move and draw all the game entities
             // if (this.ship.isColliding(asteroid)) {
             //     this.lives--;
@@ -69,7 +73,7 @@ class LevelScreen extends GameScreen {
         this.ship.draw(this.ctx);
 
         // Shoot with the Ship
-        this.ship.shoot(this.ctx);
+        this.ship.shoot(this.ctx, this.facebookBoss);
         // });
     }
 
