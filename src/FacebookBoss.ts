@@ -7,7 +7,7 @@ class FacebookBoss extends Enemy {
      * @param xVel 
      * @param yVel 
      */
-    public constructor(image: string, xPos: number, yPos: number, xVel: number, yVel: number) {
-        super(image, xPos, yPos, xVel, yVel);
+    public constructor(image: string, xPos: number, yPos: number, xVel: number, yVel: number, health: number) {
+        super(image, xPos, yPos, xVel, yVel, health);
     }
 }

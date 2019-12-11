@@ -5,15 +5,16 @@ class GameObject {
     protected xVel: number;
     protected yVel: number;
     protected img: HTMLImageElement;
+    protected health: number;
 
     /**
-     * Construct a new moving object.
      *
-     * @param imgUrl url of the image to load
-     * @param xPos X coordinate of its starting position
-     * @param yPos y coordinate of its starting position
-     * @param xVel x part of the velocity vector
-     * @param yVel y part of the velocity vector
+     * @param imgUrl
+     * @param xPos
+     * @param yPos
+     * @param xVel
+     * @param yVel
+     * @param health
      */
     public constructor(
         imgUrl: string,
@@ -21,12 +22,14 @@ class GameObject {
         yPos: number,
         xVel: number,
         yVel: number,
+        health: number,
     ) {
         this.loadImage(imgUrl);
         this.xPos = xPos;
         this.yPos = yPos;
         this.xVel = xVel;
         this.yVel = yVel;
+        this.health = health;
     }
 
     /**
@@ -126,5 +129,36 @@ class GameObject {
      */
     public getImgHeight(): number {
         return this.img.height;
+    }
+
+    /**
+     * Set the X velocity
+     * @param xVel
+     */
+    public setXVel(xVel: number) {
+        this.xVel = xVel;
+    }
+
+    /**
+     * Set the Y velocity
+     * @param yVel
+     */
+    public setYVel(yVel: number) {
+        this.yVel = yVel;
+    }
+
+    /**
+     * Set the Game object health
+     * @param health
+     */
+    public setHealth(health: number) {
+        this.health = health;
+    }
+
+    /**
+     * Get the Game object health
+     */
+    public getHealth(): number {
+        return this.health;
     }
 }

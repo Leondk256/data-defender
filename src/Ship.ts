@@ -5,13 +5,14 @@ class Ship extends GameObject {
     private gameObject: GameObject;
 
     /**
-     * Construct a new Ship object.
      *
-     * @param imgUrl url of the image to load
-     * @param xPos X coordinate of its starting position
-     * @param yPos y coordinate of its starting position
-     * @param xVel x part of the velocity vector
-     * @param yVel y part of the velocity vector
+     * @param imgUrl
+     * @param xPos
+     * @param yPos
+     * @param xVel
+     * @param yVel
+     * @param keyboardListener
+     * @param health
      */
     public constructor(
         imgUrl: string,
@@ -20,8 +21,9 @@ class Ship extends GameObject {
         xVel: number,
         yVel: number,
         keyboardListener: KeyboardListener,
+        health: number,
     ) {
-        super(imgUrl, xPos, yPos, xVel, yVel);
+        super(imgUrl, xPos, yPos, xVel, yVel, health);
         this.keyboardListener = new KeyboardListener();
     }
 
@@ -80,6 +82,7 @@ class Ship extends GameObject {
                 this.yPos,
                 0,
                 0,
+                3,
             );
             // Draw it after it has been created
             this.gameObject.draw(ctx);
@@ -90,7 +93,8 @@ class Ship extends GameObject {
                 && this.gameObject.getXPos() + this.gameObject.getImgWidth() > gameObject.getXPos()
                 && this.gameObject.getXPos() < gameObject.getXPos() + gameObject.getImgWidth()
             ) {
-                console.log("Collision!");
+                // Subtract one health when beamed by laser
+                gameObject.setHealth(gameObject.getHealth() - 1);
             }
         }
     }

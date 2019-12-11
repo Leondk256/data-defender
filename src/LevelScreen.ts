@@ -26,7 +26,8 @@ class LevelScreen extends GameScreen {
             this.canvas.width / 100 * 80,
             this.canvas.height / 100 * 50,
             0,
-            10
+            10,
+            3,
         );
 
         // Create a ship
@@ -37,6 +38,7 @@ class LevelScreen extends GameScreen {
             5,
             5,
             this.keyboardListener,
+            3,
         );
     }
 
@@ -54,17 +56,17 @@ class LevelScreen extends GameScreen {
         // );
 
 
-
+        // If the Ship collides, remove one live
         if (this.ship.isCollidingWithProjectile(this.facebookBoss) === true) {
-            // console.log('ja');
+            console.log(this.lives);
+            this.lives--;
         }
 
-        // Move and draw all the game entities
-            // if (this.ship.isColliding(asteroid)) {
-            //     this.lives--;
-            // }
-            this.facebookBoss.draw(this.ctx);
-            this.facebookBoss.move(this.canvas);
+        // Draw the Facebook boss
+        this.facebookBoss.draw(this.ctx);
+
+        // Move the Facebook boss
+        this.facebookBoss.move(this.canvas);
 
         // Move the Ship
         this.ship.move(this.canvas);
