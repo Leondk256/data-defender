@@ -17,7 +17,7 @@ class GameScreen {
         alignment: CanvasTextAlign = "center",
         color: string = "white",
     ) {
-        this.ctx.font = `${fontSize}px Minecraft`;
+        this.ctx.font = `${fontSize}px Spacecomics`;
         this.ctx.fillStyle = color;
         this.ctx.textAlign = alignment;
         this.ctx.fillText(text, xCoordinate, yCoordinate);

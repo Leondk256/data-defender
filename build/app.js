@@ -67,7 +67,7 @@ class GameScreen {
     }
     draw() { }
     writeTextToCanvas(text, fontSize = 20, xCoordinate, yCoordinate, alignment = "center", color = "white") {
-        this.ctx.font = `${fontSize}px Minecraft`;
+        this.ctx.font = `${fontSize}px Spacecomics`;
         this.ctx.fillStyle = color;
         this.ctx.textAlign = alignment;
         this.ctx.fillText(text, xCoordinate, yCoordinate);
