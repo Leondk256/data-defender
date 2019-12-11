@@ -14,12 +14,12 @@ class GameObject {
         }
     }
     move(canvas) {
-        if (this.xPos + this.img.width > canvas.width ||
-            this.xPos < 0) {
+        if (this.xPos + this.img.width / 2 > canvas.width ||
+            this.xPos - this.img.width / 2 < 0) {
             this.xVel = -this.xVel;
         }
-        if (this.yPos + this.img.height > canvas.height ||
-            this.yPos < 0) {
+        if (this.yPos + this.img.height / 2 > canvas.height ||
+            this.yPos - this.img.height / 2 < 0) {
             this.yVel = -this.yVel;
         }
         this.xPos += this.xVel;
@@ -43,9 +43,10 @@ class FacebookBoss extends Enemy {
 class Game {
     constructor(canvasId) {
         this.loop = () => {
-            console.log("YEET");
             this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
             this.currentScreen.draw();
+            this.ship.move(this.canvas);
+            this.ship.draw(this.ctx);
             requestAnimationFrame(this.loop);
         };
         this.canvas = canvasId;
@@ -53,6 +54,7 @@ class Game {
         this.canvas.height = window.innerHeight;
         this.ctx = this.canvas.getContext("2d");
         this.currentScreen = new StartScreen(this.canvas, this.ctx);
+        this.ship = new Ship("./assets/images/ship.png", this.canvas.width / 2, this.canvas.height / 2, 5, 5, this.keyboardListener);
         this.loop();
     }
 }
@@ -74,14 +76,35 @@ class GameScreen {
     }
 }
 class KeyboardListener {
+    constructor() {
+        this.keyDown = (ev) => {
+            this.keyCodeStates[ev.keyCode] = true;
+        };
+        this.keyUp = (ev) => {
+            this.keyCodeStates[ev.keyCode] = false;
+        };
+        this.keyCodeStates = new Array();
+        window.addEventListener("keydown", this.keyDown);
+        window.addEventListener("keyup", this.keyUp);
+    }
+    isKeyDown(keyCode) {
+        return this.keyCodeStates[keyCode] === true;
+    }
 }
+KeyboardListener.KEY_ESC = 27;
+KeyboardListener.KEY_SPACE = 32;
+KeyboardListener.KEY_LEFT = 37;
+KeyboardListener.KEY_UP = 38;
+KeyboardListener.KEY_RIGHT = 39;
+KeyboardListener.KEY_DOWN = 40;
+KeyboardListener.KEY_S = 83;
 class LevelScreen {
     constructor(canvas, ctx) {
         this.canvas = canvas;
         this.ctx = ctx;
         this.lives = 3;
         this.score = 400;
-        this.facebookBoss = new FacebookBoss("./assets/images/enemy.png", this.canvas.width / 2, this.canvas.height / 2, 10, 20);
+        this.facebookBoss = new FacebookBoss("./assets/images/enemy.png", 1500, 500, 0, 10);
     }
     draw() {
         this.facebookBoss.draw(this.ctx);
@@ -100,7 +123,25 @@ class LevelScreen {
 class Ship extends GameObject {
     constructor(imgUrl, xPos, yPos, xVel, yVel, keyboardListener) {
         super(imgUrl, xPos, yPos, xVel, yVel);
-        this.keyboardListener = keyboardListener;
+        this.keyboardListener = new KeyboardListener();
+    }
+    move(canvas) {
+        if (this.keyboardListener.isKeyDown(KeyboardListener.KEY_RIGHT)
+            && this.xPos + this.img.width / 2 < canvas.width) {
+            this.xPos += this.xVel;
+        }
+        if (this.keyboardListener.isKeyDown(KeyboardListener.KEY_LEFT)
+            && this.xPos - this.img.width / 2 > 0) {
+            this.xPos -= this.xVel;
+        }
+        if (this.keyboardListener.isKeyDown(KeyboardListener.KEY_UP)
+            && this.yPos - this.img.height / 2 > 0) {
+            this.yPos -= this.yVel;
+        }
+        if (this.keyboardListener.isKeyDown(KeyboardListener.KEY_DOWN)
+            && this.yPos + this.img.height / 2 < canvas.height) {
+            this.yPos += this.yVel;
+        }
     }
 }
 class StartScreen extends GameScreen {

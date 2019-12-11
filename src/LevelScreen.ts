@@ -27,10 +27,10 @@ class LevelScreen {
 
         this.facebookBoss = new FacebookBoss(
             "./assets/images/enemy.png",
-            this.canvas.width / 2,
-            this.canvas.height / 2,
-            10,
-            20
+            1500,
+            500,
+            0,
+            10
         );
     }
 

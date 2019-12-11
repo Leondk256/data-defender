@@ -47,23 +47,26 @@ class GameObject {
     }
 
     /**
-     * Method to move an an apple
-     * @param canvas
+     * Let the asteroid move itself with its own given speed. It should also handle the offscreen
+     * events correctly
+     *
+     * @param canvas the canvas
      */
     public move(canvas: HTMLCanvasElement) {
-        //check to see if the apple is within the screen
         if (
-            this.xPos + this.img.width > canvas.width ||
-            this.xPos < 0
+            this.xPos + this.img.width / 2 > canvas.width ||
+            this.xPos - this.img.width / 2 < 0
         ) {
             this.xVel = -this.xVel;
         }
         if (
-            this.yPos + this.img.height > canvas.height ||
-            this.yPos < 0
+            this.yPos + this.img.height / 2 > canvas.height ||
+            this.yPos - this.img.height / 2 < 0
         ) {
-            this.yVel = - this.yVel;
+            this.yVel = -this.yVel;
         }
+
+        // Use the velocity to change the position
         this.xPos += this.xVel;
         this.yPos += this.yVel;
     }
