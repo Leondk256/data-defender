@@ -1,4 +1,5 @@
 ///<reference path="GameObject.ts"/>
+
 class Ship extends GameObject {
     public keyboardListener: KeyboardListener;
 

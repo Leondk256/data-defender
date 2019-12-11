@@ -4,8 +4,7 @@ class Game {
     public keyboardListener: KeyboardListener;
 
     private ship: Ship;
-    private currentScreen: StartScreen;
-    private gameScreen: GameScreen;
+    private currentScreen: GameScreen;
 
     public constructor(canvasId: HTMLCanvasElement) {
         // Construct all of the canvas
@@ -18,6 +17,8 @@ class Game {
         this.ctx = this.canvas.getContext("2d");
         // Set the current screen
         this.currentScreen = new StartScreen(this.canvas, this.ctx);
+        //call keyboard listener
+        this.keyboardListener = new KeyboardListener();
 
         // Create a ship
         this.ship = new Ship(
@@ -37,6 +38,9 @@ class Game {
      * Method game loop
      */
     public loop = () => {
+        //Check which screen to draw
+        this.switchScreen();
+
         // Clear the canvas
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
@@ -51,6 +55,25 @@ class Game {
 
         // Request the next animation frame
         requestAnimationFrame(this.loop);
+    }
+
+    private switchScreen() {
+        // If the current screen is an instance of the StartScreen class
+        // Basically: if the current screen is the start screen
+        // And the user pressed "s", render the level screen
+        if (
+            this.currentScreen instanceof StartScreen
+            && this.keyboardListener.isKeyDown(KeyboardListener.KEY_S)
+        ) {
+            this.currentScreen = new LevelScreen(this.canvas, this.ctx, this.keyboardListener);
+        }
+
+        if (
+            this.currentScreen instanceof LevelScreen
+            && this.keyboardListener.isKeyDown(KeyboardListener.KEY_ESC)
+        ) {
+            // this.currentScreen = new TitleScreen(this.canvas, this.ctx);
+        }
     }
 }
 
