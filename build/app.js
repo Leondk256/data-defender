@@ -43,10 +43,9 @@ class FacebookBoss extends Enemy {
 class Game {
     constructor(canvasId) {
         this.loop = () => {
+            this.switchScreen();
             this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
             this.currentScreen.draw();
-            this.ship.move(this.canvas);
-            this.ship.draw(this.ctx);
             requestAnimationFrame(this.loop);
         };
         this.canvas = canvasId;
@@ -54,8 +53,17 @@ class Game {
         this.canvas.height = window.innerHeight;
         this.ctx = this.canvas.getContext("2d");
         this.currentScreen = new StartScreen(this.canvas, this.ctx);
-        this.ship = new Ship("./assets/images/ship.png", this.canvas.width / 2, this.canvas.height / 2, 5, 5, this.keyboardListener);
+        this.keyboardListener = new KeyboardListener();
         this.loop();
+    }
+    switchScreen() {
+        if (this.currentScreen instanceof StartScreen
+            && this.keyboardListener.isKeyDown(KeyboardListener.KEY_S)) {
+            this.currentScreen = new LevelScreen(this.canvas, this.ctx, this.keyboardListener);
+        }
+        if (this.currentScreen instanceof LevelScreen
+            && this.keyboardListener.isKeyDown(KeyboardListener.KEY_ESC)) {
+        }
     }
 }
 let init = () => {
@@ -98,17 +106,21 @@ KeyboardListener.KEY_UP = 38;
 KeyboardListener.KEY_RIGHT = 39;
 KeyboardListener.KEY_DOWN = 40;
 KeyboardListener.KEY_S = 83;
-class LevelScreen {
-    constructor(canvas, ctx) {
-        this.canvas = canvas;
-        this.ctx = ctx;
+class LevelScreen extends GameScreen {
+    constructor(canvas, ctx, keyboardListener) {
+        super(canvas, ctx);
         this.lives = 3;
         this.score = 400;
+        this.keyboardListener = keyboardListener;
         this.facebookBoss = new FacebookBoss("./assets/images/enemy.png", 1500, 500, 0, 10);
+        this.ship = new Ship("./assets/images/ship.png", this.canvas.width / 2, this.canvas.height / 2, 5, 5, this.keyboardListener);
     }
     draw() {
         this.facebookBoss.draw(this.ctx);
         this.facebookBoss.move(this.canvas);
+        this.ship.move(this.canvas);
+        this.ship.draw(this.ctx);
+        this.ship.shoot(this.ctx);
     }
     randomNumber(min, max) {
         return Math.round(Math.random() * (max - min) + min);
@@ -143,14 +155,22 @@ class Ship extends GameObject {
             this.yPos += this.yVel;
         }
     }
+    shoot(ctx) {
+        this.gameObject = new GameObject("./assets/images/beam.png", this.xPos + 30, this.yPos, 0, 0);
+        if (this.keyboardListener.isKeyDown(KeyboardListener.KEY_SPACE)) {
+            this.gameObject.draw(ctx);
+        }
+    }
 }
 class StartScreen extends GameScreen {
     constructor(canvas, ctx) {
         super(canvas, ctx);
     }
     draw() {
-        this.writeTextToCanvas("Data-Defender", 140, this.canvas.width / 2, 150);
-        this.writeTextToCanvas("PRESS S TO PLAY", 40, this.canvas.width / 2, this.canvas.height / 2 - 20);
+        this.writeTextToCanvas("Data Defender", 70, this.canvas.width / 2, 150);
+        this.writeTextToCanvas("Start", 40, this.canvas.width / 2, 700);
+        this.writeTextToCanvas("Enter your name:", 30, this.canvas.width / 3, 250);
+        this.writeTextToCanvas("Use the arrows to select your ship ", 30, this.canvas.width / 2, 350);
     }
 }
 //# sourceMappingURL=app.js.map
