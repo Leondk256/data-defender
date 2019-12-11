@@ -23,8 +23,8 @@ class LevelScreen extends GameScreen {
 
         this.facebookBoss = new FacebookBoss(
             "./assets/images/enemy.png",
-            this.canvas.width - 300,
-            this.canvas.height - 800,
+            this.canvas.width / 100 * 80,
+            this.canvas.height / 100 * 50,
             0,
             10
         );

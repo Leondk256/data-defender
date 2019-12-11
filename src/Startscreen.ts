@@ -27,7 +27,7 @@ class StartScreen extends GameScreen {
             "Start",
             40,
             this.canvas.width / 2,
-            700,
+            (this.canvas.height / 100) * 90
         );
 
 
@@ -36,15 +36,15 @@ class StartScreen extends GameScreen {
             "Enter your name:",
             30,
             this.canvas.width / 3,
-            250
+            (this.canvas.height / 100) * 30 
         );
 
         // add Ship Selector
         this.writeTextToCanvas(
-            "Use the arrows to select your ship ",
+            "Use the arrows to select your ship:",
             30,
             this.canvas.width / 2,
-            350
+            this.canvas.height / 2
         );
 
 
