@@ -4,13 +4,9 @@ class Game {
     public keyboardListener: KeyboardListener;
 
     private ship: Ship;
-<<<<<<< HEAD
-
     private currentScreen: StartScreen;
-=======
-    private currentScreen: GameScreen;
-
->>>>>>> b4dcbd0f335b063f4392ec52ace70d4fc8741dc7
+    private gameScreen: GameScreen;
+    
     public constructor(canvasId: HTMLCanvasElement) {
         // Construct all of the canvas
         this.canvas = canvasId;
