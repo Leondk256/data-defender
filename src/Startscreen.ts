@@ -20,25 +20,35 @@ class StartScreen extends GameScreen {
 
     public draw() {
         // 1. add 'Asteroids' text
-        this.writeTextToCanvas("DATA DEFENDER", 70, this.canvas.width / 2, 150);
+        this.writeTextToCanvas("Data Defender", 70, this.canvas.width / 2, 150);
 
         // 2. add 'Press to play' text
         this.writeTextToCanvas(
-            "PRESS S TO PLAY",
+            "Start",
             40,
             this.canvas.width / 2,
-            this.canvas.height / 2 - 20,
+            700,
         );
 
-        // 3. add Asteroid to screen
-        // const asteroidX = this.canvas.width / 2 - this.asteroid.width / 2;
-        // const asteroidY = this.canvas.height / 2 + this.asteroid.height / 2;
 
-        // if (this.asteroid.naturalWidth > 0) {
-        //     this.ctx.drawImage(this.asteroid, asteroidX, asteroidY);
-        // }
+        // 3. add Namebox
+        this.writeTextToCanvas(
+            "Enter your name:",
+            30,
+            this.canvas.width / 3,
+            250
+        );
 
-        // 4. add play button
+        // add Ship Selector
+        this.writeTextToCanvas(
+            "Use the arrows to select your ship ",
+            30,
+            this.canvas.width / 2,
+            350
+        );
+
+
+        // 5. add play button
         // const buttonX = this.canvas.width / 2;
         // const buttonY = this.canvas.height / 2 + 219; // 219 is a nice spot for the button
 
