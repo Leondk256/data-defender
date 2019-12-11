@@ -47,6 +47,28 @@ class GameObject {
     }
 
     /**
+     * Method to move an an apple
+     * @param canvas
+     */
+    public move(canvas: HTMLCanvasElement) {
+        //check to see if the apple is within the screen
+        if (
+            this.xPos + this.img.width > canvas.width ||
+            this.xPos < 0
+        ) {
+            this.xVel = -this.xVel;
+        }
+        if (
+            this.yPos + this.img.height > canvas.height ||
+            this.yPos < 0
+        ) {
+            this.yVel = - this.yVel;
+        }
+        this.xPos += this.xVel;
+        this.yPos += this.yVel;
+    }
+
+    /**
      * Loads an image file into the DOM. The image is stored in the img
      * attribute of this class before it is loaded. This means that this.img
      * always holds an HTMLImageElement, but it might be empty

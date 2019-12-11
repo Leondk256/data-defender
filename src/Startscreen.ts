@@ -47,14 +47,4 @@ class StartScreen extends GameScreen {
         //     this.writeTextToCanvas("Press s to play", 20, buttonX, buttonY + 26, "center", "black");
         // }
     }
-
-    /**
-     * Writes text to the canvas
-     * @param {string} text - Text to write
-     * @param {number} fontSize - Font size in pixels
-     * @param {number} xCoordinate - Horizontal coordinate in pixels
-     * @param {number} yCoordinate - Vertical coordinate in pixels
-     * @param {string} alignment - Where to align the text
-     * @param {string} color - The color of the text
-     */
 }

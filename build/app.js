@@ -13,6 +13,18 @@ class GameObject {
             ctx.drawImage(this.img, x, y);
         }
     }
+    move(canvas) {
+        if (this.xPos + this.img.width > canvas.width ||
+            this.xPos < 0) {
+            this.xVel = -this.xVel;
+        }
+        if (this.yPos + this.img.height > canvas.height ||
+            this.yPos < 0) {
+            this.yVel = -this.yVel;
+        }
+        this.xPos += this.xVel;
+        this.yPos += this.yVel;
+    }
     loadImage(source) {
         this.img = new Image();
         this.img.src = source;
@@ -26,18 +38,6 @@ class Enemy extends GameObject {
 class FacebookBoss extends Enemy {
     constructor(image, xPos, yPos, xVel, yVel) {
         super(image, xPos, yPos, xVel, yVel);
-    }
-    move(canvas) {
-        if (this.xPos + this.image.width > canvas.width ||
-            this.xPos < 0) {
-            this.xVel = -this.xVel;
-        }
-        if (this.yPos + this.image.height > canvas.height ||
-            this.yPos < 0) {
-            this.yVel = -this.yVel;
-        }
-        this.xPos += this.xVel;
-        this.yPos += this.yVel;
     }
 }
 class Game {
@@ -76,6 +76,26 @@ class GameScreen {
 class KeyboardListener {
 }
 class LevelScreen {
+    constructor(canvas, ctx) {
+        this.canvas = canvas;
+        this.ctx = ctx;
+        this.lives = 3;
+        this.score = 400;
+        this.facebookBoss = new FacebookBoss("./assets/images/enemy.png", this.canvas.width / 2, this.canvas.height / 2, 10, 20);
+    }
+    draw() {
+        this.facebookBoss.draw(this.ctx);
+        this.facebookBoss.move(this.canvas);
+    }
+    randomNumber(min, max) {
+        return Math.round(Math.random() * (max - min) + min);
+    }
+    writeTextToCanvas(text, fontSize = 20, xCoordinate, yCoordinate, alignment = "center", color = "white") {
+        this.ctx.font = `${fontSize}px Minecraft`;
+        this.ctx.fillStyle = color;
+        this.ctx.textAlign = alignment;
+        this.ctx.fillText(text, xCoordinate, yCoordinate);
+    }
 }
 class Ship extends GameObject {
     constructor(imgUrl, xPos, yPos, xVel, yVel, keyboardListener) {

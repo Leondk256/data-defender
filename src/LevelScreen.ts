@@ -2,67 +2,59 @@
 
 class LevelScreen {
 
-    // private readonly canvas: HTMLCanvasElement;
-    // private readonly ctx: CanvasRenderingContext2D;
+    private readonly canvas: HTMLCanvasElement;
+    private readonly ctx: CanvasRenderingContext2D;
 
+    private keyboardListener: KeyboardListener;
+
+    private lives: number;
+    private score: number;
+    private life: HTMLImageElement;
+
+    private facebookBoss: FacebookBoss;
+    // private ship: Ship;
     // private keyboardListener: KeyboardListener;
 
-    // private lives: number;
-    // private score: number;
-    // private life: HTMLImageElement;
+    public constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
+        this.canvas = canvas;
+        this.ctx = ctx;
+        this.lives = 3;
+        this.score = 400;
+        // this.keyboardListener = keyboardListener;
 
-    // private facebookBoss: FacebookBoss;
-    // // private ship: Ship;
-    // // private keyboardListener: KeyboardListener;
+        // this.life = new Image();
+        // this.life.src = "./assets/images/SpaceShooterRedux/PNG/UI/playerLife1_blue.png";
 
-    // public constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, keyboardListener: KeyboardListener) {
-    //     this.canvas = canvas;
-    //     this.ctx = ctx;
-    //     this.lives = 3;
-    //     this.score = 400;
-    //     this.keyboardListener = keyboardListener;
-    //     // this.keyboardListener = keyboardListener;
+        this.facebookBoss = new FacebookBoss(
+            "./assets/images/enemy.png",
+            this.canvas.width / 2,
+            this.canvas.height / 2,
+            10,
+            20
+        );
+    }
 
-    //     this.life = new Image();
-    //     this.life.src = "./assets/images/SpaceShooterRedux/PNG/UI/playerLife1_blue.png";
+    public draw() {
+        // 1. load life images
+        // this.writeLifeImagesToLevelScreen();
 
-    //     this.facebookBoss = new FacebookBoss(
-    //         "./assets/images/SpaceShooterRedux/PNG/playerShip1_blue.png",
-    //         this.canvas.width / 2,
-    //         this.canvas.height / 2,
-    //         3,
-    //         3,
-    //         this.keyboardListener,
-    //     );
-    // }
+        // 2. draw current score
+        // this.writeTextToCanvas(
+        //     `Your score: ${this.score}`,
+        //     20,
+        //     this.canvas.width - 100,
+        //     30,
+        //     "right",
+        // );
 
-    // public draw() {
-    //     // 1. load life images
-    //     this.writeLifeImagesToLevelScreen();
-
-    //     // 2. draw current score
-    //     this.writeTextToCanvas(
-    //         `Your score: ${this.score}`,
-    //         20,
-    //         this.canvas.width - 100,
-    //         30,
-    //         "right",
-    //     );
-
-    //     // Move and draw all the game entities
-    //     this.asteroids.forEach((asteroid) => {
-    //         if (this.ship.isColliding(asteroid)) {
-    //             this.lives--;
-    //         }
-
-    //         asteroid.move(this.canvas);
-    //         asteroid.draw(this.ctx);
-    //     });
-
-    //     // Draw the ship
-    //     this.ship.move(this.canvas);
-    //     this.ship.draw(this.ctx);
-    // }
+        // Move and draw all the game entities
+            // if (this.ship.isColliding(asteroid)) {
+            //     this.lives--;
+            // }
+            this.facebookBoss.draw(this.ctx);
+            this.facebookBoss.move(this.canvas);
+        // });
+    }
 
     // /**
     //  * Uses the loaded life image to remaining lives of the player on the rop
@@ -84,35 +76,35 @@ class LevelScreen {
     //     }
     // }
 
-    // /**
-    //  * Renders a random number between min and max
-    //  * @param {number} min - minimal time
-    //  * @param {number} max - maximal time
-    //  */
-    // public randomNumber(min: number, max: number): number {
-    //     return Math.round(Math.random() * (max - min) + min);
-    // }
+    /**
+     * Renders a random number between min and max
+     * @param {number} min - minimal time
+     * @param {number} max - maximal time
+     */
+    public randomNumber(min: number, max: number): number {
+        return Math.round(Math.random() * (max - min) + min);
+    }
 
-    // /**
-    //  * Writes text to the canvas
-    //  * @param {string} text - Text to write
-    //  * @param {number} fontSize - Font size in pixels
-    //  * @param {number} xCoordinate - Horizontal coordinate in pixels
-    //  * @param {number} yCoordinate - Vertical coordinate in pixels
-    //  * @param {string} alignment - Where to align the text
-    //  * @param {string} color - The color of the text
-    //  */
-    // public writeTextToCanvas(
-    //     text: string,
-    //     fontSize: number = 20,
-    //     xCoordinate: number,
-    //     yCoordinate: number,
-    //     alignment: CanvasTextAlign = "center",
-    //     color: string = "white",
-    // ) {
-    //     this.ctx.font = `${fontSize}px Minecraft`;
-    //     this.ctx.fillStyle = color;
-    //     this.ctx.textAlign = alignment;
-    //     this.ctx.fillText(text, xCoordinate, yCoordinate);
-    // }
+    /**
+     * Writes text to the canvas
+     * @param {string} text - Text to write
+     * @param {number} fontSize - Font size in pixels
+     * @param {number} xCoordinate - Horizontal coordinate in pixels
+     * @param {number} yCoordinate - Vertical coordinate in pixels
+     * @param {string} alignment - Where to align the text
+     * @param {string} color - The color of the text
+     */
+    public writeTextToCanvas(
+        text: string,
+        fontSize: number = 20,
+        xCoordinate: number,
+        yCoordinate: number,
+        alignment: CanvasTextAlign = "center",
+        color: string = "white",
+    ) {
+        this.ctx.font = `${fontSize}px Minecraft`;
+        this.ctx.fillStyle = color;
+        this.ctx.textAlign = alignment;
+        this.ctx.fillText(text, xCoordinate, yCoordinate);
+    }
 }
