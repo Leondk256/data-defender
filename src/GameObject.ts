@@ -7,7 +7,7 @@ class GameObject {
     protected img: HTMLImageElement;
 
     /**
-     * Construct a new Asteroid object.
+     * Construct a new moving object.
      *
      * @param imgUrl url of the image to load
      * @param xPos X coordinate of its starting position
@@ -30,7 +30,7 @@ class GameObject {
     }
 
     /**
-     * Let the asteroid draw itself on the correct position on the given
+     * Let the image draw itself on the correct position on the given
      * CanvasRenderingContext2D.
      *
      * @param ctx The CanvasRenderingContext2D to draw to
