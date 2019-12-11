@@ -168,9 +168,9 @@ class StartScreen extends GameScreen {
     }
     draw() {
         this.writeTextToCanvas("Data Defender", 70, this.canvas.width / 2, 150);
-        this.writeTextToCanvas("Start", 40, this.canvas.width / 2, 700);
-        this.writeTextToCanvas("Enter your name:", 30, this.canvas.width / 3, 250);
-        this.writeTextToCanvas("Use the arrows to select your ship ", 30, this.canvas.width / 2, 350);
+        this.writeTextToCanvas("Start", 40, this.canvas.width / 2, (this.canvas.height / 100) * 90);
+        this.writeTextToCanvas("Enter your name:", 30, this.canvas.width / 3, (this.canvas.height / 100) * 30);
+        this.writeTextToCanvas("Use the arrows to select your ship:", 30, this.canvas.width / 2, this.canvas.height / 2);
     }
 }
 //# sourceMappingURL=app.js.map
