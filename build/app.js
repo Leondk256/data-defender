@@ -42,6 +42,12 @@ class GameObject {
     getYPos() {
         return this.yPos;
     }
+    getXVel() {
+        return this.xVel;
+    }
+    getYVel() {
+        return this.yVel;
+    }
     getImgWidth() {
         return this.img.width;
     }
@@ -69,7 +75,7 @@ class Projectile extends GameObject {
 class FacebookBoss extends Projectile {
     constructor(image, xPos, yPos, xVel, yVel, health) {
         super(image, xPos, yPos, xVel, yVel, health);
-        this.projectileXPos = this.xPos - 350;
+        this.projectileXPos = this.xPos;
         this.projectileYPos = this.yPos;
         this.health = 5;
     }
@@ -154,12 +160,15 @@ class LevelScreen extends GameScreen {
         super(canvas, ctx);
         this.lives = 3;
         this.score = 400;
+        this.gameTicker = 0;
         this.keyboardListener = keyboardListener;
+        this.projectile = [];
         this.facebookBoss = new FacebookBoss("./assets/img/enemy.png", this.canvas.width / 100 * 80, this.canvas.height / 100 * 50, 0, 10, 3);
         this.ship = new Ship(`./assets/img/ship${Game.selectedShip}.png`, this.canvas.width / 2, this.canvas.height / 2, 5, 5, this.keyboardListener, 3);
         this.startScreen = new StartScreen(this.canvas, this.ctx, 0);
     }
     draw() {
+        this.gameTicker++;
         if (this.ship.isCollidingWithProjectile(this.facebookBoss) === true) {
             this.lives--;
             if (this.lives <= 0) {
@@ -233,6 +242,16 @@ class StartScreen extends GameScreen {
     constructor(canvas, ctx, shipSelector) {
         super(canvas, ctx);
         this.mouseHandler = (event) => {
+            if (event.clientX >= this.nameInputFieldX &&
+                event.clientX < this.nameInputFieldX + this.nameInputField.width &&
+                event.clientY >= this.nameInputFieldY &&
+                event.clientY <= this.nameInputFieldY + this.nameInputField.width) {
+                const PlayerName = prompt('wat is je naam?');
+                console.log(typeof PlayerName);
+                console.log(PlayerName);
+                this.playerName = PlayerName;
+                Game.globalPlayerName = this.playerName;
+            }
             if (event.clientX >= this.buttonRightX &&
                 event.clientX < this.buttonRightX + this.buttonRight.width &&
                 event.clientY >= this.buttonRightY &&
@@ -262,10 +281,15 @@ class StartScreen extends GameScreen {
         this.buttonRight.src = "./assets/img/buttons/arrowRight.png";
         this.buttonLeft = new Image();
         this.buttonLeft.src = "./assets/img/buttons/arrowLeft.png";
-        this.buttonRightX = (this.canvas.width / 100) * 70;
+        this.playerName = this.playerName;
+        this.nameInputField = new Image();
+        this.nameInputField.src = "./assets/img/buttons/nameinputfield.jpg";
+        this.buttonRightX = (this.canvas.width / 100) * 55;
         this.buttonRightY = (this.canvas.height / 100) * 55;
-        this.buttonLeftX = (this.canvas.width / 100) * 35;
+        this.buttonLeftX = (this.canvas.width / 100) * 30;
         this.buttonLeftY = (this.canvas.height / 100) * 55;
+        this.nameInputFieldX = (this.canvas.width / 100) * 45;
+        this.nameInputFieldY = (this.canvas.height / 100) * 20;
         this.shipSelector = shipSelector;
         Game.selectedShip = this.shipSelector;
         document.addEventListener("click", this.mouseHandler);
@@ -281,8 +305,12 @@ class StartScreen extends GameScreen {
         this.writeTextToCanvas("Enter your name:", 30, this.canvas.width / 3, (this.canvas.height / 100) * 30);
         this.writeTextToCanvas("Use the arrows to select your ship:", 30, this.canvas.width / 2, (this.canvas.height / 100) * 45);
         if (this.buttonRight.naturalWidth > 0 && this.buttonLeft.naturalWidth > 0) {
-            this.ctx.drawImage(this.buttonRight, this.buttonRightX - this.buttonRight.width / 2, this.buttonRightY);
-            this.ctx.drawImage(this.buttonLeft, this.buttonLeftX - this.buttonLeft.width / 2, this.buttonLeftY);
+            this.ctx.drawImage(this.buttonRight, this.buttonRightX, this.buttonRightY);
+            this.ctx.drawImage(this.buttonLeft, this.buttonLeftX, this.buttonLeftY);
+            this.ctx.drawImage(this.nameInputField, this.nameInputFieldX, this.nameInputFieldY);
+        }
+        if (this.playerName != null) {
+            this.writeTextToCanvas(this.playerName, 30, this.canvas.width / 2, (this.canvas.height / 100) * 30, "center", "black");
         }
         this.ships[this.shipSelector].draw(this.ctx);
     }
