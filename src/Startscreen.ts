@@ -128,7 +128,7 @@ class StartScreen extends GameScreen {
                 this.playerName,
                 30,
                 this.nameInputFieldX + this.nameInputField.width / 2,
-                (this.canvas.height / 100) * 30,
+                this.nameInputFieldY + this.nameInputField.height / 2,
                 "center",
                 "black"
             );
