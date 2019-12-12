@@ -5,15 +5,16 @@ class GameObject {
     protected xVel: number;
     protected yVel: number;
     protected img: HTMLImageElement;
+    protected health: number;
 
     /**
-     * Construct a new moving object.
      *
-     * @param imgUrl url of the image to load
-     * @param xPos X coordinate of its starting position
-     * @param yPos y coordinate of its starting position
-     * @param xVel x part of the velocity vector
-     * @param yVel y part of the velocity vector
+     * @param imgUrl
+     * @param xPos
+     * @param yPos
+     * @param xVel
+     * @param yVel
+     * @param health
      */
     public constructor(
         imgUrl: string,
@@ -21,12 +22,14 @@ class GameObject {
         yPos: number,
         xVel: number,
         yVel: number,
+        health: number,
     ) {
         this.loadImage(imgUrl);
         this.xPos = xPos;
         this.yPos = yPos;
         this.xVel = xVel;
         this.yVel = yVel;
+        this.health = health;
     }
 
     /**
@@ -47,7 +50,7 @@ class GameObject {
     }
 
     /**
-     * Let the asteroid move itself with its own given speed. It should also handle the offscreen
+     * Let the game object move itself with its own given speed. It should also handle the offscreen
      * events correctly
      *
      * @param canvas the canvas
@@ -82,5 +85,80 @@ class GameObject {
         this.img = new Image();
         // Now, set the src to start loading the image
         this.img.src = source;
+    }
+
+    /**
+     * Set the X position
+     * @param xPos
+     */
+    public setXPos(xPos: number) {
+        this.xPos = xPos;
+    }
+
+    /**
+     * Get the X position
+     */
+    public getXPos(): number {
+        return this.xPos;
+    }
+
+    /**
+     * Set the Y position
+     * @param yPos
+     */
+    public setYPos(yPos: number) {
+        this.yPos = yPos;
+    }
+
+    /**
+     * Get the Y position
+     */
+    public getYPos(): number {
+        return this.yPos;
+    }
+
+    /**
+     * Get the image width
+     */
+    public getImgWidth(): number {
+        return this.img.width;
+    }
+
+    /**
+     * Get the image height
+     */
+    public getImgHeight(): number {
+        return this.img.height;
+    }
+
+    /**
+     * Set the X velocity
+     * @param xVel
+     */
+    public setXVel(xVel: number) {
+        this.xVel = xVel;
+    }
+
+    /**
+     * Set the Y velocity
+     * @param yVel
+     */
+    public setYVel(yVel: number) {
+        this.yVel = yVel;
+    }
+
+    /**
+     * Set the Game object health
+     * @param health
+     */
+    public setHealth(health: number) {
+        this.health = health;
+    }
+
+    /**
+     * Get the Game object health
+     */
+    public getHealth(): number {
+        return this.health;
     }
 }
