@@ -23,7 +23,7 @@ class FacebookBoss extends Projectile {
         for (let index = 0; index < 5; index++) {
             console.log(this.projectileYPos);
             this.projectile = new Projectile(
-                "./assets/images/beam.png",
+                "./assets/img/beam.png",
                 this.projectileXPos,
                 this.projectileYPos,
                 0,

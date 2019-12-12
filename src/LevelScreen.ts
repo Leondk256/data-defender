@@ -25,7 +25,7 @@ class LevelScreen extends GameScreen {
         // this.life.src = "./assets/images/SpaceShooterRedux/PNG/UI/playerLife1_blue.png";
 
         this.facebookBoss = new FacebookBoss(
-            "./assets/images/enemy.png",
+            "./assets/img/enemy.png",
             this.canvas.width / 100 * 80,
             this.canvas.height / 100 * 50,
             0,
@@ -35,7 +35,7 @@ class LevelScreen extends GameScreen {
 
         // Create a ship
         this.ship = new Ship(
-            "./assets/images/ship.png",
+            "./assets/img/ship0.png",
             this.canvas.width / 2,
             this.canvas.height / 2,
             5,

@@ -42,7 +42,7 @@ class StartScreen extends GameScreen {
         this.buttonLeftY = (this.canvas.height / 100) * 55;
 
         //Ship selection default index
-        this.shipSelector = shipSelector
+        this.shipSelector = shipSelector;
 
         //Add mouselistener
         document.addEventListener("click", this.mouseHandler);
@@ -53,7 +53,7 @@ class StartScreen extends GameScreen {
 
             this.ships.push( 
                 new Ship(
-                `./assets/images/ship${i}.png`,
+                `./assets/img/ship${i}.png`,
                 this.canvas.width / 2,
                 (this.canvas.height / 100) * 65,
                 5,
