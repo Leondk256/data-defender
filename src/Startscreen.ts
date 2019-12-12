@@ -127,7 +127,7 @@ class StartScreen extends GameScreen {
             this.writeTextToCanvas(
                 this.playerName,
                 30,
-                this.canvas.width / 2,
+                (this.canvas.width / 100) * 55,
                 (this.canvas.height / 100) * 30,
                 "center",
                 "black"
