@@ -101,7 +101,7 @@ class LevelScreen extends GameScreen {
         );
 
         this.writeTextToCanvas(
-            `Health: ${this.ship.getHealth()}`,
+            `${Game.globalPlayerName}`,
             30,
             this.ship.getXPos(),
             this.ship.getYPos() - 50,
