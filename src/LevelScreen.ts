@@ -9,6 +9,7 @@ class LevelScreen extends GameScreen {
     private score: number;
     private life: HTMLImageElement;
     private ship: Ship;
+    private startScreen: StartScreen;
 
     private facebookBoss: FacebookBoss;
     private projectile: Projectile;
@@ -43,6 +44,12 @@ class LevelScreen extends GameScreen {
             this.keyboardListener,
             3,
         );
+
+        this.startScreen = new StartScreen(
+            this.canvas,
+            this.ctx,
+            0,
+        )
     }
 
     public draw() {
@@ -60,8 +67,12 @@ class LevelScreen extends GameScreen {
 
         // If the Ship collides, remove one live
         if (this.ship.isCollidingWithProjectile(this.facebookBoss) === true) {
-            console.log(this.lives);
             this.lives--;
+
+            if (this.lives <= 0) {
+                // Return to Startscreen
+                // console.log('dood');
+            }
         }
 
         // If the boss has no health, do not draw, move or shoot it
