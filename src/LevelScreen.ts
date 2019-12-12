@@ -14,6 +14,8 @@ class LevelScreen extends GameScreen {
     private facebookBoss: FacebookBoss;
     private gameTicker: number;
     private projectile: Projectile[];
+    private blackhole: GameObject;
+    private forceField: GameObject;
     // private ship: Ship;
     // private keyboardListener: KeyboardListener;
 
@@ -37,10 +39,28 @@ class LevelScreen extends GameScreen {
             3,
         );
 
+        this.blackhole = new GameObject(
+            "./assets/img/blackhole.png",
+            this.canvas.width / 100 * 95,
+            this.canvas.height / 100 * 90,
+            0,
+            0,
+            0
+        );
+
+        this.forceField = new GameObject(
+            "./assets/img/forcefield.png",
+            this.canvas.width / 100 * 95,
+            this.canvas.height / 100 * 90,
+            0,
+            0,
+            0 
+        )
+
         // Create a ship
         this.ship = new Ship(
             `./assets/img/ship${Game.selectedShip}.png`,
-            this.canvas.width / 2,
+            this.canvas.width / 6,
             this.canvas.height / 2,
             5,
             5,
@@ -119,6 +139,9 @@ class LevelScreen extends GameScreen {
 
         // Shoot with the Ship
         this.ship.shoot(this.ctx, this.facebookBoss);
+
+        // Draw blackhole
+        this.blackhole.draw(this.ctx);
     }
 
     // /**
