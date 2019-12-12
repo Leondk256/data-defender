@@ -78,7 +78,7 @@ class Ship extends GameObject {
             // Create the laser gameObject
             this.gameObject = new GameObject(
                 "./assets/img/beam2.png",
-                this.xPos + 30,
+                this.xPos + 320,
                 this.yPos,
                 0,
                 0,

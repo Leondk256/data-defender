@@ -90,10 +90,26 @@ class LevelScreen extends GameScreen {
 
             // Move the Facebook boss
             this.facebookBoss.move(this.canvas);
-
-            // Make the Facebook boss shoot
-            this.facebookBoss.shoot(this.ctx);
         }
+
+        this.writeTextToCanvas(
+            `Health: ${this.facebookBoss.getHealth()}`,
+            30,
+            this.facebookBoss.getXPos(),
+            this.facebookBoss.getYPos() - 100,
+            "center",
+        );
+
+        this.writeTextToCanvas(
+            `Health: ${this.ship.getHealth()}`,
+            30,
+            this.ship.getXPos(),
+            this.ship.getYPos() - 50,
+            "center",
+        );
+
+        // Make the Facebook boss shoot
+        this.facebookBoss.shoot(this.ctx);
 
         // Move the Ship
         this.ship.move(this.canvas);
