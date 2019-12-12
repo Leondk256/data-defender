@@ -17,11 +17,12 @@ class FacebookBoss extends Projectile {
         super(image, xPos, yPos, xVel, yVel, health);
         this.projectileXPos = this.xPos - 350;
         this.projectileYPos = this.yPos;
+        this.health = 5;
     }
 
     public shoot(ctx: CanvasRenderingContext2D) {
         for (let index = 0; index < 5; index++) {
-            console.log(this.projectileYPos);
+            // console.log(this.projectileYPos);
             this.projectile = new Projectile(
                 "./assets/img/beam.png",
                 this.projectileXPos,

@@ -58,21 +58,26 @@ class LevelScreen extends GameScreen {
         //     "right",
         // );
 
-
         // If the Ship collides, remove one live
         if (this.ship.isCollidingWithProjectile(this.facebookBoss) === true) {
             console.log(this.lives);
             this.lives--;
         }
 
-        // Draw the Facebook boss
-        this.facebookBoss.draw(this.ctx);
+        // If the boss has no health, do not draw, move or shoot it
+        if (this.facebookBoss.getHealth() <= 0) {
+            // Set his soul outside of the canvas
+            this.facebookBoss.setYPos(-1000);
+        } else {
+            // Draw the Facebook boss
+            this.facebookBoss.draw(this.ctx);
 
-        // Move the Facebook boss
-        this.facebookBoss.move(this.canvas);
+            // Move the Facebook boss
+            this.facebookBoss.move(this.canvas);
 
-        // Make the Facebook boss shoot
-        this.facebookBoss.shoot(this.ctx);
+            // Make the Facebook boss shoot
+            this.facebookBoss.shoot(this.ctx);
+        }
 
         // Move the Ship
         this.ship.move(this.canvas);
@@ -82,7 +87,6 @@ class LevelScreen extends GameScreen {
 
         // Shoot with the Ship
         this.ship.shoot(this.ctx, this.facebookBoss);
-        // });
     }
 
     // /**
