@@ -15,23 +15,20 @@ class FacebookBoss extends Projectile {
      */
     public constructor(image: string, xPos: number, yPos: number, xVel: number, yVel: number, health: number) {
         super(image, xPos, yPos, xVel, yVel, health);
-        this.projectileXPos = this.xPos - 350;
+        this.projectileXPos = this.xPos;
         this.projectileYPos = this.yPos;
     }
 
     public shoot(ctx: CanvasRenderingContext2D) {
-        for (let index = 0; index < 5; index++) {
-            console.log(this.projectileYPos);
-            this.projectile = new Projectile(
-                "./assets/images/beam.png",
-                this.projectileXPos,
-                this.projectileYPos,
-                0,
-                0,
-                5
-            );
-            this.projectile.draw(ctx);
-            this.projectileXPos -= 5;
-        }
+        this.projectile = new Projectile(
+            "./assets/images/beam.png",
+            this.projectileXPos,
+            this.projectileYPos,
+            20,
+            0,
+            1
+        );
+        this.projectile.draw(ctx);
+        this.projectileXPos -= this.projectile.getXVel();
     }
 }

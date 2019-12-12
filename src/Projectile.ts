@@ -1,12 +1,5 @@
 ///<reference path="GameObject.ts"/>
 class Projectile extends GameObject{
-    protected image: string;
-    protected xVel: number;
-    protected yVel: number;
-    protected xPos: number;
-    protected yPos: number;
-    protected health: number;
-
     /**
      * Construct a new moving projectile.
      * @param image

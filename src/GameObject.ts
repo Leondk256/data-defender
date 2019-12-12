@@ -1,5 +1,4 @@
 class GameObject {
-
     protected xPos: number;
     protected yPos: number;
     protected xVel: number;
@@ -115,6 +114,20 @@ class GameObject {
      */
     public getYPos(): number {
         return this.yPos;
+    }
+
+    /**
+     * Get the X velocity
+     */
+    public getXVel(): number {
+        return this.xVel;
+    }
+
+    /**
+     * Get the Y velocity
+     */
+    public getYVel(): number {
+        return this.yVel;
     }
 
     /**
