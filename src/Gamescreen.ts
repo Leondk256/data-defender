@@ -1,5 +1,4 @@
 class GameScreen {
-
     protected readonly canvas: HTMLCanvasElement;
     protected readonly ctx: CanvasRenderingContext2D;
 

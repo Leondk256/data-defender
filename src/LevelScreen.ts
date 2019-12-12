@@ -11,11 +11,12 @@ class LevelScreen extends GameScreen {
     private ship: Ship;
 
     private facebookBoss: FacebookBoss;
+    private projectile: Projectile;
     // private ship: Ship;
     // private keyboardListener: KeyboardListener;
 
     public constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, keyboardListener: KeyboardListener) {
-        super(canvas,ctx);
+        super(canvas, ctx);
         this.lives = 3;
         this.score = 400;
         this.keyboardListener = keyboardListener;
@@ -56,11 +57,12 @@ class LevelScreen extends GameScreen {
         // );
 
         // Move and draw all the game entities
-            // if (this.ship.isColliding(asteroid)) {
-            //     this.lives--;
-            // }
-            this.facebookBoss.draw(this.ctx);
-            this.facebookBoss.move(this.canvas);
+        // if (this.ship.isColliding(asteroid)) {
+        //     this.lives--;
+        // }
+        this.facebookBoss.draw(this.ctx);
+        this.facebookBoss.move(this.canvas);
+        this.facebookBoss.shoot(this.ctx);
 
         // Move the Ship
         this.ship.move(this.canvas);
