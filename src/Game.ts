@@ -5,6 +5,7 @@ class Game {
     public gameCounter: number;
 
     public static selectedShip: number;
+    public static globalPlayerName: string;
 
     private currentScreen: GameScreen;
 

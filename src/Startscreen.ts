@@ -9,11 +9,16 @@ class StartScreen extends GameScreen {
     private: HTMLImageElement;
     private buttonRight: HTMLImageElement;
     private buttonLeft: HTMLImageElement;
+    private nameInputField: HTMLImageElement;
+
+    private playerName: string;
 
     private buttonRightX: number;
     private buttonRightY: number;
     private buttonLeftX: number;
     private buttonLeftY: number;
+    private nameInputFieldX: number;
+    private nameInputFieldY: number;
 
     private shipSelector: number;
     private ships: Ship[];
@@ -34,12 +39,22 @@ class StartScreen extends GameScreen {
         this.buttonLeft = new Image();
         this.buttonLeft.src = "./assets/img/buttons/arrowLeft.png";
 
+        this.playerName = this.playerName
+
+        //Create NameField
+        this.nameInputField = new Image();
+        this.nameInputField.src = "./assets/img/buttons/nameinputfield.jpg";
+
         //Positions for both buttons
-        this.buttonRightX = (this.canvas.width / 100) * 70;
+        this.buttonRightX = (this.canvas.width / 100) * 55;
         this.buttonRightY = (this.canvas.height / 100) * 55;
 
-        this.buttonLeftX = (this.canvas.width / 100) * 35;
+        this.buttonLeftX = (this.canvas.width / 100) * 30;
         this.buttonLeftY = (this.canvas.height / 100) * 55;
+
+        //Poition for name inputfield
+        this.nameInputFieldX = (this.canvas.width / 100) * 45;
+        this.nameInputFieldY = (this.canvas.height / 100) * 20;
 
         //Ship selection default index
         this.shipSelector = shipSelector;
@@ -52,15 +67,15 @@ class StartScreen extends GameScreen {
         this.ships = [];
         for (let i = 0; i <= 2; i++) {
 
-            this.ships.push( 
+            this.ships.push(
                 new Ship(
-                `./assets/img/ship${i}.png`,
-                this.canvas.width / 2,
-                (this.canvas.height / 100) * 65,
-                5,
-                5,
-                this.keyboardListener,
-                5
+                    `./assets/img/ship${i}.png`,
+                    this.canvas.width / 2,
+                    (this.canvas.height / 100) * 65,
+                    5,
+                    5,
+                    this.keyboardListener,
+                    5
                 )
             )
         };
@@ -102,8 +117,21 @@ class StartScreen extends GameScreen {
 
         // Add ship selector buttons
         if (this.buttonRight.naturalWidth > 0 && this.buttonLeft.naturalWidth > 0) {
-            this.ctx.drawImage(this.buttonRight, this.buttonRightX - this.buttonRight.width / 2, this.buttonRightY);
-            this.ctx.drawImage(this.buttonLeft, this.buttonLeftX - this.buttonLeft.width / 2, this.buttonLeftY);
+            this.ctx.drawImage(this.buttonRight, this.buttonRightX, this.buttonRightY);
+            this.ctx.drawImage(this.buttonLeft, this.buttonLeftX, this.buttonLeftY);
+            this.ctx.drawImage(this.nameInputField, this.nameInputFieldX, this.nameInputFieldY)
+        }
+
+        // Enter playername after filling out has been completed
+        if (this.playerName != null) {
+            this.writeTextToCanvas(
+                this.playerName,
+                30,
+                this.canvas.width / 2,
+                (this.canvas.height / 100) * 30,
+                "center",
+                "black"
+            );
         }
 
         // Draw selected ship
@@ -116,6 +144,22 @@ class StartScreen extends GameScreen {
 */
     private mouseHandler = (event: MouseEvent) => {
 
+        //Click detection for the name input box
+
+        if (
+            event.clientX >= this.nameInputFieldX &&
+            event.clientX < this.nameInputFieldX + this.nameInputField.width &&
+            event.clientY >= this.nameInputFieldY &&
+            event.clientY <= this.nameInputFieldY + this.nameInputField.width
+        ) {
+            //Change ship when the button is clicked
+            const PlayerName = prompt('wat is je naam?');
+            console.log(typeof PlayerName)
+            console.log(PlayerName)
+            this.playerName = PlayerName
+            Game.globalPlayerName = this.playerName
+        }
+
         //click detection for the buttons
         if (
             event.clientX >= this.buttonRightX &&
@@ -127,7 +171,7 @@ class StartScreen extends GameScreen {
             if (this.shipSelector === 2) {
                 this.shipSelector = 0;
             } else {
-            this.shipSelector += 1;
+                this.shipSelector += 1;
             }
 
             Game.selectedShip = this.shipSelector;
@@ -142,7 +186,7 @@ class StartScreen extends GameScreen {
             if (this.shipSelector === 0) {
                 this.shipSelector = 2;
             } else {
-            this.shipSelector -= 1;
+                this.shipSelector -= 1;
             }
 
             Game.selectedShip = this.shipSelector;
