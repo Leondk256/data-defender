@@ -48,15 +48,6 @@ class LevelScreen extends GameScreen {
             0
         );
 
-        this.forceField = new GameObject(
-            "./assets/img/forcefield.png",
-            this.canvas.width / 100 * 95,
-            this.canvas.height / 100 * 90,
-            0,
-            0,
-            0 
-        )
-
         // Create a ship
         this.ship = new Ship(
             `./assets/img/ship${Game.selectedShip}.png`,
