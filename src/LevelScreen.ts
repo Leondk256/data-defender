@@ -28,7 +28,7 @@ class LevelScreen extends GameScreen {
         // this.life.src = "./assets/images/SpaceShooterRedux/PNG/UI/playerLife1_blue.png";
 
         this.facebookBoss = new FacebookBoss(
-            "./assets/images/enemy.png",
+            "./assets/img/enemy.png",
             this.canvas.width / 100 * 80,
             this.canvas.height / 100 * 50,
             0,
@@ -38,7 +38,7 @@ class LevelScreen extends GameScreen {
 
         // Create a ship
         this.ship = new Ship(
-            "./assets/images/ship0.png",
+            `./assets/img/ship${Game.selectedShip}.png`,
             this.canvas.width / 2,
             this.canvas.height / 2,
             5,
@@ -63,21 +63,26 @@ class LevelScreen extends GameScreen {
         //     "right",
         // );
 
-
         // If the Ship collides, remove one live
         if (this.ship.isCollidingWithProjectile(this.facebookBoss) === true) {
             console.log(this.lives);
             this.lives--;
         }
 
-        // Draw the Facebook boss
-        this.facebookBoss.draw(this.ctx);
+        // If the boss has no health, do not draw, move or shoot it
+        if (this.facebookBoss.getHealth() <= 0) {
+            // Set his soul outside of the canvas
+            this.facebookBoss.setYPos(-1000);
+        } else {
+            // Draw the Facebook boss
+            this.facebookBoss.draw(this.ctx);
 
-        // Move the Facebook boss
-        this.facebookBoss.move(this.canvas);
+            // Move the Facebook boss
+            this.facebookBoss.move(this.canvas);
 
-        // Make the Facebook boss shoot
-        this.facebookBoss.shoot(this.ctx);
+            // Make the Facebook boss shoot
+            this.facebookBoss.shoot(this.ctx);
+        }
 
         // Move the Ship
         this.ship.move(this.canvas);
@@ -87,7 +92,6 @@ class LevelScreen extends GameScreen {
 
         // Shoot with the Ship
         this.ship.shoot(this.ctx, this.facebookBoss);
-        // });
     }
 
     // /**

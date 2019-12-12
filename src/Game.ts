@@ -4,6 +4,8 @@ class Game {
     public keyboardListener: KeyboardListener;
     public gameCounter: number;
 
+    public static selectedShip: number;
+
     private currentScreen: GameScreen;
 
     public constructor(canvasId: HTMLCanvasElement) {

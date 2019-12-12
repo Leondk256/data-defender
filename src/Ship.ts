@@ -77,12 +77,12 @@ class Ship extends GameObject {
         if (this.keyboardListener.isKeyDown(KeyboardListener.KEY_SPACE)) {
             // Create the laser gameObject
             this.gameObject = new GameObject(
-                "./assets/images/beam.png",
+                "./assets/img/beam2.png",
                 this.xPos + 30,
                 this.yPos,
                 0,
                 0,
-                3,
+                0,
             );
             // Draw it after it has been created
             this.gameObject.draw(ctx);
