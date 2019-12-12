@@ -35,7 +35,7 @@ class LevelScreen extends GameScreen {
 
         // Create a ship
         this.ship = new Ship(
-            "./assets/img/ship0.png",
+            `./assets/img/ship${Game.selectedShip}.png`,
             this.canvas.width / 2,
             this.canvas.height / 2,
             5,

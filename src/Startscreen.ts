@@ -43,6 +43,7 @@ class StartScreen extends GameScreen {
 
         //Ship selection default index
         this.shipSelector = shipSelector;
+        Game.selectedShip = this.shipSelector;
 
         //Add mouselistener
         document.addEventListener("click", this.mouseHandler);
@@ -114,7 +115,6 @@ class StartScreen extends GameScreen {
 * @param {MouseEvent} event - mouse event
 */
     private mouseHandler = (event: MouseEvent) => {
-        console.log(`xPos: ${event.clientX}, yPos: ${event.clientY}`);
 
         //click detection for the buttons
         if (
@@ -129,7 +129,8 @@ class StartScreen extends GameScreen {
             } else {
             this.shipSelector += 1;
             }
-            console.log(this.shipSelector);
+
+            Game.selectedShip = this.shipSelector;
         }
         if (
             event.clientX >= this.buttonLeftX &&
@@ -143,6 +144,8 @@ class StartScreen extends GameScreen {
             } else {
             this.shipSelector -= 1;
             }
+
+            Game.selectedShip = this.shipSelector;
         }
     };
 
