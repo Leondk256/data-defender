@@ -11,12 +11,9 @@ class LevelScreen extends GameScreen {
     private ship: Ship;
 
     private facebookBoss: FacebookBoss;
-<<<<<<< HEAD
     private projectile: Projectile;
     // private ship: Ship;
     // private keyboardListener: KeyboardListener;
-=======
->>>>>>> 8fbf13b166c8155704b1a9dc69e6e994d5b3d9fe
 
     public constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, keyboardListener: KeyboardListener) {
         super(canvas, ctx);

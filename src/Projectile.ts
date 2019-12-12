@@ -5,6 +5,7 @@ class Projectile extends GameObject{
     protected yVel: number;
     protected xPos: number;
     protected yPos: number;
+    protected health: number;
 
     /**
      * Construct a new moving projectile.
@@ -13,6 +14,7 @@ class Projectile extends GameObject{
      * @param yPos y coordinate of its starting position
      * @param xVel x part of the velocity vector
      * @param yVel y part of the velocity vector
+     * @param health
      */
     public constructor(
         image: string,
@@ -20,7 +22,8 @@ class Projectile extends GameObject{
         yPos: number,
         xVel: number,
         yVel: number,
+        health: number
     ) {
-        super(image, xPos, yPos, xVel, yVel);
+        super(image, xPos, yPos, xVel, yVel, health);
     }
 }

@@ -59,6 +59,7 @@ class StartScreen extends GameScreen {
                 5,
                 5,
                 this.keyboardListener,
+                5
                 )
             )
         };

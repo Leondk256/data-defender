@@ -28,6 +28,7 @@ class FacebookBoss extends Projectile {
                 this.projectileYPos,
                 0,
                 0,
+                5
             );
             this.projectile.draw(ctx);
             this.projectileXPos -= 5;
