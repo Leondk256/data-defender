@@ -12,7 +12,8 @@ class LevelScreen extends GameScreen {
     private startScreen: StartScreen;
 
     private facebookBoss: FacebookBoss;
-    private projectile: Projectile;
+    private gameTicker: number;
+    private projectile: Projectile[];
     // private ship: Ship;
     // private keyboardListener: KeyboardListener;
 
@@ -20,7 +21,9 @@ class LevelScreen extends GameScreen {
         super(canvas, ctx);
         this.lives = 3;
         this.score = 400;
+        this.gameTicker = 0;
         this.keyboardListener = keyboardListener;
+        this.projectile = [];
 
         // this.life = new Image();
         // this.life.src = "./assets/images/SpaceShooterRedux/PNG/UI/playerLife1_blue.png";
@@ -53,6 +56,8 @@ class LevelScreen extends GameScreen {
     }
 
     public draw() {
+        this.gameTicker++;
+
         // 1. load life images
         // this.writeLifeImagesToLevelScreen();
 
