@@ -88,6 +88,14 @@ class GameObject {
 
     /**
      * Set the X position
+     * @param imgUrl
+     */
+    // public setImgUrl(imgUrl: string) {
+    //     this.img = this.loadImage(imgUrl);
+    // }
+
+    /**
+     * Set the X position
      * @param xPos
      */
     public setXPos(xPos: number) {

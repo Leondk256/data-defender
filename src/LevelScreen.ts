@@ -45,7 +45,7 @@ class LevelScreen extends GameScreen {
             this.canvas.height / 100 * 90,
             0,
             0,
-            0
+            1
         );
 
         // Create a ship
@@ -95,6 +95,9 @@ class LevelScreen extends GameScreen {
         if (this.facebookBoss.getHealth() <= 0) {
             // Set his soul outside of the canvas
             this.facebookBoss.setYPos(-1000);
+
+            // Draw blackhole
+            this.blackhole.draw(this.ctx);
         } else {
             // Draw the Facebook boss
             this.facebookBoss.draw(this.ctx);
@@ -130,9 +133,6 @@ class LevelScreen extends GameScreen {
 
         // Shoot with the Ship
         this.ship.shoot(this.ctx, this.facebookBoss);
-
-        // Draw blackhole
-        this.blackhole.draw(this.ctx);
     }
 
     // /**
