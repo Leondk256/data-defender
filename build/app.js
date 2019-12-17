@@ -1,3 +1,29 @@
+class GameScreen {
+    constructor(canvas, ctx) {
+        this.canvas = canvas;
+        this.ctx = ctx;
+    }
+    draw() { }
+    writeTextToCanvas(text, fontSize = 20, xCoordinate, yCoordinate, alignment = "center", color = "white") {
+        this.ctx.font = `${fontSize}px Spacecomics`;
+        this.ctx.fillStyle = color;
+        this.ctx.textAlign = alignment;
+        this.ctx.fillText(text, xCoordinate, yCoordinate);
+    }
+}
+class BlackholeScreen extends GameScreen {
+    constructor(canvas, ctx, keyboardListener) {
+        super(canvas, ctx);
+        this.ship = new Ship(Game.currentId, `./assets/img/ship${Game.selectedShip}.png`, this.canvas.width / 6, this.canvas.height / 2, 5, 5, this.keyboardListener, 3);
+    }
+    draw() {
+        this.writeTextToCanvas("Zwart gat", 50, (this.canvas.width / 100) * 50, (this.canvas.height / 100) * 15);
+        this.writeTextToCanvas("Schiet op het juiste antwoord", 30, (this.canvas.width / 100) * 50, (this.canvas.height / 100) * 25);
+        this.writeTextToCanvas(`${Game.globalPlayerName}`, 30, this.ship.getXPos(), this.ship.getYPos() - 50, "center");
+        this.ship.move(this.canvas);
+        this.ship.draw(this.ctx);
+    }
+}
 class GameObject {
     constructor(gameobjectId, imgUrl, xPos, yPos, xVel, yVel, health) {
         this.gameobjectId = gameobjectId;
@@ -37,10 +63,12 @@ class GameObject {
         return this.xPos >= -200 && this.xPos <= canvas.width &&
             this.yPos >= -200 && this.yPos <= canvas.height;
     }
-    createRandomId() {
-        return '_' + Math.random().toString(36).substr(2, 9);
+    isCollidingWithProjectile(gameObject) {
+        return this.yPos + this.img.height > gameObject.getYPos()
+            && this.yPos < gameObject.getYPos() + gameObject.getImgHeight()
+            && this.xPos + this.img.width > gameObject.getXPos()
+            && this.xPos < gameObject.getXPos() + gameObject.getImgWidth();
     }
-    ;
     loadImage(source) {
         this.img = new Image();
         this.img.src = source;
@@ -120,7 +148,13 @@ class Game {
             this.currentScreen = new LevelScreen(this.canvas, this.ctx, this.keyboardListener);
         }
         if (this.currentScreen instanceof LevelScreen
-            && this.keyboardListener.isKeyDown(KeyboardListener.KEY_ESC)) {
+            && Game.blackholescreen === true) {
+            this.currentScreen = new BlackholeScreen(this.canvas, this.ctx, this.keyboardListener);
+        }
+        if (this.currentScreen instanceof LevelScreen
+            && Game.gameOverScreen === true) {
+            console.log('yeet');
+            Game.gameOverScreen = false;
         }
     }
 }
@@ -129,18 +163,7 @@ let init = () => {
     const DD = new Game(document.getElementById("canvas"));
 };
 window.addEventListener("load", init);
-class GameScreen {
-    constructor(canvas, ctx) {
-        this.canvas = canvas;
-        this.ctx = ctx;
-    }
-    draw() { }
-    writeTextToCanvas(text, fontSize = 20, xCoordinate, yCoordinate, alignment = "center", color = "white") {
-        this.ctx.font = `${fontSize}px Spacecomics`;
-        this.ctx.fillStyle = color;
-        this.ctx.textAlign = alignment;
-        this.ctx.fillText(text, xCoordinate, yCoordinate);
-    }
+class GameOverScreen extends GameScreen {
 }
 class KeyboardListener {
     constructor() {
@@ -173,10 +196,10 @@ class LevelScreen extends GameScreen {
         this.gameTicker = 0;
         this.keyboardListener = keyboardListener;
         this.projectiles = [];
-        this.playerProjectile = [];
+        this.playerProjectiles = [];
         this.facebookBoss = new FacebookBoss(Game.currentId, "./assets/img/enemy.png", this.canvas.width / 100 * 80, this.canvas.height / 100 * 50, 0, 10, 3);
         Game.currentId++;
-        this.blackhole = new GameObject(Game.currentId, "./assets/img/blackhole.png", this.canvas.width / 100 * 95, this.canvas.height / 100 * 90, 0, 0, 0);
+        this.blackhole = new GameObject(Game.currentId, "./assets/img/blackhole.png", this.canvas.width / 100 * 95, this.canvas.height / 100 * 90, 0, 0, 1);
         Game.currentId++;
         this.ship = new Ship(Game.currentId, `./assets/img/ship${Game.selectedShip}.png`, this.canvas.width / 6, this.canvas.height / 2, 5, 5, this.keyboardListener, 3);
         Game.currentId++;
@@ -187,10 +210,16 @@ class LevelScreen extends GameScreen {
         if (this.ship.isCollidingWithProjectile(this.facebookBoss) === true) {
             this.lives--;
             if (this.lives <= 0) {
+                Game.gameOverScreen = true;
+            }
+            else {
+                Game.gameOverScreen = false;
             }
         }
+        Game.blackholescreen = this.ship.isCollidingWithProjectile(this.blackhole) === true;
         if (this.facebookBoss.getHealth() <= 0) {
             this.facebookBoss.setYPos(-1000);
+            this.blackhole.draw(this.ctx);
         }
         else {
             this.facebookBoss.draw(this.ctx);
@@ -202,34 +231,46 @@ class LevelScreen extends GameScreen {
             this.projectiles.push(new Projectile(Game.currentId, "./assets/img/bullet.png", this.facebookBoss.getXPos() - 100, this.facebookBoss.getYPos(), 5, 0, 1));
             Game.currentId++;
         }
-        console.log(this.projectiles);
         this.projectiles.forEach((projectile) => {
             if (projectile.inBounds(this.canvas)) {
                 projectile.draw(this.ctx);
                 projectile.shootProjectileRightToLeft(this.canvas);
                 if (this.ship.isCollidingWithProjectile(projectile)) {
+                    this.lives--;
                     for (let i = this.projectiles.length - 1; i >= 0; --i) {
-                        let newArray = this.removeEnemyProjectilesWithId(this.projectiles, projectile.getId());
+                        let newArray = this.removeProjectilesWithId(this.projectiles, projectile.getId());
                         this.projectiles = newArray;
                     }
                 }
             }
             else {
                 for (let i = this.projectiles.length - 1; i >= 0; --i) {
-                    let newArray = this.removeEnemyProjectilesWithId(this.projectiles, projectile.getId());
+                    let newArray = this.removeProjectilesWithId(this.projectiles, projectile.getId());
                     this.projectiles = newArray;
                 }
             }
         });
         this.ship.move(this.canvas);
         this.ship.draw(this.ctx);
-        this.ship.shoot(this.ctx, this.facebookBoss);
-        this.blackhole.draw(this.ctx);
+        if (this.keyboardListener.isKeyDown(KeyboardListener.KEY_SPACE)) {
+            this.playerProjectiles.push(new Projectile(Game.currentId, "./assets/img/beam2.png", this.ship.getXPos() + 300, this.ship.getYPos(), 5, 0, 1));
+        }
+        this.playerProjectiles.forEach((projectile) => {
+            if (projectile.inBounds(this.canvas)) {
+                projectile.draw(this.ctx);
+                projectile.shootProjectileLeftToRight(this.canvas);
+                if (projectile.isCollidingWithProjectile(this.facebookBoss)) {
+                    this.facebookBoss.setHealth(this.facebookBoss.getHealth() - 1);
+                    let newArray = this.removeProjectilesWithId(this.playerProjectiles, projectile.getId());
+                    this.playerProjectiles = newArray;
+                }
+            }
+        });
     }
     randomNumber(min, max) {
         return Math.round(Math.random() * (max - min) + min);
     }
-    removeEnemyProjectilesWithId(projectiles, objectId) {
+    removeProjectilesWithId(projectiles, objectId) {
         return projectiles.filter(i => i['gameobjectId'] !== objectId);
     }
     writeTextToCanvas(text, fontSize = 20, xCoordinate, yCoordinate, alignment = "center", color = "white") {
@@ -243,6 +284,7 @@ class Ship extends GameObject {
     constructor(id, imgUrl, xPos, yPos, xVel, yVel, keyboardListener, health) {
         super(id, imgUrl, xPos, yPos, xVel, yVel, health);
         this.keyboardListener = new KeyboardListener();
+        this.projectiles = [];
     }
     move(canvas) {
         if (this.keyboardListener.isKeyDown(KeyboardListener.KEY_RIGHT)
@@ -261,24 +303,6 @@ class Ship extends GameObject {
             && this.yPos + this.img.height / 2 < canvas.height) {
             this.yPos += this.yVel;
         }
-    }
-    shoot(ctx, gameObject) {
-        if (this.keyboardListener.isKeyDown(KeyboardListener.KEY_SPACE)) {
-            this.gameObject = new GameObject(this.gameobjectId, "./assets/img/beam2.png", this.xPos + 320, this.yPos, 0, 0, 0);
-            this.gameObject.draw(ctx);
-            if (this.gameObject.getYPos() + this.gameObject.getImgHeight() > gameObject.getYPos()
-                && this.gameObject.getYPos() < gameObject.getYPos() + gameObject.getImgHeight()
-                && this.gameObject.getXPos() + this.gameObject.getImgWidth() > gameObject.getXPos()
-                && this.gameObject.getXPos() < gameObject.getXPos() + gameObject.getImgWidth()) {
-                gameObject.setHealth(gameObject.getHealth() - 1);
-            }
-        }
-    }
-    isCollidingWithProjectile(gameObject) {
-        return this.yPos + this.img.height > gameObject.getYPos()
-            && this.yPos < gameObject.getYPos() + gameObject.getImgHeight()
-            && this.xPos + this.img.width > gameObject.getXPos()
-            && this.xPos < gameObject.getXPos() + gameObject.getImgWidth();
     }
 }
 class StartScreen extends GameScreen {

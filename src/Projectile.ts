@@ -2,6 +2,7 @@
 class Projectile extends GameObject{
     /**
      * Construct a new moving projectile.
+     * @param projectileId
      * @param image
      * @param xPos X coordinate of its starting position
      * @param yPos y coordinate of its starting position

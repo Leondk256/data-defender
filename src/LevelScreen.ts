@@ -13,7 +13,7 @@ class LevelScreen extends GameScreen {
     private facebookBoss: FacebookBoss;
     private gameTicker: number;
     private projectiles: Projectile[];
-    private playerProjectile: Projectile[];
+    private playerProjectiles: Projectile[];
     private blackhole: GameObject;
     private forceField: GameObject;
     private game: Game;
@@ -27,7 +27,7 @@ class LevelScreen extends GameScreen {
         this.gameTicker = 0;
         this.keyboardListener = keyboardListener;
         this.projectiles = [];
-        this.playerProjectile = [];
+        this.playerProjectiles = [];
 
         // this.life = new Image();
         // this.life.src = "./assets/images/SpaceShooterRedux/PNG/UI/playerLife1_blue.png";
@@ -95,7 +95,6 @@ class LevelScreen extends GameScreen {
         // If the Ship collides, remove one live
         if (this.ship.isCollidingWithProjectile(this.facebookBoss) === true) {
             this.lives--;
-
             // If the Ship doesn't have any lives left, head to game over screen
             if (this.lives <= 0) {
                 Game.gameOverScreen = true;
@@ -152,27 +151,27 @@ class LevelScreen extends GameScreen {
             Game.currentId++;
         }
 
-        console.log(this.projectiles);
-
         // Move and draw all the game entities
         this.projectiles.forEach((projectile) => {
             if (projectile.inBounds(this.canvas)) {
                 projectile.draw(this.ctx);
                 projectile.shootProjectileRightToLeft(this.canvas);
-                if (this.ship.isCollidingWithProjectile(projectile)) {   
+                if (this.ship.isCollidingWithProjectile(projectile)) {
+                    this.lives--;
                     for (let i = this.projectiles.length - 1; i >= 0; --i) {
-                        let newArray = this.removeEnemyProjectilesWithId(this.projectiles, projectile.getId());
+                        let newArray = this.removeProjectilesWithId(this.projectiles, projectile.getId());
                         this.projectiles = newArray;
                     }
                 }
             }
-            else{
+            else {
                 for (let i = this.projectiles.length - 1; i >= 0; --i) {
-                    let newArray = this.removeEnemyProjectilesWithId(this.projectiles, projectile.getId());
+                    let newArray = this.removeProjectilesWithId(this.projectiles, projectile.getId());
                     this.projectiles = newArray;
                 }
             }
         });
+
 
         // Move the Ship
         this.ship.move(this.canvas);
@@ -180,8 +179,33 @@ class LevelScreen extends GameScreen {
         // Draw the Ship
         this.ship.draw(this.ctx);
 
-        // Shoot with the Ship
-        this.ship.shoot(this.ctx, this.facebookBoss);
+        if (this.keyboardListener.isKeyDown(KeyboardListener.KEY_SPACE)) {
+            this.playerProjectiles.push(new Projectile(
+                Game.currentId,
+                "./assets/img/beam2.png",
+                this.ship.getXPos() + 300,
+                this.ship.getYPos(),
+                5,
+                0,
+                1
+            ));
+        }
+
+        // Move and draw all the game entities
+        this.playerProjectiles.forEach((projectile) => {
+            if (projectile.inBounds(this.canvas)) {
+                projectile.draw(this.ctx);
+                projectile.shootProjectileLeftToRight(this.canvas);
+
+                // Check if the laser shot hits the facebook boss
+                if (projectile.isCollidingWithProjectile(this.facebookBoss)) {
+                    // Subtract one health when beamed by laser
+                    this.facebookBoss.setHealth(this.facebookBoss.getHealth() - 1);
+                    let newArray = this.removeProjectilesWithId(this.playerProjectiles, projectile.getId());
+                    this.playerProjectiles = newArray;
+                }
+            }
+        })
     }
 
     // /**
@@ -218,9 +242,9 @@ class LevelScreen extends GameScreen {
      * @param projectiles 
      * @param objectId 
      */
-    private removeEnemyProjectilesWithId(projectiles: Projectile[], objectId: number): Projectile[] {
+    private removeProjectilesWithId(projectiles: Projectile[], objectId: number): Projectile[] {
         return projectiles.filter(i => i['gameobjectId'] !== objectId);
-      }
+    }
 
     /**
      * Writes text to the canvas
