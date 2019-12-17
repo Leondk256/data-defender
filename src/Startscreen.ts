@@ -90,7 +90,7 @@ class StartScreen extends GameScreen {
 
         // 2. add 'Press to play' text
         this.writeTextToCanvas(
-            "Start",
+            "Druk op s om te beginnen",
             40,
             this.canvas.width / 2,
             (this.canvas.height / 100) * 90
@@ -99,7 +99,7 @@ class StartScreen extends GameScreen {
 
         // 3. add Namebox
         this.writeTextToCanvas(
-            "Enter your name:",
+            "Vul je naam in:",
             30,
             (this.canvas.width / 2) -155,
             (this.canvas.height / 100) * 25
@@ -109,7 +109,7 @@ class StartScreen extends GameScreen {
 
         // Select your ship text
         this.writeTextToCanvas(
-            "Use the arrows to select your ship:",
+            "Klik op de de pijltjes om je schip te selecteren:",
             30,
             this.canvas.width / 2,
             (this.canvas.height / 100) * 45
