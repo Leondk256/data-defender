@@ -17,6 +17,7 @@ class LevelScreen extends GameScreen {
     private blackhole: GameObject;
     private forceField: GameObject;
     private game: Game;
+    private cooldown: number;
     // private ship: Ship;
     // private keyboardListener: KeyboardListener;
 
@@ -28,6 +29,7 @@ class LevelScreen extends GameScreen {
         this.keyboardListener = keyboardListener;
         this.projectiles = [];
         this.playerProjectiles = [];
+        this.cooldown = 0;
 
         // this.life = new Image();
         // this.life.src = "./assets/images/SpaceShooterRedux/PNG/UI/playerLife1_blue.png";
@@ -78,19 +80,29 @@ class LevelScreen extends GameScreen {
     }
 
     public draw() {
+        // Keep track of the frames
         this.gameTicker++;
+        if (this.cooldown > 0) {
+            this.cooldown--;
+        }
 
-        // 1. load life images
-        // this.writeLifeImagesToLevelScreen();
+        // Set the standard text color to white
+        let color = "white";
 
-        // 2. draw current score
-        // this.writeTextToCanvas(
-        //     `Your score: ${this.score}`,
-        //     20,
-        //     this.canvas.width - 100,
-        //     30,
-        //     "right",
-        // );
+        // Set the text color to red if the player only has 1 live left
+        if (this.lives < 2) {
+            color = "red";
+        }
+
+        // Write the lives left to the screen
+        this.writeTextToCanvas(
+            `Levens: ${this.lives}`,
+            30,
+            90,
+            60,
+            "center",
+            color,
+        );
 
         // If the Ship collides, remove one live
         if (this.ship.isCollidingWithProjectile(this.facebookBoss) === true) {
@@ -173,19 +185,19 @@ class LevelScreen extends GameScreen {
         // Draw the Ship
         this.ship.draw(this.ctx);
 
-        if (this.keyboardListener.isKeyDown(KeyboardListener.KEY_SPACE)) {
+        if (this.keyboardListener.isKeyDown(KeyboardListener.KEY_SPACE) && this.cooldown === 0) {
             this.playerProjectiles.push(new Projectile(
                 Game.currentId,
                 "./assets/img/gameobject/projectiles/friendly/lvl1r.png",
-                this.ship.getXPos() + 300,
+                this.ship.getXPos() + 90,
                 this.ship.getYPos(),
                 5,
                 0,
                 1
             ));
+            this.cooldown = 15;
+            Game.currentId++;
         }
-
-        console.log(this.lives);
 
         // Move and draw all the game entities
         this.playerProjectiles.forEach((projectile) => {
@@ -202,26 +214,6 @@ class LevelScreen extends GameScreen {
             }
         })
     }
-
-    // /**
-    //  * Uses the loaded life image to remaining lives of the player on the rop
-    //  * left of the screen.
-    //  *
-    //  * @param {HTMLImageElement} img the loaded image object
-    //  */
-    // private writeLifeImagesToLevelScreen() {
-    //     if (this.life.naturalWidth > 0) {
-    //         let x = 10;
-    //         const y = this.life.height - 10;
-    //         // Start a loop for each life in lives
-    //         for (let life = 0; life < this.lives; life++) {
-    //             // Draw the image at the curren x and y coordinates
-    //             this.ctx.drawImage(this.life, x, y);
-    //             // Increase the x-coordinate for the next image to draw
-    //             x += this.life.width + 10;
-    //         }
-    //     }
-    // }
 
     /**
      * Renders a random number between min and max
