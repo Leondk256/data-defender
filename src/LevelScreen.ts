@@ -82,7 +82,7 @@ class LevelScreen extends GameScreen {
         }
 
         // Set the standard text color to white
-        let color = "white";
+        let color = "black";
 
         // Set the text color to red if the player only has 1 live left
         if (this.ship.getHealth() < 2) {
@@ -243,7 +243,7 @@ class LevelScreen extends GameScreen {
         xCoordinate: number,
         yCoordinate: number,
         alignment: CanvasTextAlign = "center",
-        color: string = "white",
+        color: string = "black",
     ) {
         this.ctx.font = `${fontSize}px Spacecomics`;
         this.ctx.fillStyle = color;
