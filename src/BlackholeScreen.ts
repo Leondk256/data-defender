@@ -9,6 +9,7 @@ class BlackholeScreen extends GameScreen{
 
         // Create a ship
         this.ship = new Ship(
+            Game.currentId,
             `./assets/img/ship${Game.selectedShip}.png`,
             this.canvas.width / 6,
             this.canvas.height / 2,
