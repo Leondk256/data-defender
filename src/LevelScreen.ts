@@ -138,7 +138,7 @@ class LevelScreen extends GameScreen {
             "center",
         );
 
-        if (this.gameTicker % 40 === 0) {
+        if (this.gameTicker % 50 === 0) {
             this.projectiles.push(new Projectile(
                 Game.currentId,
                 "./assets/img/bullet.png",
@@ -159,19 +159,16 @@ class LevelScreen extends GameScreen {
                 if (this.ship.isCollidingWithProjectile(projectile)) {
                     this.lives--;
                     for (let i = this.projectiles.length - 1; i >= 0; --i) {
-                        let newArray = this.removeProjectilesWithId(this.projectiles, projectile.getId());
-                        this.projectiles = newArray;
+                        this.projectiles = this.removeProjectilesWithId(this.projectiles, projectile.getId());
                     }
                 }
             }
             else {
                 for (let i = this.projectiles.length - 1; i >= 0; --i) {
-                    let newArray = this.removeProjectilesWithId(this.projectiles, projectile.getId());
-                    this.projectiles = newArray;
+                    this.projectiles = this.removeProjectilesWithId(this.projectiles, projectile.getId());
                 }
             }
         });
-
 
         // Move the Ship
         this.ship.move(this.canvas);
@@ -201,8 +198,7 @@ class LevelScreen extends GameScreen {
                 if (projectile.isCollidingWithProjectile(this.facebookBoss)) {
                     // Subtract one health when beamed by laser
                     this.facebookBoss.setHealth(this.facebookBoss.getHealth() - 1);
-                    let newArray = this.removeProjectilesWithId(this.playerProjectiles, projectile.getId());
-                    this.playerProjectiles = newArray;
+                    this.playerProjectiles = this.removeProjectilesWithId(this.playerProjectiles, projectile.getId());
                 }
             }
         })
