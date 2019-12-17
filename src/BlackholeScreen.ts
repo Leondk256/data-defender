@@ -1,5 +1,5 @@
 /// <reference path="GameScreen.ts" />
-class BlackholeScreen extends GameScreen{
+class BlackholeScreen extends GameScreen {
 
     private keyboardListener: KeyboardListener;
     private ship: Ship;
@@ -21,27 +21,41 @@ class BlackholeScreen extends GameScreen{
     }
 
     public draw() {
+        // this.writeTextToCanvas(
+        //     "Zwart gat",
+        //     50,
+        //     (this.canvas.width / 100) * 50,
+        //     (this.canvas.height / 100) * 15
+        // );
+
         this.writeTextToCanvas(
-            "Zwart gat",
+            "Bedankt voor het spelen!",
             50,
             (this.canvas.width / 100) * 50,
             (this.canvas.height / 100) * 15
         );
 
         this.writeTextToCanvas(
-            "Schiet op het juiste antwoord",
-            30,
+            "Wij gaan verder met het ontwikkelen van het spel.",
+            50,
             (this.canvas.width / 100) * 50,
-            (this.canvas.height / 100) * 25
+            (this.canvas.height / 100) * 20
         );
 
-        this.writeTextToCanvas(
-            `${Game.globalPlayerName}`,
-            30,
-            this.ship.getXPos(),
-            this.ship.getYPos() - 50,
-            "center",
-        );
+        // this.writeTextToCanvas(
+        //     "Schiet op het juiste antwoord",
+        //     30,
+        //     (this.canvas.width / 100) * 50,
+        //     (this.canvas.height / 100) * 25
+        // );
+
+        // this.writeTextToCanvas(
+        //     `${Game.globalPlayerName}`,
+        //     30,
+        //     this.ship.getXPos(),
+        //     this.ship.getYPos() - 50,
+        //     "center",
+        // );
 
         // Move the Ship
         this.ship.move(this.canvas);

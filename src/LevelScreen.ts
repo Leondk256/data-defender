@@ -29,9 +29,6 @@ class LevelScreen extends GameScreen {
         this.playerProjectiles = [];
         this.cooldown = 0;
 
-        // this.life = new Image();
-        // this.life.src = "./assets/images/SpaceShooterRedux/PNG/UI/playerLife1_blue.png";
-
         this.facebookBoss = new FacebookBoss(
             Game.currentId,
             "./assets/img/gameobject/enemies/facebookbossr.png",
@@ -62,8 +59,8 @@ class LevelScreen extends GameScreen {
             `./assets/img/ship${Game.selectedShip}.png`,
             this.canvas.width / 6,
             this.canvas.height / 2,
-            5,
-            5,
+            6,
+            6,
             this.keyboardListener,
             3,
         );
