@@ -72,8 +72,7 @@ class Game {
             this.currentScreen instanceof LevelScreen
             && Game.gameOverScreen === true)
         {
-            console.log('yeet');
-            Game.gameOverScreen = false
+            this.currentScreen = new GameOverScreen(this.canvas, this.ctx, this.keyboardListener);
         }
     }
 }

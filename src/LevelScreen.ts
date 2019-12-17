@@ -95,13 +95,10 @@ class LevelScreen extends GameScreen {
         // If the Ship collides, remove one live
         if (this.ship.isCollidingWithProjectile(this.facebookBoss) === true) {
             this.lives--;
-            // If the Ship doesn't have any lives left, head to game over screen
-            if (this.lives <= 0) {
-                Game.gameOverScreen = true;
-            } else {
-                Game.gameOverScreen = false;
-            }
         }
+
+        // If the Ship doesn't have any lives left, head to game over screen
+        Game.gameOverScreen = this.lives <= 0;
 
         // Check if the Ship is colliding with the blackhole once it's visible
         Game.blackholescreen = this.ship.isCollidingWithProjectile(this.blackhole) === true;
@@ -187,6 +184,8 @@ class LevelScreen extends GameScreen {
                 1
             ));
         }
+
+        console.log(this.lives);
 
         // Move and draw all the game entities
         this.playerProjectiles.forEach((projectile) => {
