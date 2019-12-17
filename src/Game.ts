@@ -6,6 +6,8 @@ class Game {
 
     public static selectedShip: number;
     public static globalPlayerName: string;
+    public static blackholescreen: boolean;
+    public static gameOverScreen: boolean;
 
     private currentScreen: GameScreen;
 
@@ -60,9 +62,17 @@ class Game {
 
         if (
             this.currentScreen instanceof LevelScreen
-            && this.keyboardListener.isKeyDown(KeyboardListener.KEY_ESC)
-        ) {
-            // this.currentScreen = new TitleScreen(this.canvas, this.ctx);
+            && Game.blackholescreen === true)
+         {
+             this.currentScreen = new BlackholeScreen(this.canvas, this.ctx, this.keyboardListener);
+        }
+
+        if (
+            this.currentScreen instanceof LevelScreen
+            && Game.gameOverScreen === true)
+        {
+            console.log('yeet');
+            Game.gameOverScreen = false
         }
     }
 }
