@@ -80,22 +80,29 @@ class LevelScreen extends GameScreen {
     }
 
     public draw() {
+        // Keep track of the frames
         this.gameTicker++;
         if (this.cooldown > 0) {
             this.cooldown--;
         }
 
-        // 1. load life images
-        // this.writeLifeImagesToLevelScreen();
+        // Set the standard text color to white
+        let color = "white";
 
-        // 2. draw current score
-        // this.writeTextToCanvas(
-        //     `Your score: ${this.score}`,
-        //     20,
-        //     this.canvas.width - 100,
-        //     30,
-        //     "right",
-        // );
+        // Set the text color to red if the player only has 1 live left
+        if (this.lives < 2) {
+            color = "red";
+        }
+
+        // Write the lives left to the screen
+        this.writeTextToCanvas(
+            `Levens: ${this.lives}`,
+            30,
+            90,
+            60,
+            "center",
+            color,
+        );
 
         // If the Ship collides, remove one live
         if (this.ship.isCollidingWithProjectile(this.facebookBoss) === true) {
@@ -207,26 +214,6 @@ class LevelScreen extends GameScreen {
             }
         })
     }
-
-    // /**
-    //  * Uses the loaded life image to remaining lives of the player on the rop
-    //  * left of the screen.
-    //  *
-    //  * @param {HTMLImageElement} img the loaded image object
-    //  */
-    // private writeLifeImagesToLevelScreen() {
-    //     if (this.life.naturalWidth > 0) {
-    //         let x = 10;
-    //         const y = this.life.height - 10;
-    //         // Start a loop for each life in lives
-    //         for (let life = 0; life < this.lives; life++) {
-    //             // Draw the image at the curren x and y coordinates
-    //             this.ctx.drawImage(this.life, x, y);
-    //             // Increase the x-coordinate for the next image to draw
-    //             x += this.life.width + 10;
-    //         }
-    //     }
-    // }
 
     /**
      * Renders a random number between min and max
