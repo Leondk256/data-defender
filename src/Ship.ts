@@ -15,6 +15,7 @@ class Ship extends GameObject {
      * @param health
      */
     public constructor(
+        id: number,
         imgUrl: string,
         xPos: number,
         yPos: number,
@@ -23,7 +24,7 @@ class Ship extends GameObject {
         keyboardListener: KeyboardListener,
         health: number,
     ) {
-        super(imgUrl, xPos, yPos, xVel, yVel, health);
+        super(id, imgUrl, xPos, yPos, xVel, yVel, health);
         this.keyboardListener = new KeyboardListener();
     }
 
@@ -77,6 +78,7 @@ class Ship extends GameObject {
         if (this.keyboardListener.isKeyDown(KeyboardListener.KEY_SPACE)) {
             // Create the laser gameObject
             this.gameObject = new GameObject(
+                this.gameobjectId,
                 "./assets/img/beam2.png",
                 this.xPos + 320,
                 this.yPos,

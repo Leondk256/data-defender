@@ -6,6 +6,7 @@ class Game {
 
     public static selectedShip: number;
     public static globalPlayerName: string;
+    public static currentId: number = 0;
 
     private currentScreen: GameScreen;
 

@@ -69,6 +69,7 @@ class StartScreen extends GameScreen {
 
             this.ships.push(
                 new Ship(
+                    Game.currentId,
                     `./assets/img/ship${i}.png`,
                     this.canvas.width / 2,
                     (this.canvas.height / 100) * 65,

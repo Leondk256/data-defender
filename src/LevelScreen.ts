@@ -4,7 +4,6 @@
 class LevelScreen extends GameScreen {
 
     private keyboardListener: KeyboardListener;
-
     private lives: number;
     private score: number;
     private life: HTMLImageElement;
@@ -13,7 +12,8 @@ class LevelScreen extends GameScreen {
 
     private facebookBoss: FacebookBoss;
     private gameTicker: number;
-    private projectile: Projectile[];
+    private projectiles: Projectile[];
+    private playerProjectile: Projectile[];
     private blackhole: GameObject;
     private forceField: GameObject;
     // private ship: Ship;
@@ -25,12 +25,14 @@ class LevelScreen extends GameScreen {
         this.score = 400;
         this.gameTicker = 0;
         this.keyboardListener = keyboardListener;
-        this.projectile = [];
+        this.projectiles = [];
+        this.playerProjectile = [];
 
         // this.life = new Image();
         // this.life.src = "./assets/images/SpaceShooterRedux/PNG/UI/playerLife1_blue.png";
 
         this.facebookBoss = new FacebookBoss(
+            Game.currentId,
             "./assets/img/enemy.png",
             this.canvas.width / 100 * 80,
             this.canvas.height / 100 * 50,
@@ -39,7 +41,10 @@ class LevelScreen extends GameScreen {
             3,
         );
 
+        Game.currentId++;
+
         this.blackhole = new GameObject(
+            Game.currentId,
             "./assets/img/blackhole.png",
             this.canvas.width / 100 * 95,
             this.canvas.height / 100 * 90,
@@ -48,8 +53,11 @@ class LevelScreen extends GameScreen {
             0
         );
 
+        Game.currentId++;
+
         // Create a ship
         this.ship = new Ship(
+            Game.currentId,
             `./assets/img/ship${Game.selectedShip}.png`,
             this.canvas.width / 6,
             this.canvas.height / 2,
@@ -58,6 +66,8 @@ class LevelScreen extends GameScreen {
             this.keyboardListener,
             3,
         );
+
+        Game.currentId++;
 
         this.startScreen = new StartScreen(
             this.canvas,
@@ -119,8 +129,40 @@ class LevelScreen extends GameScreen {
             "center",
         );
 
-        // Make the Facebook boss shoot
-        this.facebookBoss.shoot(this.ctx);
+        if (this.gameTicker % 40 === 0) {
+            this.projectiles.push(new Projectile(
+                Game.currentId,
+                "./assets/img/bullet.png",
+                this.facebookBoss.getXPos() - 100,
+                this.facebookBoss.getYPos(),
+                5,
+                0,
+                1
+            ));
+            Game.currentId++;
+        }
+
+        console.log(this.projectiles);
+
+        // Move and draw all the game entities
+        this.projectiles.forEach((projectile) => {
+            if (projectile.inBounds(this.canvas)) {
+                projectile.draw(this.ctx);
+                projectile.shootProjectileRightToLeft(this.canvas);
+                if (this.ship.isCollidingWithProjectile(projectile)) {   
+                    for (let i = this.projectiles.length - 1; i >= 0; --i) {
+                        let newArray = this.removeEnemyProjectilesWithId(this.projectiles, projectile.getId());
+                        this.projectiles = newArray;
+                    }
+                }
+            }
+            else{
+                for (let i = this.projectiles.length - 1; i >= 0; --i) {
+                    let newArray = this.removeEnemyProjectilesWithId(this.projectiles, projectile.getId());
+                    this.projectiles = newArray;
+                }
+            }
+        });
 
         // Move the Ship
         this.ship.move(this.canvas);
@@ -163,6 +205,15 @@ class LevelScreen extends GameScreen {
     public randomNumber(min: number, max: number): number {
         return Math.round(Math.random() * (max - min) + min);
     }
+
+    /**
+     * Remove enemy projectiles with specific id
+     * @param projectiles 
+     * @param objectId 
+     */
+    private removeEnemyProjectilesWithId(projectiles: Projectile[], objectId: number): Projectile[] {
+        return projectiles.filter(i => i['gameobjectId'] !== objectId);
+      }
 
     /**
      * Writes text to the canvas
