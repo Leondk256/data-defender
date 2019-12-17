@@ -34,7 +34,7 @@ class LevelScreen extends GameScreen {
 
         this.facebookBoss = new FacebookBoss(
             Game.currentId,
-            "./assets/img/enemy.png",
+            "./assets/img/gameobject/enemies/facebookbossr.png",
             this.canvas.width / 100 * 80,
             this.canvas.height / 100 * 50,
             0,
@@ -142,10 +142,10 @@ class LevelScreen extends GameScreen {
             "center",
         );
 
-        if (this.gameTicker % 40 === 0) {
+        if (this.gameTicker % 50 === 0) {
             this.projectiles.push(new Projectile(
                 Game.currentId,
-                "./assets/img/bullet.png",
+                "./assets/img/gameobject/projectiles/hostile/thumbsdownr.png",
                 this.facebookBoss.getXPos() - 100,
                 this.facebookBoss.getYPos(),
                 5,
@@ -163,19 +163,16 @@ class LevelScreen extends GameScreen {
                 if (this.ship.isCollidingWithProjectile(projectile)) {
                     this.lives--;
                     for (let i = this.projectiles.length - 1; i >= 0; --i) {
-                        let newArray = this.removeProjectilesWithId(this.projectiles, projectile.getId());
-                        this.projectiles = newArray;
+                        this.projectiles = this.removeProjectilesWithId(this.projectiles, projectile.getId());
                     }
                 }
             }
             else {
                 for (let i = this.projectiles.length - 1; i >= 0; --i) {
-                    let newArray = this.removeProjectilesWithId(this.projectiles, projectile.getId());
-                    this.projectiles = newArray;
+                    this.projectiles = this.removeProjectilesWithId(this.projectiles, projectile.getId());
                 }
             }
         });
-
 
         // Move the Ship
         this.ship.move(this.canvas);
@@ -186,7 +183,7 @@ class LevelScreen extends GameScreen {
         if (this.keyboardListener.isKeyDown(KeyboardListener.KEY_SPACE)) {
             this.playerProjectiles.push(new Projectile(
                 Game.currentId,
-                "./assets/img/beam2.png",
+                "./assets/img/gameobject/projectiles/friendly/lvl1r.png",
                 this.ship.getXPos() + 300,
                 this.ship.getYPos(),
                 5,
@@ -205,8 +202,7 @@ class LevelScreen extends GameScreen {
                 if (projectile.isCollidingWithProjectile(this.facebookBoss)) {
                     // Subtract one health when beamed by laser
                     this.facebookBoss.setHealth(this.facebookBoss.getHealth() - 1);
-                    let newArray = this.removeProjectilesWithId(this.playerProjectiles, projectile.getId());
-                    this.playerProjectiles = newArray;
+                    this.playerProjectiles = this.removeProjectilesWithId(this.playerProjectiles, projectile.getId());
                 }
             }
         })

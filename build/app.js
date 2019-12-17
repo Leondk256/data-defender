@@ -153,8 +153,7 @@ class Game {
         }
         if (this.currentScreen instanceof LevelScreen
             && Game.gameOverScreen === true) {
-            console.log('yeet');
-            Game.gameOverScreen = false;
+            this.currentScreen = new GameOverScreen(this.canvas, this.ctx, this.keyboardListener);
         }
     }
 }
@@ -164,6 +163,12 @@ let init = () => {
 };
 window.addEventListener("load", init);
 class GameOverScreen extends GameScreen {
+    constructor(canvas, ctx, keyboardListener) {
+        super(canvas, ctx);
+    }
+    draw() {
+        this.writeTextToCanvas("GAME OVER", 80, (this.canvas.width / 100) * 50, (this.canvas.height / 100) * 15);
+    }
 }
 class KeyboardListener {
     constructor() {
@@ -197,7 +202,7 @@ class LevelScreen extends GameScreen {
         this.keyboardListener = keyboardListener;
         this.projectiles = [];
         this.playerProjectiles = [];
-        this.facebookBoss = new FacebookBoss(Game.currentId, "./assets/img/enemy.png", this.canvas.width / 100 * 80, this.canvas.height / 100 * 50, 0, 10, 3);
+        this.facebookBoss = new FacebookBoss(Game.currentId, "./assets/img/gameobject/enemies/facebookbossr.png", this.canvas.width / 100 * 80, this.canvas.height / 100 * 50, 0, 10, 3);
         Game.currentId++;
         this.blackhole = new GameObject(Game.currentId, "./assets/img/blackhole.png", this.canvas.width / 100 * 95, this.canvas.height / 100 * 90, 0, 0, 1);
         Game.currentId++;
@@ -209,13 +214,8 @@ class LevelScreen extends GameScreen {
         this.gameTicker++;
         if (this.ship.isCollidingWithProjectile(this.facebookBoss) === true) {
             this.lives--;
-            if (this.lives <= 0) {
-                Game.gameOverScreen = true;
-            }
-            else {
-                Game.gameOverScreen = false;
-            }
         }
+        Game.gameOverScreen = this.lives <= 0;
         Game.blackholescreen = this.ship.isCollidingWithProjectile(this.blackhole) === true;
         if (this.facebookBoss.getHealth() <= 0) {
             this.facebookBoss.setYPos(-1000);
@@ -227,8 +227,8 @@ class LevelScreen extends GameScreen {
         }
         this.writeTextToCanvas(`Health: ${this.facebookBoss.getHealth()}`, 30, this.facebookBoss.getXPos(), this.facebookBoss.getYPos() - 100, "center");
         this.writeTextToCanvas(`${Game.globalPlayerName}`, 30, this.ship.getXPos(), this.ship.getYPos() - 50, "center");
-        if (this.gameTicker % 40 === 0) {
-            this.projectiles.push(new Projectile(Game.currentId, "./assets/img/bullet.png", this.facebookBoss.getXPos() - 100, this.facebookBoss.getYPos(), 5, 0, 1));
+        if (this.gameTicker % 50 === 0) {
+            this.projectiles.push(new Projectile(Game.currentId, "./assets/img/gameobject/projectiles/hostile/thumbsdownr.png", this.facebookBoss.getXPos() - 100, this.facebookBoss.getYPos(), 5, 0, 1));
             Game.currentId++;
         }
         this.projectiles.forEach((projectile) => {
@@ -238,31 +238,29 @@ class LevelScreen extends GameScreen {
                 if (this.ship.isCollidingWithProjectile(projectile)) {
                     this.lives--;
                     for (let i = this.projectiles.length - 1; i >= 0; --i) {
-                        let newArray = this.removeProjectilesWithId(this.projectiles, projectile.getId());
-                        this.projectiles = newArray;
+                        this.projectiles = this.removeProjectilesWithId(this.projectiles, projectile.getId());
                     }
                 }
             }
             else {
                 for (let i = this.projectiles.length - 1; i >= 0; --i) {
-                    let newArray = this.removeProjectilesWithId(this.projectiles, projectile.getId());
-                    this.projectiles = newArray;
+                    this.projectiles = this.removeProjectilesWithId(this.projectiles, projectile.getId());
                 }
             }
         });
         this.ship.move(this.canvas);
         this.ship.draw(this.ctx);
         if (this.keyboardListener.isKeyDown(KeyboardListener.KEY_SPACE)) {
-            this.playerProjectiles.push(new Projectile(Game.currentId, "./assets/img/beam2.png", this.ship.getXPos() + 300, this.ship.getYPos(), 5, 0, 1));
+            this.playerProjectiles.push(new Projectile(Game.currentId, "./assets/img/gameobject/projectiles/friendly/lvl1r.png", this.ship.getXPos() + 300, this.ship.getYPos(), 5, 0, 1));
         }
+        console.log(this.lives);
         this.playerProjectiles.forEach((projectile) => {
             if (projectile.inBounds(this.canvas)) {
                 projectile.draw(this.ctx);
                 projectile.shootProjectileLeftToRight(this.canvas);
                 if (projectile.isCollidingWithProjectile(this.facebookBoss)) {
                     this.facebookBoss.setHealth(this.facebookBoss.getHealth() - 1);
-                    let newArray = this.removeProjectilesWithId(this.playerProjectiles, projectile.getId());
-                    this.playerProjectiles = newArray;
+                    this.playerProjectiles = this.removeProjectilesWithId(this.playerProjectiles, projectile.getId());
                 }
             }
         });
@@ -353,9 +351,9 @@ class StartScreen extends GameScreen {
         this.nameInputField.src = "./assets/img/buttons/nameinputfield.jpg";
         this.buttonRightX = (this.canvas.width / 100) * 55;
         this.buttonRightY = (this.canvas.height / 100) * 55;
-        this.buttonLeftX = (this.canvas.width / 100) * 30;
+        this.buttonLeftX = (this.canvas.width / 100) * 34.5;
         this.buttonLeftY = (this.canvas.height / 100) * 55;
-        this.nameInputFieldX = (this.canvas.width / 100) * 45;
+        this.nameInputFieldX = (this.canvas.width / 100) * 50;
         this.nameInputFieldY = (this.canvas.height / 100) * 20;
         this.shipSelector = shipSelector;
         Game.selectedShip = this.shipSelector;
@@ -369,7 +367,7 @@ class StartScreen extends GameScreen {
     draw() {
         this.writeTextToCanvas("Data Defender", 70, (this.canvas.width / 100) * 50, (this.canvas.height / 100) * 15);
         this.writeTextToCanvas("Start", 40, this.canvas.width / 2, (this.canvas.height / 100) * 90);
-        this.writeTextToCanvas("Enter your name:", 30, this.canvas.width / 3, (this.canvas.height / 100) * 30);
+        this.writeTextToCanvas("Enter your name:", 30, (this.canvas.width / 2) - 155, (this.canvas.height / 100) * 25);
         this.writeTextToCanvas("Use the arrows to select your ship:", 30, this.canvas.width / 2, (this.canvas.height / 100) * 45);
         if (this.buttonRight.naturalWidth > 0 && this.buttonLeft.naturalWidth > 0) {
             this.ctx.drawImage(this.buttonRight, this.buttonRightX, this.buttonRightY);
