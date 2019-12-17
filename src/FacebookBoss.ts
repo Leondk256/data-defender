@@ -11,6 +11,5 @@ class FacebookBoss extends Projectile {
      */
     public constructor(id: number, image: string, xPos: number, yPos: number, xVel: number, yVel: number, health: number) {
         super(id, image, xPos, yPos, xVel, yVel, health);
-        this.health = 100;
     }
 }

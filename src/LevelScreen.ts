@@ -4,7 +4,6 @@
 class LevelScreen extends GameScreen {
 
     private keyboardListener: KeyboardListener;
-    private lives: number;
     private score: number;
     private life: HTMLImageElement;
     private ship: Ship;
@@ -23,7 +22,6 @@ class LevelScreen extends GameScreen {
 
     public constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, keyboardListener: KeyboardListener) {
         super(canvas, ctx);
-        this.lives = 3;
         this.score = 400;
         this.gameTicker = 0;
         this.keyboardListener = keyboardListener;
@@ -41,7 +39,7 @@ class LevelScreen extends GameScreen {
             this.canvas.height / 100 * 50,
             0,
             10,
-            3,
+            50,
         );
 
         Game.currentId++;
@@ -90,13 +88,13 @@ class LevelScreen extends GameScreen {
         let color = "white";
 
         // Set the text color to red if the player only has 1 live left
-        if (this.lives < 2) {
+        if (this.ship.getHealth() < 2) {
             color = "red";
         }
 
         // Write the lives left to the screen
         this.writeTextToCanvas(
-            `Levens: ${this.lives}`,
+            `Levens: ${this.ship.getHealth()}`,
             30,
             90,
             60,
@@ -106,11 +104,11 @@ class LevelScreen extends GameScreen {
 
         // If the Ship collides, remove one live
         if (this.ship.isCollidingWithProjectile(this.facebookBoss) === true) {
-            this.lives--;
+            this.ship.setHealth(this.ship.getHealth() - 1);
         }
 
         // If the Ship doesn't have any lives left, head to game over screen
-        Game.gameOverScreen = this.lives <= 0;
+        Game.gameOverScreen = this.ship.getHealth() <= 0;
 
         // Check if the Ship is colliding with the blackhole once it's visible
         Game.blackholescreen = this.ship.isCollidingWithProjectile(this.blackhole) === true;
@@ -166,7 +164,7 @@ class LevelScreen extends GameScreen {
                 projectile.draw(this.ctx);
                 projectile.shootProjectileRightToLeft(this.canvas);
                 if (this.ship.isCollidingWithProjectile(projectile)) {
-                    this.lives--;
+                    this.ship.setHealth(this.ship.getHealth() - 1);
                     for (let i = this.projectiles.length - 1; i >= 0; --i) {
                         this.projectiles = this.removeProjectilesWithId(this.projectiles, projectile.getId());
                     }

@@ -121,7 +121,6 @@ class Projectile extends GameObject {
 class FacebookBoss extends Projectile {
     constructor(id, image, xPos, yPos, xVel, yVel, health) {
         super(id, image, xPos, yPos, xVel, yVel, health);
-        this.health = 100;
     }
 }
 class Game {
@@ -196,14 +195,13 @@ KeyboardListener.KEY_S = 83;
 class LevelScreen extends GameScreen {
     constructor(canvas, ctx, keyboardListener) {
         super(canvas, ctx);
-        this.lives = 3;
         this.score = 400;
         this.gameTicker = 0;
         this.keyboardListener = keyboardListener;
         this.projectiles = [];
         this.playerProjectiles = [];
         this.cooldown = 0;
-        this.facebookBoss = new FacebookBoss(Game.currentId, "./assets/img/gameobject/enemies/facebookbossr.png", this.canvas.width / 100 * 80, this.canvas.height / 100 * 50, 0, 10, 3);
+        this.facebookBoss = new FacebookBoss(Game.currentId, "./assets/img/gameobject/enemies/facebookbossr.png", this.canvas.width / 100 * 80, this.canvas.height / 100 * 50, 0, 10, 50);
         Game.currentId++;
         this.blackhole = new GameObject(Game.currentId, "./assets/img/blackhole.png", this.canvas.width / 100 * 95, this.canvas.height / 100 * 90, 0, 0, 1);
         Game.currentId++;
@@ -216,10 +214,15 @@ class LevelScreen extends GameScreen {
         if (this.cooldown > 0) {
             this.cooldown--;
         }
-        if (this.ship.isCollidingWithProjectile(this.facebookBoss) === true) {
-            this.lives--;
+        let color = "white";
+        if (this.ship.getHealth() < 2) {
+            color = "red";
         }
-        Game.gameOverScreen = this.lives <= 0;
+        this.writeTextToCanvas(`Levens: ${this.ship.getHealth()}`, 30, 90, 60, "center", color);
+        if (this.ship.isCollidingWithProjectile(this.facebookBoss) === true) {
+            this.ship.setHealth(this.ship.getHealth() - 1);
+        }
+        Game.gameOverScreen = this.ship.getHealth() <= 0;
         Game.blackholescreen = this.ship.isCollidingWithProjectile(this.blackhole) === true;
         if (this.facebookBoss.getHealth() <= 0) {
             this.facebookBoss.setYPos(-1000);
@@ -240,7 +243,7 @@ class LevelScreen extends GameScreen {
                 projectile.draw(this.ctx);
                 projectile.shootProjectileRightToLeft(this.canvas);
                 if (this.ship.isCollidingWithProjectile(projectile)) {
-                    this.lives--;
+                    this.ship.setHealth(this.ship.getHealth() - 1);
                     for (let i = this.projectiles.length - 1; i >= 0; --i) {
                         this.projectiles = this.removeProjectilesWithId(this.projectiles, projectile.getId());
                     }
