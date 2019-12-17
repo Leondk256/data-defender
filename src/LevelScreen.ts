@@ -46,7 +46,7 @@ class LevelScreen extends GameScreen {
 
         this.blackhole = new GameObject(
             Game.currentId,
-            "./assets/img/blackhole.png",
+            "./assets/img/environment/blackhole.png",
             this.canvas.width / 100 * 95,
             this.canvas.height / 100 * 90,
             0,
