@@ -14,7 +14,7 @@ class GameScreen {
         xCoordinate: number,
         yCoordinate: number,
         alignment: CanvasTextAlign = "center",
-        color: string = "white",
+        color: string = "black",
     ) {
         this.ctx.font = `${fontSize}px Spacecomics`;
         this.ctx.fillStyle = color;
