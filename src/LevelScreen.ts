@@ -17,6 +17,7 @@ class LevelScreen extends GameScreen {
     private blackhole: GameObject;
     private forceField: GameObject;
     private game: Game;
+    private cooldown: number;
     // private ship: Ship;
     // private keyboardListener: KeyboardListener;
 
@@ -28,6 +29,7 @@ class LevelScreen extends GameScreen {
         this.keyboardListener = keyboardListener;
         this.projectiles = [];
         this.playerProjectiles = [];
+        this.cooldown = 0;
 
         // this.life = new Image();
         // this.life.src = "./assets/images/SpaceShooterRedux/PNG/UI/playerLife1_blue.png";
@@ -79,6 +81,9 @@ class LevelScreen extends GameScreen {
 
     public draw() {
         this.gameTicker++;
+        if (this.cooldown > 0) {
+            this.cooldown--;
+        }
 
         // 1. load life images
         // this.writeLifeImagesToLevelScreen();
@@ -173,19 +178,19 @@ class LevelScreen extends GameScreen {
         // Draw the Ship
         this.ship.draw(this.ctx);
 
-        if (this.keyboardListener.isKeyDown(KeyboardListener.KEY_SPACE)) {
+        if (this.keyboardListener.isKeyDown(KeyboardListener.KEY_SPACE) && this.cooldown === 0) {
             this.playerProjectiles.push(new Projectile(
                 Game.currentId,
                 "./assets/img/gameobject/projectiles/friendly/lvl1r.png",
-                this.ship.getXPos() + 300,
+                this.ship.getXPos() + 90,
                 this.ship.getYPos(),
                 5,
                 0,
                 1
             ));
+            this.cooldown = 15;
+            Game.currentId++;
         }
-
-        console.log(this.lives);
 
         // Move and draw all the game entities
         this.playerProjectiles.forEach((projectile) => {

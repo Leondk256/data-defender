@@ -202,6 +202,7 @@ class LevelScreen extends GameScreen {
         this.keyboardListener = keyboardListener;
         this.projectiles = [];
         this.playerProjectiles = [];
+        this.cooldown = 0;
         this.facebookBoss = new FacebookBoss(Game.currentId, "./assets/img/gameobject/enemies/facebookbossr.png", this.canvas.width / 100 * 80, this.canvas.height / 100 * 50, 0, 10, 3);
         Game.currentId++;
         this.blackhole = new GameObject(Game.currentId, "./assets/img/blackhole.png", this.canvas.width / 100 * 95, this.canvas.height / 100 * 90, 0, 0, 1);
@@ -212,6 +213,9 @@ class LevelScreen extends GameScreen {
     }
     draw() {
         this.gameTicker++;
+        if (this.cooldown > 0) {
+            this.cooldown--;
+        }
         if (this.ship.isCollidingWithProjectile(this.facebookBoss) === true) {
             this.lives--;
         }
@@ -250,10 +254,11 @@ class LevelScreen extends GameScreen {
         });
         this.ship.move(this.canvas);
         this.ship.draw(this.ctx);
-        if (this.keyboardListener.isKeyDown(KeyboardListener.KEY_SPACE)) {
-            this.playerProjectiles.push(new Projectile(Game.currentId, "./assets/img/gameobject/projectiles/friendly/lvl1r.png", this.ship.getXPos() + 300, this.ship.getYPos(), 5, 0, 1));
+        if (this.keyboardListener.isKeyDown(KeyboardListener.KEY_SPACE) && this.cooldown === 0) {
+            this.playerProjectiles.push(new Projectile(Game.currentId, "./assets/img/gameobject/projectiles/friendly/lvl1r.png", this.ship.getXPos() + 90, this.ship.getYPos(), 5, 0, 1));
+            this.cooldown = 15;
+            Game.currentId++;
         }
-        console.log(this.lives);
         this.playerProjectiles.forEach((projectile) => {
             if (projectile.inBounds(this.canvas)) {
                 projectile.draw(this.ctx);
