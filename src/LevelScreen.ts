@@ -34,7 +34,7 @@ class LevelScreen extends GameScreen {
 
         this.facebookBoss = new FacebookBoss(
             Game.currentId,
-            "./assets/img/enemy.png",
+            "./assets/img/gameobject/enemies/facebookbossr.png",
             this.canvas.width / 100 * 80,
             this.canvas.height / 100 * 50,
             0,
@@ -142,7 +142,7 @@ class LevelScreen extends GameScreen {
         if (this.gameTicker % 40 === 0) {
             this.projectiles.push(new Projectile(
                 Game.currentId,
-                "./assets/img/bullet.png",
+                "./assets/img/gameobject/projectiles/hostile/thumbsdownr.png",
                 this.facebookBoss.getXPos() - 100,
                 this.facebookBoss.getYPos(),
                 5,
@@ -182,7 +182,7 @@ class LevelScreen extends GameScreen {
         if (this.keyboardListener.isKeyDown(KeyboardListener.KEY_SPACE)) {
             this.playerProjectiles.push(new Projectile(
                 Game.currentId,
-                "./assets/img/beam2.png",
+                "./assets/img/gameobject/projectiles/friendly/lvl1r.png",
                 this.ship.getXPos() + 300,
                 this.ship.getYPos(),
                 5,
