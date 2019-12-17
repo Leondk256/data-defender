@@ -95,7 +95,6 @@ class LevelScreen extends GameScreen {
         // If the Ship collides, remove one live
         if (this.ship.isCollidingWithProjectile(this.facebookBoss) === true) {
             this.lives--;
-
             // If the Ship doesn't have any lives left, head to game over screen
             if (this.lives <= 0) {
                 Game.gameOverScreen = true;
@@ -158,6 +157,7 @@ class LevelScreen extends GameScreen {
                 projectile.draw(this.ctx);
                 projectile.shootProjectileRightToLeft(this.canvas);
                 if (this.ship.isCollidingWithProjectile(projectile)) {
+                    this.lives--;
                     for (let i = this.projectiles.length - 1; i >= 0; --i) {
                         let newArray = this.removeProjectilesWithId(this.projectiles, projectile.getId());
                         this.projectiles = newArray;
@@ -199,10 +199,10 @@ class LevelScreen extends GameScreen {
 
                 // Check if the laser shot hits the facebook boss
                 if (projectile.isCollidingWithProjectile(this.facebookBoss)) {
-                    let newArray = this.removeProjectilesWithId(this.playerProjectiles, projectile.getId());
-                    this.playerProjectiles = newArray;
                     // Subtract one health when beamed by laser
                     this.facebookBoss.setHealth(this.facebookBoss.getHealth() - 1);
+                    let newArray = this.removeProjectilesWithId(this.playerProjectiles, projectile.getId());
+                    this.playerProjectiles = newArray;
                 }
             }
         })

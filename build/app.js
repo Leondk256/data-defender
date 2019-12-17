@@ -1,3 +1,29 @@
+class GameScreen {
+    constructor(canvas, ctx) {
+        this.canvas = canvas;
+        this.ctx = ctx;
+    }
+    draw() { }
+    writeTextToCanvas(text, fontSize = 20, xCoordinate, yCoordinate, alignment = "center", color = "white") {
+        this.ctx.font = `${fontSize}px Spacecomics`;
+        this.ctx.fillStyle = color;
+        this.ctx.textAlign = alignment;
+        this.ctx.fillText(text, xCoordinate, yCoordinate);
+    }
+}
+class BlackholeScreen extends GameScreen {
+    constructor(canvas, ctx, keyboardListener) {
+        super(canvas, ctx);
+        this.ship = new Ship(Game.currentId, `./assets/img/ship${Game.selectedShip}.png`, this.canvas.width / 6, this.canvas.height / 2, 5, 5, this.keyboardListener, 3);
+    }
+    draw() {
+        this.writeTextToCanvas("Zwart gat", 50, (this.canvas.width / 100) * 50, (this.canvas.height / 100) * 15);
+        this.writeTextToCanvas("Schiet op het juiste antwoord", 30, (this.canvas.width / 100) * 50, (this.canvas.height / 100) * 25);
+        this.writeTextToCanvas(`${Game.globalPlayerName}`, 30, this.ship.getXPos(), this.ship.getYPos() - 50, "center");
+        this.ship.move(this.canvas);
+        this.ship.draw(this.ctx);
+    }
+}
 class GameObject {
     constructor(gameobjectId, imgUrl, xPos, yPos, xVel, yVel, health) {
         this.gameobjectId = gameobjectId;
@@ -122,7 +148,13 @@ class Game {
             this.currentScreen = new LevelScreen(this.canvas, this.ctx, this.keyboardListener);
         }
         if (this.currentScreen instanceof LevelScreen
-            && this.keyboardListener.isKeyDown(KeyboardListener.KEY_ESC)) {
+            && Game.blackholescreen === true) {
+            this.currentScreen = new BlackholeScreen(this.canvas, this.ctx, this.keyboardListener);
+        }
+        if (this.currentScreen instanceof LevelScreen
+            && Game.gameOverScreen === true) {
+            console.log('yeet');
+            Game.gameOverScreen = false;
         }
     }
 }
@@ -131,18 +163,7 @@ let init = () => {
     const DD = new Game(document.getElementById("canvas"));
 };
 window.addEventListener("load", init);
-class GameScreen {
-    constructor(canvas, ctx) {
-        this.canvas = canvas;
-        this.ctx = ctx;
-    }
-    draw() { }
-    writeTextToCanvas(text, fontSize = 20, xCoordinate, yCoordinate, alignment = "center", color = "white") {
-        this.ctx.font = `${fontSize}px Spacecomics`;
-        this.ctx.fillStyle = color;
-        this.ctx.textAlign = alignment;
-        this.ctx.fillText(text, xCoordinate, yCoordinate);
-    }
+class GameOverScreen extends GameScreen {
 }
 class KeyboardListener {
     constructor() {
@@ -189,8 +210,13 @@ class LevelScreen extends GameScreen {
         if (this.ship.isCollidingWithProjectile(this.facebookBoss) === true) {
             this.lives--;
             if (this.lives <= 0) {
+                Game.gameOverScreen = true;
+            }
+            else {
+                Game.gameOverScreen = false;
             }
         }
+        Game.blackholescreen = this.ship.isCollidingWithProjectile(this.blackhole) === true;
         if (this.facebookBoss.getHealth() <= 0) {
             this.facebookBoss.setYPos(-1000);
             this.blackhole.draw(this.ctx);
@@ -210,6 +236,7 @@ class LevelScreen extends GameScreen {
                 projectile.draw(this.ctx);
                 projectile.shootProjectileRightToLeft(this.canvas);
                 if (this.ship.isCollidingWithProjectile(projectile)) {
+                    this.lives--;
                     for (let i = this.projectiles.length - 1; i >= 0; --i) {
                         let newArray = this.removeProjectilesWithId(this.projectiles, projectile.getId());
                         this.projectiles = newArray;
@@ -233,9 +260,9 @@ class LevelScreen extends GameScreen {
                 projectile.draw(this.ctx);
                 projectile.shootProjectileLeftToRight(this.canvas);
                 if (projectile.isCollidingWithProjectile(this.facebookBoss)) {
+                    this.facebookBoss.setHealth(this.facebookBoss.getHealth() - 1);
                     let newArray = this.removeProjectilesWithId(this.playerProjectiles, projectile.getId());
                     this.playerProjectiles = newArray;
-                    this.facebookBoss.setHealth(this.facebookBoss.getHealth() - 1);
                 }
             }
         });
