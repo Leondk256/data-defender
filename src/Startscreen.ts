@@ -49,11 +49,11 @@ class StartScreen extends GameScreen {
         this.buttonRightX = (this.canvas.width / 100) * 55;
         this.buttonRightY = (this.canvas.height / 100) * 55;
 
-        this.buttonLeftX = (this.canvas.width / 100) * 30;
+        this.buttonLeftX = (this.canvas.width / 100) * 34.5;
         this.buttonLeftY = (this.canvas.height / 100) * 55;
 
         //Poition for name inputfield
-        this.nameInputFieldX = (this.canvas.width / 100) * 45;
+        this.nameInputFieldX = (this.canvas.width / 100) * 50;
         this.nameInputFieldY = (this.canvas.height / 100) * 20;
 
         //Ship selection default index
@@ -101,8 +101,8 @@ class StartScreen extends GameScreen {
         this.writeTextToCanvas(
             "Enter your name:",
             30,
-            this.canvas.width / 3,
-            (this.canvas.height / 100) * 30
+            (this.canvas.width / 2) -155,
+            (this.canvas.height / 100) * 25
         );
 
         // 4. Ship Selector functionality

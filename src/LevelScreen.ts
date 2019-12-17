@@ -95,14 +95,10 @@ class LevelScreen extends GameScreen {
         // If the Ship collides, remove one live
         if (this.ship.isCollidingWithProjectile(this.facebookBoss) === true) {
             this.lives--;
-
-            // If the Ship doesn't have any lives left, head to game over screen
-            if (this.lives <= 0) {
-                Game.gameOverScreen = true;
-            } else {
-                Game.gameOverScreen = false;
-            }
         }
+
+        // If the Ship doesn't have any lives left, head to game over screen
+        Game.gameOverScreen = this.lives <= 0;
 
         // Check if the Ship is colliding with the blackhole once it's visible
         Game.blackholescreen = this.ship.isCollidingWithProjectile(this.blackhole) === true;
@@ -139,7 +135,7 @@ class LevelScreen extends GameScreen {
             "center",
         );
 
-        if (this.gameTicker % 40 === 0) {
+        if (this.gameTicker % 50 === 0) {
             this.projectiles.push(new Projectile(
                 Game.currentId,
                 "./assets/img/gameobject/projectiles/hostile/thumbsdownr.png",
@@ -158,20 +154,18 @@ class LevelScreen extends GameScreen {
                 projectile.draw(this.ctx);
                 projectile.shootProjectileRightToLeft(this.canvas);
                 if (this.ship.isCollidingWithProjectile(projectile)) {
+                    this.lives--;
                     for (let i = this.projectiles.length - 1; i >= 0; --i) {
-                        let newArray = this.removeProjectilesWithId(this.projectiles, projectile.getId());
-                        this.projectiles = newArray;
+                        this.projectiles = this.removeProjectilesWithId(this.projectiles, projectile.getId());
                     }
                 }
             }
             else {
                 for (let i = this.projectiles.length - 1; i >= 0; --i) {
-                    let newArray = this.removeProjectilesWithId(this.projectiles, projectile.getId());
-                    this.projectiles = newArray;
+                    this.projectiles = this.removeProjectilesWithId(this.projectiles, projectile.getId());
                 }
             }
         });
-
 
         // Move the Ship
         this.ship.move(this.canvas);
@@ -191,6 +185,8 @@ class LevelScreen extends GameScreen {
             ));
         }
 
+        console.log(this.lives);
+
         // Move and draw all the game entities
         this.playerProjectiles.forEach((projectile) => {
             if (projectile.inBounds(this.canvas)) {
@@ -199,10 +195,9 @@ class LevelScreen extends GameScreen {
 
                 // Check if the laser shot hits the facebook boss
                 if (projectile.isCollidingWithProjectile(this.facebookBoss)) {
-                    let newArray = this.removeProjectilesWithId(this.playerProjectiles, projectile.getId());
-                    this.playerProjectiles = newArray;
                     // Subtract one health when beamed by laser
                     this.facebookBoss.setHealth(this.facebookBoss.getHealth() - 1);
+                    this.playerProjectiles = this.removeProjectilesWithId(this.playerProjectiles, projectile.getId());
                 }
             }
         })
