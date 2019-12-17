@@ -8,6 +8,7 @@ class Game {
     public static globalPlayerName: string;
     public static blackholescreen: boolean;
     public static gameOverScreen: boolean;
+    public static currentId: number = 0;
 
     private currentScreen: GameScreen;
 

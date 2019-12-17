@@ -1,5 +1,6 @@
 class GameObject {
-    constructor(imgUrl, xPos, yPos, xVel, yVel, health) {
+    constructor(gameobjectId, imgUrl, xPos, yPos, xVel, yVel, health) {
+        this.gameobjectId = gameobjectId;
         this.loadImage(imgUrl);
         this.xPos = xPos;
         this.yPos = yPos;
@@ -26,6 +27,20 @@ class GameObject {
         this.xPos += this.xVel;
         this.yPos += this.yVel;
     }
+    shootProjectileRightToLeft(canvas) {
+        this.xPos -= this.xVel;
+    }
+    shootProjectileLeftToRight(canvas) {
+        this.xPos += this.xVel;
+    }
+    inBounds(canvas) {
+        return this.xPos >= -200 && this.xPos <= canvas.width &&
+            this.yPos >= -200 && this.yPos <= canvas.height;
+    }
+    createRandomId() {
+        return '_' + Math.random().toString(36).substr(2, 9);
+    }
+    ;
     loadImage(source) {
         this.img = new Image();
         this.img.src = source;
@@ -66,23 +81,19 @@ class GameObject {
     getHealth() {
         return this.health;
     }
+    getId() {
+        return this.gameobjectId;
+    }
 }
 class Projectile extends GameObject {
-    constructor(image, xPos, yPos, xVel, yVel, health) {
-        super(image, xPos, yPos, xVel, yVel, health);
+    constructor(projectileId, image, xPos, yPos, xVel, yVel, health) {
+        super(projectileId, image, xPos, yPos, xVel, yVel, health);
     }
 }
 class FacebookBoss extends Projectile {
-    constructor(image, xPos, yPos, xVel, yVel, health) {
-        super(image, xPos, yPos, xVel, yVel, health);
-        this.projectileXPos = this.xPos;
-        this.projectileYPos = this.yPos;
+    constructor(id, image, xPos, yPos, xVel, yVel, health) {
+        super(id, image, xPos, yPos, xVel, yVel, health);
         this.health = 100;
-    }
-    shoot(ctx) {
-        this.projectile = new Projectile("./assets/img/beam2.png", this.projectileXPos, this.projectileYPos, 0, 0, 5);
-        this.projectile.draw(ctx);
-        this.projectileXPos -= 4;
     }
 }
 class Game {
@@ -113,6 +124,7 @@ class Game {
         }
     }
 }
+Game.currentId = 0;
 let init = () => {
     const DD = new Game(document.getElementById("canvas"));
 };
@@ -160,10 +172,14 @@ class LevelScreen extends GameScreen {
         this.score = 400;
         this.gameTicker = 0;
         this.keyboardListener = keyboardListener;
-        this.projectile = [];
-        this.facebookBoss = new FacebookBoss("./assets/img/enemy.png", this.canvas.width / 100 * 80, this.canvas.height / 100 * 50, 0, 10, 3);
-        this.blackhole = new GameObject("./assets/img/blackhole.png", this.canvas.width / 100 * 95, this.canvas.height / 100 * 90, 0, 0, 0);
-        this.ship = new Ship(`./assets/img/ship${Game.selectedShip}.png`, this.canvas.width / 6, this.canvas.height / 2, 5, 5, this.keyboardListener, 3);
+        this.projectiles = [];
+        this.playerProjectile = [];
+        this.facebookBoss = new FacebookBoss(Game.currentId, "./assets/img/enemy.png", this.canvas.width / 100 * 80, this.canvas.height / 100 * 50, 0, 10, 3);
+        Game.currentId++;
+        this.blackhole = new GameObject(Game.currentId, "./assets/img/blackhole.png", this.canvas.width / 100 * 95, this.canvas.height / 100 * 90, 0, 0, 0);
+        Game.currentId++;
+        this.ship = new Ship(Game.currentId, `./assets/img/ship${Game.selectedShip}.png`, this.canvas.width / 6, this.canvas.height / 2, 5, 5, this.keyboardListener, 3);
+        Game.currentId++;
         this.startScreen = new StartScreen(this.canvas, this.ctx, 0);
     }
     draw() {
@@ -182,7 +198,29 @@ class LevelScreen extends GameScreen {
         }
         this.writeTextToCanvas(`Health: ${this.facebookBoss.getHealth()}`, 30, this.facebookBoss.getXPos(), this.facebookBoss.getYPos() - 100, "center");
         this.writeTextToCanvas(`${Game.globalPlayerName}`, 30, this.ship.getXPos(), this.ship.getYPos() - 50, "center");
-        this.facebookBoss.shoot(this.ctx);
+        if (this.gameTicker % 40 === 0) {
+            this.projectiles.push(new Projectile(Game.currentId, "./assets/img/bullet.png", this.facebookBoss.getXPos() - 100, this.facebookBoss.getYPos(), 5, 0, 1));
+            Game.currentId++;
+        }
+        console.log(this.projectiles);
+        this.projectiles.forEach((projectile) => {
+            if (projectile.inBounds(this.canvas)) {
+                projectile.draw(this.ctx);
+                projectile.shootProjectileRightToLeft(this.canvas);
+                if (this.ship.isCollidingWithProjectile(projectile)) {
+                    for (let i = this.projectiles.length - 1; i >= 0; --i) {
+                        let newArray = this.removeEnemyProjectilesWithId(this.projectiles, projectile.getId());
+                        this.projectiles = newArray;
+                    }
+                }
+            }
+            else {
+                for (let i = this.projectiles.length - 1; i >= 0; --i) {
+                    let newArray = this.removeEnemyProjectilesWithId(this.projectiles, projectile.getId());
+                    this.projectiles = newArray;
+                }
+            }
+        });
         this.ship.move(this.canvas);
         this.ship.draw(this.ctx);
         this.ship.shoot(this.ctx, this.facebookBoss);
@@ -190,6 +228,9 @@ class LevelScreen extends GameScreen {
     }
     randomNumber(min, max) {
         return Math.round(Math.random() * (max - min) + min);
+    }
+    removeEnemyProjectilesWithId(projectiles, objectId) {
+        return projectiles.filter(i => i['gameobjectId'] !== objectId);
     }
     writeTextToCanvas(text, fontSize = 20, xCoordinate, yCoordinate, alignment = "center", color = "white") {
         this.ctx.font = `${fontSize}px Spacecomics`;
@@ -199,8 +240,8 @@ class LevelScreen extends GameScreen {
     }
 }
 class Ship extends GameObject {
-    constructor(imgUrl, xPos, yPos, xVel, yVel, keyboardListener, health) {
-        super(imgUrl, xPos, yPos, xVel, yVel, health);
+    constructor(id, imgUrl, xPos, yPos, xVel, yVel, keyboardListener, health) {
+        super(id, imgUrl, xPos, yPos, xVel, yVel, health);
         this.keyboardListener = new KeyboardListener();
     }
     move(canvas) {
@@ -223,7 +264,7 @@ class Ship extends GameObject {
     }
     shoot(ctx, gameObject) {
         if (this.keyboardListener.isKeyDown(KeyboardListener.KEY_SPACE)) {
-            this.gameObject = new GameObject("./assets/img/beam2.png", this.xPos + 320, this.yPos, 0, 0, 0);
+            this.gameObject = new GameObject(this.gameobjectId, "./assets/img/beam2.png", this.xPos + 320, this.yPos, 0, 0, 0);
             this.gameObject.draw(ctx);
             if (this.gameObject.getYPos() + this.gameObject.getImgHeight() > gameObject.getYPos()
                 && this.gameObject.getYPos() < gameObject.getYPos() + gameObject.getImgHeight()
@@ -297,7 +338,7 @@ class StartScreen extends GameScreen {
         document.addEventListener("click", this.mouseHandler);
         this.ships = [];
         for (let i = 0; i <= 2; i++) {
-            this.ships.push(new Ship(`./assets/img/ship${i}.png`, this.canvas.width / 2, (this.canvas.height / 100) * 65, 5, 5, this.keyboardListener, 5));
+            this.ships.push(new Ship(Game.currentId, `./assets/img/ship${i}.png`, this.canvas.width / 2, (this.canvas.height / 100) * 65, 5, 5, this.keyboardListener, 5));
         }
         ;
     }

@@ -10,6 +10,7 @@ class Projectile extends GameObject{
      * @param health
      */
     public constructor(
+        projectileId: number,
         image: string,
         xPos: number,
         yPos: number,
@@ -17,6 +18,6 @@ class Projectile extends GameObject{
         yVel: number,
         health: number
     ) {
-        super(image, xPos, yPos, xVel, yVel, health);
+        super(projectileId, image, xPos, yPos, xVel, yVel, health);
     }
 }

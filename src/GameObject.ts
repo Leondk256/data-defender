@@ -1,4 +1,5 @@
 class GameObject {
+    protected gameobjectId: number;
     protected xPos: number;
     protected yPos: number;
     protected xVel: number;
@@ -16,13 +17,15 @@ class GameObject {
      * @param health
      */
     public constructor(
+        gameobjectId: number,
         imgUrl: string,
         xPos: number,
         yPos: number,
         xVel: number,
         yVel: number,
-        health: number,
+        health: number
     ) {
+        this.gameobjectId = gameobjectId;
         this.loadImage(imgUrl);
         this.xPos = xPos;
         this.yPos = yPos;
@@ -72,6 +75,44 @@ class GameObject {
         this.xPos += this.xVel;
         this.yPos += this.yVel;
     }
+
+    /**
+     * Shoot a projectile
+     *
+     * @param canvas the canvas
+     */
+    public shootProjectileRightToLeft(canvas: HTMLCanvasElement) {
+        // Use the velocity to change the position
+        this.xPos -= this.xVel;
+    }
+
+    /**
+     * Shoot a projectile
+     *
+     * @param canvas the canvas
+     */
+    public shootProjectileLeftToRight(canvas: HTMLCanvasElement) {
+        // Use the velocity to change the position
+        this.xPos += this.xVel;
+    }
+
+    /**
+     * Check if object is inside canvas
+     */
+    public inBounds(canvas: HTMLCanvasElement) {
+        return this.xPos >= -200 && this.xPos <= canvas.width &&
+            this.yPos >= -200 && this.yPos <= canvas.height;
+    }
+
+    /**
+     * Create random id
+     */
+    private createRandomId(){
+        // Math.random should be unique because of its seeding algorithm.
+        // Convert it to base 36 (numbers + letters), and grab the first 9 characters
+        // after the decimal.
+        return '_' + Math.random().toString(36).substr(2, 9);
+      };
 
     /**
      * Loads an image file into the DOM. The image is stored in the img
@@ -181,5 +222,12 @@ class GameObject {
      */
     public getHealth(): number {
         return this.health;
+    }
+
+        /**
+     * Get the Game object id
+     */
+    public getId(): number {
+        return this.gameobjectId;
     }
 }
