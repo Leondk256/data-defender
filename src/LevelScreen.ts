@@ -16,6 +16,7 @@ class LevelScreen extends GameScreen {
     private playerProjectiles: Projectile[];
     private blackhole: GameObject;
     private forceField: GameObject;
+    private game: Game;
     // private ship: Ship;
     // private keyboardListener: KeyboardListener;
 
@@ -73,7 +74,7 @@ class LevelScreen extends GameScreen {
             this.canvas,
             this.ctx,
             0,
-        )
+        );
     }
 
     public draw() {
@@ -95,11 +96,16 @@ class LevelScreen extends GameScreen {
         if (this.ship.isCollidingWithProjectile(this.facebookBoss) === true) {
             this.lives--;
 
+            // If the Ship doesn't have any lives left, head to game over screen
             if (this.lives <= 0) {
-                // Return to Startscreen
-                // console.log('dood');
+                Game.gameOverScreen = true;
+            } else {
+                Game.gameOverScreen = false;
             }
         }
+
+        // Check if the Ship is colliding with the blackhole once it's visible
+        Game.blackholescreen = this.ship.isCollidingWithProjectile(this.blackhole) === true;
 
         // If the boss has no health, do not draw, move or shoot it
         if (this.facebookBoss.getHealth() <= 0) {
@@ -108,6 +114,7 @@ class LevelScreen extends GameScreen {
 
             // Draw blackhole
             this.blackhole.draw(this.ctx);
+
         } else {
             // Draw the Facebook boss
             this.facebookBoss.draw(this.ctx);
