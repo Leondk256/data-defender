@@ -2,10 +2,10 @@
 
 class Ship extends GameObject {
     private keyboardListener: KeyboardListener;
-    private gameObject: GameObject;
+    private projectiles: Projectile[];
 
     /**
-     *
+     * @param id
      * @param imgUrl
      * @param xPos
      * @param yPos
@@ -26,6 +26,7 @@ class Ship extends GameObject {
     ) {
         super(id, imgUrl, xPos, yPos, xVel, yVel, health);
         this.keyboardListener = new KeyboardListener();
+        this.projectiles = [];
     }
 
     /**
@@ -66,49 +67,5 @@ class Ship extends GameObject {
         ) {
             this.yPos += this.yVel;
         }
-    }
-
-    /**
-     * Shoot with Ship functionality
-     * @param ctx
-     * @param gameObject
-     */
-    public shoot(ctx: CanvasRenderingContext2D, gameObject: GameObject) {
-        // Create laser when spacebar pressed
-        if (this.keyboardListener.isKeyDown(KeyboardListener.KEY_SPACE)) {
-            // Create the laser gameObject
-            this.gameObject = new GameObject(
-                this.gameobjectId,
-                "./assets/img/beam2.png",
-                this.xPos + 320,
-                this.yPos,
-                0,
-                0,
-                0,
-            );
-            // Draw it after it has been created
-            this.gameObject.draw(ctx);
-
-            // Check if the laser shot hits the facebook boss
-            if (this.gameObject.getYPos() + this.gameObject.getImgHeight() > gameObject.getYPos()
-                && this.gameObject.getYPos() < gameObject.getYPos() + gameObject.getImgHeight()
-                && this.gameObject.getXPos() + this.gameObject.getImgWidth() > gameObject.getXPos()
-                && this.gameObject.getXPos() < gameObject.getXPos() + gameObject.getImgWidth()
-            ) {
-                // Subtract one health when beamed by laser
-                gameObject.setHealth(gameObject.getHealth() - 1);
-            }
-        }
-    }
-
-    /**
-     * Check if the Ship is colliding with a projectile
-     * @param gameObject
-     */
-    public isCollidingWithProjectile(gameObject: GameObject): boolean {
-        return this.yPos + this.img.height > gameObject.getYPos()
-            && this.yPos < gameObject.getYPos() + gameObject.getImgHeight()
-            && this.xPos + this.img.width > gameObject.getXPos()
-            && this.xPos < gameObject.getXPos() + gameObject.getImgWidth();
     }
 }

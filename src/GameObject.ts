@@ -104,15 +104,17 @@ class GameObject {
             this.yPos >= -200 && this.yPos <= canvas.height;
     }
 
+    
     /**
-     * Create random id
+     * Check if projectile collides with game object
+     * @param gameObject
      */
-    private createRandomId(){
-        // Math.random should be unique because of its seeding algorithm.
-        // Convert it to base 36 (numbers + letters), and grab the first 9 characters
-        // after the decimal.
-        return '_' + Math.random().toString(36).substr(2, 9);
-      };
+    public isCollidingWithProjectile(gameObject: GameObject): boolean {
+        return this.yPos + this.img.height > gameObject.getYPos()
+            && this.yPos < gameObject.getYPos() + gameObject.getImgHeight()
+            && this.xPos + this.img.width > gameObject.getXPos()
+            && this.xPos < gameObject.getXPos() + gameObject.getImgWidth();
+    }
 
     /**
      * Loads an image file into the DOM. The image is stored in the img
