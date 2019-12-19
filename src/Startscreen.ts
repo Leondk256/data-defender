@@ -26,7 +26,7 @@ class StartScreen extends GameScreen {
     // count all gamecycles
     private gamecounter: number;
 
-    public constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, keyboardListener: KeyboardListener, ship: Ship, playerProjectiles: Projectile, shipSelector: number) {
+    public constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, keyboardListener: KeyboardListener, ship: Ship, playerProjectiles: Projectile) {
         super(canvas, ctx, keyboardListener, ship, playerProjectiles);
         // this.canvas = canvas;
         // this.ctx = ctx;
