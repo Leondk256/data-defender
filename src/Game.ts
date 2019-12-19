@@ -58,20 +58,20 @@ class Game {
             this.currentScreen instanceof StartScreen
             && this.keyboardListener.isKeyDown(KeyboardListener.KEY_S)
         ) {
-            this.currentScreen = new LevelScreen(this.canvas, this.ctx, this.keyboardListener, null, null);
+            this.currentScreen = new FacebookLevel(this.canvas, this.ctx, this.keyboardListener, null, null);
 
             Game.gameOverScreen = false;
         }
 
         if (
-            this.currentScreen instanceof LevelScreen
+            this.currentScreen instanceof FacebookLevel
             && Game.blackholescreen === true)
          {
              this.currentScreen = new BlackholeScreen(this.canvas, this.ctx, this.keyboardListener, null, null);
         }
 
         if (
-            this.currentScreen instanceof LevelScreen
+            this.currentScreen instanceof FacebookLevel
             && Game.gameOverScreen === true)
         {
             this.currentScreen = new GameOverScreen(this.canvas, this.ctx, this.keyboardListener, null, null);

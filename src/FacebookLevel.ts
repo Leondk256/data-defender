@@ -1,7 +1,7 @@
 // tslint:disable member-ordering
 ///<reference path="Gamescreen.ts"/>
 
-class LevelScreen extends GameScreen {
+class FacebookLevel extends GameScreen {
     private facebookBoss: FacebookBoss;
     private gameTicker: number;
     private projectiles: Projectile[];
@@ -173,7 +173,7 @@ class LevelScreen extends GameScreen {
                 "./assets/img/gameobject/projectiles/friendly/lvl1r.png",
                 this.ship.getXPos() + 90,
                 this.ship.getYPos(),
-                5,
+                10,
                 0,
                 1
             ));

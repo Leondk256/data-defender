@@ -104,7 +104,7 @@ class GameObject {
             this.yPos >= -200 && this.yPos <= canvas.height;
     }
 
-    
+
     /**
      * Check if projectile collides with game object
      * @param gameObject
@@ -226,9 +226,9 @@ class GameObject {
         return this.health;
     }
 
-        /**
-     * Get the Game object id
-     */
+    /**
+ * Get the Game object id
+ */
     public getId(): number {
         return this.gameobjectId;
     }
