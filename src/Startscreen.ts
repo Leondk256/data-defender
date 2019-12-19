@@ -3,10 +3,6 @@
 
 class StartScreen extends GameScreen {
 
-    // private readonly canvas: HTMLCanvasElement;
-    // private readonly ctx: CanvasRenderingContext2D;
-
-    private: HTMLImageElement;
     private buttonRight: HTMLImageElement;
     private buttonLeft: HTMLImageElement;
     private nameInputField: HTMLImageElement;
@@ -24,9 +20,6 @@ class StartScreen extends GameScreen {
     private ships: Ship[];
     private keyboardListener: KeyboardListener;
 
-    //count all gamecycles
-    private gamecounter: number;
-
     public constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, shipSelector: number) {
         super(canvas, ctx);
         // this.canvas = canvas;
@@ -38,8 +31,6 @@ class StartScreen extends GameScreen {
 
         this.buttonLeft = new Image();
         this.buttonLeft.src = "./assets/img/buttons/arrowLeft.png";
-
-        this.playerName = this.playerName
 
         //Create NameField
         this.nameInputField = new Image();
@@ -79,16 +70,18 @@ class StartScreen extends GameScreen {
                     5
                 )
             )
-        };
-
-
+        }
     }
 
     public draw() {
-        // 1. add 'Asteroids' text
-        this.writeTextToCanvas("Data Defender", 70, (this.canvas.width / 100) * 50, (this.canvas.height / 100) * 15);
+        // Set the Data Defender text
+        this.writeTextToCanvas(
+            "Data Defender",
+            70,
+            (this.canvas.width / 100) * 50,
+            (this.canvas.height / 100) * 15);
 
-        // 2. add 'Press to play' text
+        // Write the press s to start
         this.writeTextToCanvas(
             "Druk op s om te beginnen",
             40,
@@ -96,16 +89,13 @@ class StartScreen extends GameScreen {
             (this.canvas.height / 100) * 90
         );
 
-
-        // 3. add Namebox
+        // Add the name input field
         this.writeTextToCanvas(
             "Vul je naam in:",
             30,
             (this.canvas.width / 2) -155,
             (this.canvas.height / 100) * 25
         );
-
-        // 4. Ship Selector functionality
 
         // Select your ship text
         this.writeTextToCanvas(
@@ -115,7 +105,6 @@ class StartScreen extends GameScreen {
             (this.canvas.height / 100) * 45
         );
 
-
         // Add ship selector buttons
         if (this.buttonRight.naturalWidth > 0 && this.buttonLeft.naturalWidth > 0) {
             this.ctx.drawImage(this.buttonRight, this.buttonRightX, this.buttonRightY);
@@ -123,10 +112,10 @@ class StartScreen extends GameScreen {
             this.ctx.drawImage(this.nameInputField, this.nameInputFieldX, this.nameInputFieldY)
         }
 
-        // Enter playername after filling out has been completed
-        if (this.playerName != null) {
+        // Enter player name after filling out has been completed
+        if (Game.globalPlayerName !== undefined) {
             this.writeTextToCanvas(
-                this.playerName,
+                Game.globalPlayerName,
                 30,
                 this.nameInputFieldX + this.nameInputField.width / 2,
                 this.nameInputFieldY + this.nameInputField.height / 2,
@@ -140,28 +129,26 @@ class StartScreen extends GameScreen {
     }
 
     /**
-* Method to handle the mouse event
-* @param {MouseEvent} event - mouse event
-*/
+     * Method to handle the mouse event
+     * @param {MouseEvent} event - mouse event
+     */
     private mouseHandler = (event: MouseEvent) => {
 
-        //Click detection for the name input box
-
+        // Click detection for the name input box
         if (
             event.clientX >= this.nameInputFieldX &&
             event.clientX < this.nameInputFieldX + this.nameInputField.width &&
             event.clientY >= this.nameInputFieldY &&
             event.clientY <= this.nameInputFieldY + this.nameInputField.width
         ) {
-            //Change ship when the button is clicked
-            const PlayerName = prompt('wat is je naam?');
-            console.log(typeof PlayerName)
-            console.log(PlayerName)
-            this.playerName = PlayerName
-            Game.globalPlayerName = this.playerName
+            // Only prompt the name box when there isn't any name
+            if (this.playerName === undefined && Game.globalPlayerName === undefined) {
+                this.playerName = prompt('Wat is je naam?');
+                Game.globalPlayerName = this.playerName;
+            }
         }
 
-        //click detection for the buttons
+        // Click detection for the buttons
         if (
             event.clientX >= this.buttonRightX &&
             event.clientX < this.buttonRightX + this.buttonRight.width &&
@@ -189,7 +176,6 @@ class StartScreen extends GameScreen {
             } else {
                 this.shipSelector -= 1;
             }
-
             Game.selectedShip = this.shipSelector;
         }
     };
