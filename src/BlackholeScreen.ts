@@ -1,9 +1,9 @@
 /// <reference path="GameScreen.ts" />
 class BlackholeScreen extends GameScreen {
+    private cooldown: number;
     public constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, keyboardListener: KeyboardListener, ship: Ship, playerProjectiles: Projectile) {
         super(canvas, ctx, keyboardListener, ship, playerProjectiles);
-
-        this.playerProjectiles = [];
+        this.cooldown = 0;
         // Create a ship
         this.ship = new Ship(
             Game.currentId,
@@ -60,33 +60,34 @@ class BlackholeScreen extends GameScreen {
         // Draw the Ship
         this.ship.draw(this.ctx);
 
-        // if (this.keyboardListener.isKeyDown(KeyboardListener.KEY_SPACE) && this.cooldown === 0) {
-        //     this.playerProjectiles.push(new Projectile(
-        //         Game.currentId,
-        //         "./assets/img/gameobject/projectiles/friendly/lvl1r.png",
-        //         this.ship.getXPos() + 90,
-        //         this.ship.getYPos(),
-        //         5,
-        //         0,
-        //         1
-        //     ));
-        //     this.cooldown = 15;
-        //     Game.currentId++;
-        // }
+        if (this.keyboardListener.isKeyDown(KeyboardListener.KEY_SPACE) && this.cooldown === 0) {
+            this.playerProjectiles.push(new Projectile(
+                Game.currentId,
+                "./assets/img/gameobject/projectiles/friendly/lvl1r.png",
+                this.ship.getXPos() + 90,
+                this.ship.getYPos(),
+                10,
+                0,
+                1
+            ));
+            this.cooldown = 15;
+            Game.currentId++;
+        }
 
         // Move and draw all the game entities
-        // this.playerProjectiles.forEach((projectile) => {
-        //     if (projectile.inBounds(this.canvas)) {
-        //         projectile.draw(this.ctx);
-        //         projectile.shootProjectileLeftToRight(this.canvas);
+        this.playerProjectiles.forEach((projectile) => {
+            if (projectile.inBounds(this.canvas)) {
+                projectile.draw(this.ctx);
+                projectile.shootProjectileLeftToRight(this.canvas);
 
-        //         // // Check if the laser shot hits the facebook boss
-        //         // if (projectile.isCollidingWithProjectile(this.facebookBoss)) {
-        //         //     // Subtract one health when beamed by laser
-        //         //     this.facebookBoss.setHealth(this.facebookBoss.getHealth() - 1);
-        //         //     this.playerProjectiles = this.removeProjectilesWithId(this.playerProjectiles, projectile.getId());
-        //         // }
-        //     }
-        // })
+                // Check if the laser shot hits the facebook boss
+                // if (projectile.isCollidingWithProjectile(this.facebookBoss)) {
+                //     // Subtract one health when beamed by laser
+                //     this.facebookBoss.setHealth(this.facebookBoss.getHealth() - 1);
+                //     this.playerProjectiles = this.removeProjectilesWithId(this.playerProjectiles, projectile.getId());
+                // }
+            }
+        })
+
     }
 }

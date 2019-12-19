@@ -1,7 +1,11 @@
 class GameScreen {
-    constructor(canvas, ctx) {
+    constructor(canvas, ctx, keyboardListener, ship, playerProjectiles) {
+        this.playerProjectiles = [];
         this.canvas = canvas;
         this.ctx = ctx;
+        this.ship = new Ship(Game.currentId, `./assets/img/ship${Game.selectedShip}.png`, this.canvas.width / 6, this.canvas.height / 2, 6, 6, this.keyboardListener, 3);
+        this.keyboardListener = new KeyboardListener;
+        Game.currentId++;
     }
     draw() { }
     writeTextToCanvas(text, fontSize = 20, xCoordinate, yCoordinate, alignment = "center", color = "black") {
@@ -10,17 +14,36 @@ class GameScreen {
         this.ctx.textAlign = alignment;
         this.ctx.fillText(text, xCoordinate, yCoordinate);
     }
+    randomNumber(min, max) {
+        return Math.round(Math.random() * (max - min) + min);
+    }
+    removeProjectilesWithId(projectiles, objectId) {
+        return projectiles.filter(i => i['gameobjectId'] !== objectId);
+    }
 }
 class BlackholeScreen extends GameScreen {
-    constructor(canvas, ctx, keyboardListener) {
-        super(canvas, ctx);
+    constructor(canvas, ctx, keyboardListener, ship, playerProjectiles) {
+        super(canvas, ctx, keyboardListener, ship, playerProjectiles);
+        this.cooldown = 0;
         this.ship = new Ship(Game.currentId, `./assets/img/ship${Game.selectedShip}.png`, this.canvas.width / 6, this.canvas.height / 2, 5, 5, this.keyboardListener, 3);
     }
     draw() {
-        this.writeTextToCanvas("Bedankt voor het spelen!", 50, (this.canvas.width / 100) * 50, (this.canvas.height / 100) * 15);
-        this.writeTextToCanvas("Wij gaan verder met het ontwikkelen van het spel.", 50, (this.canvas.width / 100) * 50, (this.canvas.height / 100) * 20);
+        this.writeTextToCanvas("Zwart gat", 50, (this.canvas.width / 100) * 50, (this.canvas.height / 100) * 15);
+        this.writeTextToCanvas("Schiet op het juiste antwoord", 30, (this.canvas.width / 100) * 50, (this.canvas.height / 100) * 25);
+        this.writeTextToCanvas(`${Game.globalPlayerName}`, 30, this.ship.getXPos(), this.ship.getYPos() - 50, "center");
         this.ship.move(this.canvas);
         this.ship.draw(this.ctx);
+        if (this.keyboardListener.isKeyDown(KeyboardListener.KEY_SPACE) && this.cooldown === 0) {
+            this.playerProjectiles.push(new Projectile(Game.currentId, "./assets/img/gameobject/projectiles/friendly/lvl1r.png", this.ship.getXPos() + 90, this.ship.getYPos(), 10, 0, 1));
+            this.cooldown = 15;
+            Game.currentId++;
+        }
+        this.playerProjectiles.forEach((projectile) => {
+            if (projectile.inBounds(this.canvas)) {
+                projectile.draw(this.ctx);
+                projectile.shootProjectileLeftToRight(this.canvas);
+            }
+        });
     }
 }
 class GameObject {
@@ -135,7 +158,7 @@ class Game {
         this.canvas.width = window.innerWidth;
         this.canvas.height = window.innerHeight;
         this.ctx = this.canvas.getContext("2d");
-        this.currentScreen = new StartScreen(this.canvas, this.ctx, 0);
+        this.currentScreen = new StartScreen(this.canvas, this.ctx, null, null, null);
         this.keyboardListener = new KeyboardListener();
         this.loop();
         this.gameCounter = 0;
@@ -143,15 +166,19 @@ class Game {
     switchScreen() {
         if (this.currentScreen instanceof StartScreen
             && this.keyboardListener.isKeyDown(KeyboardListener.KEY_S)) {
-            this.currentScreen = new LevelScreen(this.canvas, this.ctx, this.keyboardListener);
+            this.currentScreen = new LevelScreen(this.canvas, this.ctx, this.keyboardListener, null, null);
+            Game.gameOverScreen = false;
         }
         if (this.currentScreen instanceof LevelScreen
             && Game.blackholescreen === true) {
-            this.currentScreen = new BlackholeScreen(this.canvas, this.ctx, this.keyboardListener);
+            this.currentScreen = new BlackholeScreen(this.canvas, this.ctx, this.keyboardListener, null, null);
         }
         if (this.currentScreen instanceof LevelScreen
             && Game.gameOverScreen === true) {
-            this.currentScreen = new GameOverScreen(this.canvas, this.ctx, this.keyboardListener);
+            this.currentScreen = new GameOverScreen(this.canvas, this.ctx, this.keyboardListener, null, null);
+        }
+        if (Game.gameOverScreen === true && this.keyboardListener.isKeyDown(KeyboardListener.KEY_ESC)) {
+            this.currentScreen = new StartScreen(this.canvas, this.ctx, this.keyboardListener, null, null);
         }
     }
 }
@@ -161,8 +188,8 @@ let init = () => {
 };
 window.addEventListener("load", init);
 class GameOverScreen extends GameScreen {
-    constructor(canvas, ctx, keyboardListener) {
-        super(canvas, ctx);
+    constructor(canvas, ctx, keyboardListener, ship, playerProjectiles) {
+        super(canvas, ctx, keyboardListener, ship, playerProjectiles);
     }
     draw() {
         this.writeTextToCanvas("GAME OVER", 80, (this.canvas.width / 100) * 50, (this.canvas.height / 100) * 15);
@@ -192,21 +219,15 @@ KeyboardListener.KEY_RIGHT = 39;
 KeyboardListener.KEY_DOWN = 40;
 KeyboardListener.KEY_S = 83;
 class LevelScreen extends GameScreen {
-    constructor(canvas, ctx, keyboardListener) {
-        super(canvas, ctx);
-        this.score = 400;
+    constructor(canvas, ctx, keyboardListener, ship, playerProjectiles) {
+        super(canvas, ctx, keyboardListener, ship, playerProjectiles);
         this.gameTicker = 0;
-        this.keyboardListener = keyboardListener;
         this.projectiles = [];
-        this.playerProjectiles = [];
         this.cooldown = 0;
-        this.facebookBoss = new FacebookBoss(Game.currentId, "./assets/img/gameobject/enemies/facebookbossr.png", this.canvas.width / 100 * 80, this.canvas.height / 100 * 50, 0, 10, 50);
+        this.facebookBoss = new FacebookBoss(Game.currentId, "./assets/img/gameobject/enemies/facebookbossr.png", this.canvas.width / 100 * 80, this.canvas.height / 100 * 50, 0, 10, 1);
         Game.currentId++;
-        this.blackhole = new GameObject(Game.currentId, "./assets/img/environment/blackhole.png", this.canvas.width / 100 * 95, this.canvas.height / 100 * 90, 0, 0, 1);
+        this.blackhole = new GameObject(Game.currentId, "./assets/img/environment/blackhole.png", this.canvas.width / 100 * 95, -1000, 0, 0, 1);
         Game.currentId++;
-        this.ship = new Ship(Game.currentId, `./assets/img/ship${Game.selectedShip}.png`, this.canvas.width / 6, this.canvas.height / 2, 6, 6, this.keyboardListener, 3);
-        Game.currentId++;
-        this.startScreen = new StartScreen(this.canvas, this.ctx, 0);
     }
     draw() {
         this.gameTicker++;
@@ -221,11 +242,15 @@ class LevelScreen extends GameScreen {
         if (this.ship.isCollidingWithProjectile(this.facebookBoss) === true) {
             this.ship.setHealth(this.ship.getHealth() - 1);
         }
-        Game.gameOverScreen = this.ship.getHealth() <= 0;
-        Game.blackholescreen = this.ship.isCollidingWithProjectile(this.blackhole) === true;
+        if (this.ship.getHealth() <= 0) {
+            this.ship.setHealth(3);
+            Game.gameOverScreen = true;
+        }
         if (this.facebookBoss.getHealth() <= 0) {
             this.facebookBoss.setYPos(-1000);
             this.blackhole.draw(this.ctx);
+            this.blackhole.setYPos(this.canvas.height / 100 * 90);
+            Game.blackholescreen = this.ship.isCollidingWithProjectile(this.blackhole) === true;
         }
         else {
             this.facebookBoss.draw(this.ctx);
@@ -257,7 +282,7 @@ class LevelScreen extends GameScreen {
         this.ship.move(this.canvas);
         this.ship.draw(this.ctx);
         if (this.keyboardListener.isKeyDown(KeyboardListener.KEY_SPACE) && this.cooldown === 0) {
-            this.playerProjectiles.push(new Projectile(Game.currentId, "./assets/img/gameobject/projectiles/friendly/lvl1r.png", this.ship.getXPos() + 90, this.ship.getYPos(), 5, 0, 1));
+            this.playerProjectiles.push(new Projectile(Game.currentId, "./assets/img/gameobject/projectiles/friendly/lvl1r.png", this.ship.getXPos() + 90, this.ship.getYPos(), 10, 0, 1));
             this.cooldown = 15;
             Game.currentId++;
         }
@@ -271,18 +296,6 @@ class LevelScreen extends GameScreen {
                 }
             }
         });
-    }
-    randomNumber(min, max) {
-        return Math.round(Math.random() * (max - min) + min);
-    }
-    removeProjectilesWithId(projectiles, objectId) {
-        return projectiles.filter(i => i['gameobjectId'] !== objectId);
-    }
-    writeTextToCanvas(text, fontSize = 20, xCoordinate, yCoordinate, alignment = "center", color = "black") {
-        this.ctx.font = `${fontSize}px Spacecomics`;
-        this.ctx.fillStyle = color;
-        this.ctx.textAlign = alignment;
-        this.ctx.fillText(text, xCoordinate, yCoordinate);
     }
 }
 class Ship extends GameObject {
@@ -311,8 +324,8 @@ class Ship extends GameObject {
     }
 }
 class StartScreen extends GameScreen {
-    constructor(canvas, ctx, shipSelector) {
-        super(canvas, ctx);
+    constructor(canvas, ctx, keyboardListener, ship, playerProjectiles) {
+        super(canvas, ctx, keyboardListener, ship, playerProjectiles);
         this.mouseHandler = (event) => {
             if (event.clientX >= this.nameInputFieldX &&
                 event.clientX < this.nameInputFieldX + this.nameInputField.width &&
@@ -349,6 +362,7 @@ class StartScreen extends GameScreen {
                 Game.selectedShip = this.shipSelector;
             }
         };
+        this.ships = [];
         this.buttonRight = new Image();
         this.buttonRight.src = "./assets/img/buttons/arrowRight.png";
         this.buttonLeft = new Image();
@@ -362,7 +376,7 @@ class StartScreen extends GameScreen {
         this.buttonLeftY = (this.canvas.height / 100) * 55;
         this.nameInputFieldX = (this.canvas.width / 100) * 50;
         this.nameInputFieldY = (this.canvas.height / 100) * 20;
-        this.shipSelector = shipSelector;
+        this.shipSelector = 0;
         Game.selectedShip = this.shipSelector;
         document.addEventListener("click", this.mouseHandler);
         this.ships = [];

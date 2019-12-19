@@ -72,7 +72,6 @@ class LevelScreen extends GameScreen {
         // If the Ship doesn't have any lives left, head to game over screen
         if (this.ship.getHealth() <= 0) {
             this.ship.setHealth(3);
-            console.log(this.ship.getHealth());
             Game.gameOverScreen = true;
         }
 
@@ -158,7 +157,7 @@ class LevelScreen extends GameScreen {
                 "./assets/img/gameobject/projectiles/friendly/lvl1r.png",
                 this.ship.getXPos() + 90,
                 this.ship.getYPos(),
-                5,
+                10,
                 0,
                 1
             ));
