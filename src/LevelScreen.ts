@@ -17,6 +17,7 @@ class LevelScreen extends GameScreen {
     private forceField: GameObject;
     private game: Game;
     private cooldown: number;
+    private facebookPlanet: GameObject;
     // private ship: Ship;
     // private keyboardListener: KeyboardListener;
 
@@ -37,6 +38,18 @@ class LevelScreen extends GameScreen {
             0,
             10,
             50,
+        );
+
+        Game.currentId++;
+
+        this.facebookPlanet = new GameObject(
+            Game.currentId,
+            "./assets/img/environment/facebookplaneet1.png",
+            (this.canvas.width / 100) * 10,
+            (this.canvas.height / 100) * 75,
+            0,
+            0,
+            0
         );
 
         Game.currentId++;
@@ -80,6 +93,9 @@ class LevelScreen extends GameScreen {
         if (this.cooldown > 0) {
             this.cooldown--;
         }
+
+        // Draw facebookplanet
+        this.facebookPlanet.draw(this.ctx);
 
         // Set the standard text color to white
         let color = "black";
