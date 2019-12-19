@@ -4,17 +4,6 @@ class BlackholeScreen extends GameScreen {
     public constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, keyboardListener: KeyboardListener, ship: Ship, playerProjectiles: Projectile) {
         super(canvas, ctx, keyboardListener, ship, playerProjectiles);
         this.cooldown = 0;
-        // Create a ship
-        this.ship = new Ship(
-            Game.currentId,
-            `./assets/img/ship${Game.selectedShip}.png`,
-            this.canvas.width / 6,
-            this.canvas.height / 2,
-            5,
-            5,
-            this.keyboardListener,
-            3,
-        );
     }
 
     public draw() {

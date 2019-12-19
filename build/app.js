@@ -25,7 +25,6 @@ class BlackholeScreen extends GameScreen {
     constructor(canvas, ctx, keyboardListener, ship, playerProjectiles) {
         super(canvas, ctx, keyboardListener, ship, playerProjectiles);
         this.cooldown = 0;
-        this.ship = new Ship(Game.currentId, `./assets/img/ship${Game.selectedShip}.png`, this.canvas.width / 6, this.canvas.height / 2, 5, 5, this.keyboardListener, 3);
     }
     draw() {
         this.writeTextToCanvas("Zwart gat", 50, (this.canvas.width / 100) * 50, (this.canvas.height / 100) * 15);
@@ -145,80 +144,7 @@ class FacebookBoss extends Projectile {
         super(id, image, xPos, yPos, xVel, yVel, health);
     }
 }
-class Game {
-    constructor(canvasId) {
-        this.loop = () => {
-            this.gameCounter++;
-            this.switchScreen();
-            this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-            this.currentScreen.draw();
-            requestAnimationFrame(this.loop);
-        };
-        this.canvas = canvasId;
-        this.canvas.width = window.innerWidth;
-        this.canvas.height = window.innerHeight;
-        this.ctx = this.canvas.getContext("2d");
-        this.currentScreen = new StartScreen(this.canvas, this.ctx, null, null, null);
-        this.keyboardListener = new KeyboardListener();
-        this.loop();
-        this.gameCounter = 0;
-    }
-    switchScreen() {
-        if (this.currentScreen instanceof StartScreen
-            && this.keyboardListener.isKeyDown(KeyboardListener.KEY_S)) {
-            this.currentScreen = new LevelScreen(this.canvas, this.ctx, this.keyboardListener, null, null);
-            Game.gameOverScreen = false;
-        }
-        if (this.currentScreen instanceof LevelScreen
-            && Game.blackholescreen === true) {
-            this.currentScreen = new BlackholeScreen(this.canvas, this.ctx, this.keyboardListener, null, null);
-        }
-        if (this.currentScreen instanceof LevelScreen
-            && Game.gameOverScreen === true) {
-            this.currentScreen = new GameOverScreen(this.canvas, this.ctx, this.keyboardListener, null, null);
-        }
-        if (Game.gameOverScreen === true && this.keyboardListener.isKeyDown(KeyboardListener.KEY_ESC)) {
-            this.currentScreen = new StartScreen(this.canvas, this.ctx, this.keyboardListener, null, null);
-        }
-    }
-}
-Game.currentId = 0;
-let init = () => {
-    const DD = new Game(document.getElementById("canvas"));
-};
-window.addEventListener("load", init);
-class GameOverScreen extends GameScreen {
-    constructor(canvas, ctx, keyboardListener, ship, playerProjectiles) {
-        super(canvas, ctx, keyboardListener, ship, playerProjectiles);
-    }
-    draw() {
-        this.writeTextToCanvas("GAME OVER", 80, (this.canvas.width / 100) * 50, (this.canvas.height / 100) * 15);
-    }
-}
-class KeyboardListener {
-    constructor() {
-        this.keyDown = (ev) => {
-            this.keyCodeStates[ev.keyCode] = true;
-        };
-        this.keyUp = (ev) => {
-            this.keyCodeStates[ev.keyCode] = false;
-        };
-        this.keyCodeStates = new Array();
-        window.addEventListener("keydown", this.keyDown);
-        window.addEventListener("keyup", this.keyUp);
-    }
-    isKeyDown(keyCode) {
-        return this.keyCodeStates[keyCode] === true;
-    }
-}
-KeyboardListener.KEY_ESC = 27;
-KeyboardListener.KEY_SPACE = 32;
-KeyboardListener.KEY_LEFT = 37;
-KeyboardListener.KEY_UP = 38;
-KeyboardListener.KEY_RIGHT = 39;
-KeyboardListener.KEY_DOWN = 40;
-KeyboardListener.KEY_S = 83;
-class LevelScreen extends GameScreen {
+class FacebookLevel extends GameScreen {
     constructor(canvas, ctx, keyboardListener, ship, playerProjectiles) {
         super(canvas, ctx, keyboardListener, ship, playerProjectiles);
         this.gameTicker = 0;
@@ -298,6 +224,79 @@ class LevelScreen extends GameScreen {
         });
     }
 }
+class Game {
+    constructor(canvasId) {
+        this.loop = () => {
+            this.gameCounter++;
+            this.switchScreen();
+            this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+            this.currentScreen.draw();
+            requestAnimationFrame(this.loop);
+        };
+        this.canvas = canvasId;
+        this.canvas.width = window.innerWidth;
+        this.canvas.height = window.innerHeight;
+        this.ctx = this.canvas.getContext("2d");
+        this.currentScreen = new StartScreen(this.canvas, this.ctx, null, null, null);
+        this.keyboardListener = new KeyboardListener();
+        this.loop();
+        this.gameCounter = 0;
+    }
+    switchScreen() {
+        if (this.currentScreen instanceof StartScreen
+            && this.keyboardListener.isKeyDown(KeyboardListener.KEY_S)) {
+            this.currentScreen = new FacebookLevel(this.canvas, this.ctx, this.keyboardListener, null, null);
+            Game.gameOverScreen = false;
+        }
+        if (this.currentScreen instanceof FacebookLevel
+            && Game.blackholescreen === true) {
+            this.currentScreen = new BlackholeScreen(this.canvas, this.ctx, this.keyboardListener, null, null);
+        }
+        if (this.currentScreen instanceof FacebookLevel
+            && Game.gameOverScreen === true) {
+            this.currentScreen = new GameOverScreen(this.canvas, this.ctx, this.keyboardListener, null, null);
+        }
+        if (Game.gameOverScreen === true && this.keyboardListener.isKeyDown(KeyboardListener.KEY_ESC)) {
+            this.currentScreen = new StartScreen(this.canvas, this.ctx, this.keyboardListener, null, null);
+        }
+    }
+}
+Game.currentId = 0;
+let init = () => {
+    const DD = new Game(document.getElementById("canvas"));
+};
+window.addEventListener("load", init);
+class GameOverScreen extends GameScreen {
+    constructor(canvas, ctx, keyboardListener, ship, playerProjectiles) {
+        super(canvas, ctx, keyboardListener, ship, playerProjectiles);
+    }
+    draw() {
+        this.writeTextToCanvas("GAME OVER", 80, (this.canvas.width / 100) * 50, (this.canvas.height / 100) * 15);
+    }
+}
+class KeyboardListener {
+    constructor() {
+        this.keyDown = (ev) => {
+            this.keyCodeStates[ev.keyCode] = true;
+        };
+        this.keyUp = (ev) => {
+            this.keyCodeStates[ev.keyCode] = false;
+        };
+        this.keyCodeStates = new Array();
+        window.addEventListener("keydown", this.keyDown);
+        window.addEventListener("keyup", this.keyUp);
+    }
+    isKeyDown(keyCode) {
+        return this.keyCodeStates[keyCode] === true;
+    }
+}
+KeyboardListener.KEY_ESC = 27;
+KeyboardListener.KEY_SPACE = 32;
+KeyboardListener.KEY_LEFT = 37;
+KeyboardListener.KEY_UP = 38;
+KeyboardListener.KEY_RIGHT = 39;
+KeyboardListener.KEY_DOWN = 40;
+KeyboardListener.KEY_S = 83;
 class Ship extends GameObject {
     constructor(id, imgUrl, xPos, yPos, xVel, yVel, keyboardListener, health) {
         super(id, imgUrl, xPos, yPos, xVel, yVel, health);
@@ -331,11 +330,10 @@ class StartScreen extends GameScreen {
                 event.clientX < this.nameInputFieldX + this.nameInputField.width &&
                 event.clientY >= this.nameInputFieldY &&
                 event.clientY <= this.nameInputFieldY + this.nameInputField.width) {
-                const PlayerName = prompt('wat is je naam?');
-                console.log(typeof PlayerName);
-                console.log(PlayerName);
-                this.playerName = PlayerName;
-                Game.globalPlayerName = this.playerName;
+                if (this.playerName === undefined && Game.globalPlayerName === undefined) {
+                    this.playerName = prompt('Wat is je naam?');
+                    Game.globalPlayerName = this.playerName;
+                }
             }
             if (event.clientX >= this.buttonRightX &&
                 event.clientX < this.buttonRightX + this.buttonRight.width &&
@@ -367,7 +365,6 @@ class StartScreen extends GameScreen {
         this.buttonRight.src = "./assets/img/buttons/arrowRight.png";
         this.buttonLeft = new Image();
         this.buttonLeft.src = "./assets/img/buttons/arrowLeft.png";
-        this.playerName = this.playerName;
         this.nameInputField = new Image();
         this.nameInputField.src = "./assets/img/buttons/nameinputfield.jpg";
         this.buttonRightX = (this.canvas.width / 100) * 55;
@@ -383,7 +380,6 @@ class StartScreen extends GameScreen {
         for (let i = 0; i <= 2; i++) {
             this.ships.push(new Ship(Game.currentId, `./assets/img/ship${i}.png`, this.canvas.width / 2, (this.canvas.height / 100) * 65, 5, 5, this.keyboardListener, 5));
         }
-        ;
     }
     draw() {
         this.writeTextToCanvas("Data Defender", 70, (this.canvas.width / 100) * 50, (this.canvas.height / 100) * 15);
@@ -395,8 +391,8 @@ class StartScreen extends GameScreen {
             this.ctx.drawImage(this.buttonLeft, this.buttonLeftX, this.buttonLeftY);
             this.ctx.drawImage(this.nameInputField, this.nameInputFieldX, this.nameInputFieldY);
         }
-        if (this.playerName != null) {
-            this.writeTextToCanvas(this.playerName, 30, this.nameInputFieldX + this.nameInputField.width / 2, this.nameInputFieldY + this.nameInputField.height / 2, "center", "black");
+        if (Game.globalPlayerName !== undefined) {
+            this.writeTextToCanvas(Game.globalPlayerName, 30, this.nameInputFieldX + this.nameInputField.width / 2, this.nameInputFieldY + this.nameInputField.height / 2, "center", "black");
         }
         this.ships[this.shipSelector].draw(this.ctx);
     }
