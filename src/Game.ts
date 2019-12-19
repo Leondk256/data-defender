@@ -48,7 +48,7 @@ class Game {
 
         // Request the next animation frame
         requestAnimationFrame(this.loop);
-    }
+    };
 
     private switchScreen() {
         // If the current screen is an instance of the StartScreen class
