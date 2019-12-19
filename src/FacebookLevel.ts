@@ -7,6 +7,7 @@ class FacebookLevel extends GameScreen {
     private projectiles: Projectile[];
     private blackhole: GameObject;
     private cooldown: number;
+    private facebookPlanet: GameObject;
 
     public constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, keyboardListener: KeyboardListener, ship: Ship, playerProjectiles: Projectile) {
         super(canvas, ctx, keyboardListener, ship, playerProjectiles);
@@ -22,6 +23,18 @@ class FacebookLevel extends GameScreen {
             0,
             10,
             1,
+        );
+
+        Game.currentId++;
+
+        this.facebookPlanet = new GameObject(
+            Game.currentId,
+            "./assets/img/environment/facebookplaneet1.png",
+            (this.canvas.width / 100) * 10,
+            (this.canvas.height / 100) * 75,
+            0,
+            0,
+            0
         );
 
         Game.currentId++;
@@ -45,6 +58,9 @@ class FacebookLevel extends GameScreen {
         if (this.cooldown > 0) {
             this.cooldown--;
         }
+
+        // Draw facebookplanet
+        this.facebookPlanet.draw(this.ctx);
 
         // Set the standard text color to white
         let color = "black";

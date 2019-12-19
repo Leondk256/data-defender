@@ -16,8 +16,13 @@ class StartScreen extends GameScreen {
     private nameInputFieldX: number;
     private nameInputFieldY: number;
 
+    private facebookPlanet: GameObject;
     private shipSelector: number;
     private ships: Ship[];
+    private stars: GameObject[];
+
+    //count all gamecycles
+    private gamecounter: number;
 
     public constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, keyboardListener: KeyboardListener, ship: Ship, playerProjectiles: Projectile) {
         super(canvas, ctx, keyboardListener, ship, playerProjectiles);
@@ -53,7 +58,35 @@ class StartScreen extends GameScreen {
         //Add mouselistener
         document.addEventListener("click", this.mouseHandler);
 
-        //add the selectable ships to the ship array
+        //Add all cosmetic background images
+        this.facebookPlanet = new GameObject(
+            Game.currentId,
+            "./assets/img/environment/facebookplaneet1.png",
+            (this.canvas.width / 100) * 10,
+            (this.canvas.height / 100) * 50,
+            0,
+            0,
+            0
+        );
+            
+        // add stars to the array
+        this.stars = [];
+        for (let i = 0; i <= 2; i++) {
+
+            this.stars.push(
+                new GameObject(
+                    Game.currentId,
+                    `./assets/environment/stars/star${i}.png`,
+                    this.canvas.width / 2,
+                    (this.canvas.height / 100) * 65,
+                    0,
+                    0,
+                    0
+                )
+            )
+        };
+
+        // add the selectable ships to the ship array
         this.ships = [];
         for (let i = 0; i <= 2; i++) {
             this.ships.push(
@@ -87,6 +120,11 @@ class StartScreen extends GameScreen {
             (this.canvas.height / 100) * 90
         );
 
+        //Draw all cosmetic background images
+        this.facebookPlanet.draw(this.ctx)
+
+
+        // 3. add Namebox
         // Add the name input field
         this.writeTextToCanvas(
             "Vul je naam in:",
