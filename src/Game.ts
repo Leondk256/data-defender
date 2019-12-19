@@ -22,7 +22,7 @@ class Game {
         // Set the context of the canvas
         this.ctx = this.canvas.getContext("2d");
         // Set the current screen
-        this.currentScreen = new StartScreen(this.canvas, this.ctx, 0);
+        this.currentScreen = new StartScreen(this.canvas, this.ctx, null, null, null);
         //call keyboard listener
         this.keyboardListener = new KeyboardListener();
         // Loop the game
@@ -58,7 +58,7 @@ class Game {
             this.currentScreen instanceof StartScreen
             && this.keyboardListener.isKeyDown(KeyboardListener.KEY_S)
         ) {
-            this.currentScreen = new LevelScreen(this.canvas, this.ctx, this.keyboardListener);
+            this.currentScreen = new LevelScreen(this.canvas, this.ctx, this.keyboardListener, null, null);
 
             Game.gameOverScreen = false;
         }
@@ -67,20 +67,20 @@ class Game {
             this.currentScreen instanceof LevelScreen
             && Game.blackholescreen === true)
          {
-             this.currentScreen = new BlackholeScreen(this.canvas, this.ctx, this.keyboardListener);
+             this.currentScreen = new BlackholeScreen(this.canvas, this.ctx, this.keyboardListener, null, null);
         }
 
         if (
             this.currentScreen instanceof LevelScreen
             && Game.gameOverScreen === true)
         {
-            this.currentScreen = new GameOverScreen(this.canvas, this.ctx, this.keyboardListener);
+            this.currentScreen = new GameOverScreen(this.canvas, this.ctx, this.keyboardListener, null, null);
         }
 
         if (
             Game.gameOverScreen === true && this.keyboardListener.isKeyDown(KeyboardListener.KEY_ESC))
         {
-            this.currentScreen = new StartScreen(this.canvas, this.ctx, Game.selectedShip);
+            this.currentScreen = new StartScreen(this.canvas, this.ctx, this.keyboardListener, null, null);
         }
     }
 }

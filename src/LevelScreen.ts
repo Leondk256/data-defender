@@ -2,27 +2,16 @@
 ///<reference path="Gamescreen.ts"/>
 
 class LevelScreen extends GameScreen {
-
-    private keyboardListener: KeyboardListener;
-    private score: number;
-    private ship: Ship;
-    private startScreen: StartScreen;
-
     private facebookBoss: FacebookBoss;
     private gameTicker: number;
     private projectiles: Projectile[];
-    private playerProjectiles: Projectile[];
     private blackhole: GameObject;
     private cooldown: number;
 
-
-    public constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, keyboardListener: KeyboardListener) {
-        super(canvas, ctx);
-        this.score = 400;
+    public constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, keyboardListener: KeyboardListener, ship: Ship, playerProjectiles: Projectile) {
+        super(canvas, ctx, keyboardListener, ship, playerProjectiles);
         this.gameTicker = 0;
-        this.keyboardListener = keyboardListener;
         this.projectiles = [];
-        this.playerProjectiles = [];
         this.cooldown = 0;
 
         this.facebookBoss = new FacebookBoss(
@@ -32,7 +21,7 @@ class LevelScreen extends GameScreen {
             this.canvas.height / 100 * 50,
             0,
             10,
-            50,
+            1,
         );
 
         Game.currentId++;
@@ -48,26 +37,6 @@ class LevelScreen extends GameScreen {
         );
 
         Game.currentId++;
-
-        // Create a ship
-        this.ship = new Ship(
-            Game.currentId,
-            `./assets/img/ship${Game.selectedShip}.png`,
-            this.canvas.width / 6,
-            this.canvas.height / 2,
-            6,
-            6,
-            this.keyboardListener,
-            3,
-        );
-
-        Game.currentId++;
-
-        this.startScreen = new StartScreen(
-            this.canvas,
-            this.ctx,
-            0,
-        );
     }
 
     public draw() {
@@ -210,46 +179,5 @@ class LevelScreen extends GameScreen {
                 }
             }
         })
-    }
-
-    /**
-     * Renders a random number between min and max
-     * @param {number} min - minimal time
-     * @param {number} max - maximal time
-     */
-    public randomNumber(min: number, max: number): number {
-        return Math.round(Math.random() * (max - min) + min);
-    }
-
-    /**
-     * Remove enemy projectiles with specific id
-     * @param projectiles 
-     * @param objectId 
-     */
-    private removeProjectilesWithId(projectiles: Projectile[], objectId: number): Projectile[] {
-        return projectiles.filter(i => i['gameobjectId'] !== objectId);
-    }
-
-    /**
-     * Writes text to the canvas
-     * @param {string} text - Text to write
-     * @param {number} fontSize - Font size in pixels
-     * @param {number} xCoordinate - Horizontal coordinate in pixels
-     * @param {number} yCoordinate - Vertical coordinate in pixels
-     * @param {string} alignment - Where to align the text
-     * @param {string} color - The color of the text
-     */
-    public writeTextToCanvas(
-        text: string,
-        fontSize: number = 20,
-        xCoordinate: number,
-        yCoordinate: number,
-        alignment: CanvasTextAlign = "center",
-        color: string = "black",
-    ) {
-        this.ctx.font = `${fontSize}px Spacecomics`;
-        this.ctx.fillStyle = color;
-        this.ctx.textAlign = alignment;
-        this.ctx.fillText(text, xCoordinate, yCoordinate);
     }
 }
