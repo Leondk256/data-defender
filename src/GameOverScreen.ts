@@ -1,10 +1,7 @@
 /// <reference path="GameScreen.ts" />
 class GameOverScreen extends GameScreen{
-
-    private keyboardListener: KeyboardListener;
-
-    public constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, keyboardListener: KeyboardListener) {
-        super(canvas, ctx);
+    public constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, keyboardListener: KeyboardListener, ship: Ship, playerProjectiles: Projectile) {
+        super(canvas, ctx, keyboardListener, ship, playerProjectiles);
     }
 
     public draw() {

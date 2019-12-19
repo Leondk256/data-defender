@@ -22,16 +22,15 @@ class StartScreen extends GameScreen {
 
     private shipSelector: number;
     private ships: Ship[];
-    private keyboardListener: KeyboardListener;
 
-    //count all gamecycles
+    // count all gamecycles
     private gamecounter: number;
 
-    public constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, shipSelector: number) {
-        super(canvas, ctx);
+    public constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, keyboardListener: KeyboardListener, ship: Ship, playerProjectiles: Projectile, shipSelector: number) {
+        super(canvas, ctx, keyboardListener, ship, playerProjectiles);
         // this.canvas = canvas;
         // this.ctx = ctx;
-
+        this.ships = [];
         //Create both buttons
         this.buttonRight = new Image();
         this.buttonRight.src = "./assets/img/buttons/arrowRight.png";
@@ -57,7 +56,7 @@ class StartScreen extends GameScreen {
         this.nameInputFieldY = (this.canvas.height / 100) * 20;
 
         //Ship selection default index
-        this.shipSelector = shipSelector;
+        this.shipSelector = 0;
         Game.selectedShip = this.shipSelector;
 
         //Add mouselistener
@@ -66,7 +65,6 @@ class StartScreen extends GameScreen {
         //add the selectable ships to the ship array
         this.ships = [];
         for (let i = 0; i <= 2; i++) {
-
             this.ships.push(
                 new Ship(
                     Game.currentId,
@@ -101,7 +99,7 @@ class StartScreen extends GameScreen {
         this.writeTextToCanvas(
             "Vul je naam in:",
             30,
-            (this.canvas.width / 2) -155,
+            (this.canvas.width / 2) - 155,
             (this.canvas.height / 100) * 25
         );
 
@@ -140,9 +138,9 @@ class StartScreen extends GameScreen {
     }
 
     /**
-* Method to handle the mouse event
-* @param {MouseEvent} event - mouse event
-*/
+    * Method to handle the mouse event
+    * @param {MouseEvent} event - mouse event
+    */
     private mouseHandler = (event: MouseEvent) => {
 
         //Click detection for the name input box
