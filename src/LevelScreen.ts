@@ -5,7 +5,6 @@ class LevelScreen extends GameScreen {
 
     private keyboardListener: KeyboardListener;
     private score: number;
-    private life: HTMLImageElement;
     private ship: Ship;
     private startScreen: StartScreen;
 
@@ -14,11 +13,8 @@ class LevelScreen extends GameScreen {
     private projectiles: Projectile[];
     private playerProjectiles: Projectile[];
     private blackhole: GameObject;
-    private forceField: GameObject;
-    private game: Game;
     private cooldown: number;
-    // private ship: Ship;
-    // private keyboardListener: KeyboardListener;
+
 
     public constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, keyboardListener: KeyboardListener) {
         super(canvas, ctx);
@@ -45,7 +41,7 @@ class LevelScreen extends GameScreen {
             Game.currentId,
             "./assets/img/environment/blackhole.png",
             this.canvas.width / 100 * 95,
-            this.canvas.height / 100 * 90,
+            -1000,
             0,
             0,
             1
@@ -105,18 +101,25 @@ class LevelScreen extends GameScreen {
         }
 
         // If the Ship doesn't have any lives left, head to game over screen
-        Game.gameOverScreen = this.ship.getHealth() <= 0;
-
-        // Check if the Ship is colliding with the blackhole once it's visible
-        Game.blackholescreen = this.ship.isCollidingWithProjectile(this.blackhole) === true;
+        if (this.ship.getHealth() <= 0) {
+            this.ship.setHealth(3);
+            console.log(this.ship.getHealth());
+            Game.gameOverScreen = true;
+        }
 
         // If the boss has no health, do not draw, move or shoot it
         if (this.facebookBoss.getHealth() <= 0) {
             // Set his soul outside of the canvas
             this.facebookBoss.setYPos(-1000);
 
-            // Draw blackhole
+            // Draw black hole
             this.blackhole.draw(this.ctx);
+
+            // Move the black hole
+            this.blackhole.setYPos(this.canvas.height / 100 * 90);
+
+            // Check if the Ship is colliding with the blackhole once it's visible
+            Game.blackholescreen = this.ship.isCollidingWithProjectile(this.blackhole) === true;
 
         } else {
             // Draw the Facebook boss

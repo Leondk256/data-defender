@@ -59,6 +59,8 @@ class Game {
             && this.keyboardListener.isKeyDown(KeyboardListener.KEY_S)
         ) {
             this.currentScreen = new LevelScreen(this.canvas, this.ctx, this.keyboardListener);
+
+            Game.gameOverScreen = false;
         }
 
         if (
@@ -73,6 +75,12 @@ class Game {
             && Game.gameOverScreen === true)
         {
             this.currentScreen = new GameOverScreen(this.canvas, this.ctx, this.keyboardListener);
+        }
+
+        if (
+            Game.gameOverScreen === true && this.keyboardListener.isKeyDown(KeyboardListener.KEY_ESC))
+        {
+            this.currentScreen = new StartScreen(this.canvas, this.ctx, Game.selectedShip);
         }
     }
 }
