@@ -15,13 +15,16 @@ class StartScreen extends GameScreen {
     private buttonLeftY: number;
     private nameInputFieldX: number;
     private nameInputFieldY: number;
+    private startScreenObjects: GameObject[];
 
+    private youtubePlanet: GameObject;
+    private tiktokPlanet: GameObject;
     private facebookPlanet: GameObject;
     private shipSelector: number;
     private ships: Ship[];
     private stars: GameObject[];
-    private starsX: number [];
-    private starsY: number [];
+    private starsX: number[];
+    private starsY: number[];
     private thumbsUp: GameObject;
     private heart: GameObject;
     //count all gamecycles
@@ -29,6 +32,9 @@ class StartScreen extends GameScreen {
 
     public constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, keyboardListener: KeyboardListener, ship: Ship, playerProjectiles: Projectile) {
         super(canvas, ctx, keyboardListener, ship, playerProjectiles);
+
+        // Create startScreenObjects array
+        this.startScreenObjects = [];
 
         this.ships = [];
         //Create both buttons
@@ -63,7 +69,7 @@ class StartScreen extends GameScreen {
         //Add mouselistener
         document.addEventListener("click", this.mouseHandler);
 
-        // Add facebook background image
+        // Add facebookplanet background image
         this.facebookPlanet = new GameObject(
             Game.currentId,
             "./assets/img/environment/facebookplaneet1.png",
@@ -74,12 +80,37 @@ class StartScreen extends GameScreen {
             0
         );
 
+        // Add TikTokplanet background image
+        // this.tiktokPlanet = new GameObject(
+        //     Game.currentId,
+        //     "./assets/img/environment/tiktokplaneet.png",
+        //     (this.canvas.width / 100) * 75,
+        //     (this.canvas.height / 100) * 12,
+        //     0,
+        //     0,
+        //     0
+        // );
+
+        this.createGameObject("./assets/img/environment/tiktokplaneet.png", 75, 12, this.startScreenObjects)
+
+        // Add Youtubeplaneet
+        this.youtubePlanet = new GameObject(
+            Game.currentId,
+            "./assets/img/environment/youtubeplaneet.png",
+            (this.canvas.width / 100) * 80,
+            (this.canvas.height / 100) * 65,
+            0,
+            0,
+            0
+        );
+
+
         // Add thumbsup
         this.thumbsUp = new GameObject(
             Game.currentId,
             "./assets/img/environment/thumbsupfb.png",
-            (this.canvas.width / 100) * 15,
-            (this.canvas.height / 100) * 15,
+            (this.canvas.width / 100) * 90,
+            (this.canvas.height / 100) * 85,
             0,
             0,
             0
@@ -96,10 +127,10 @@ class StartScreen extends GameScreen {
             0
         );
 
+
         // Add stars to the stars array
         this.stars = [];
         for (let i = 0; i <= 2; i++) {
-
             this.stars.push(
                 new GameObject(
                     Game.currentId,
@@ -147,9 +178,6 @@ class StartScreen extends GameScreen {
             (this.canvas.height / 100) * 90
         );
 
-        //Draw all cosmetic background images
-        this.facebookPlanet.draw(this.ctx);
-
         // 3. add Namebox
         // Add the name input field
         this.writeTextToCanvas(
@@ -188,11 +216,14 @@ class StartScreen extends GameScreen {
 
         // Draw selected ship
         this.ships[this.shipSelector].draw(this.ctx)
-        for (let i = 0;i <= 2; i++) {
+        for (let i = 0; i <= 2; i++) {
             this.stars[i].draw(this.ctx)
         }
-        this.thumbsUp.draw(this.ctx);
-        this.heart.draw(this.ctx);
+
+        // Draw background design
+        this.startScreenObjects.forEach(element => {
+            element.draw(this.ctx)
+        });
     }
 
     /**
