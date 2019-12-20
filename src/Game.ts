@@ -10,6 +10,7 @@ class Game {
     public static blackholescreenIntoTiktok: Boolean;
     public static gameOverScreen: boolean;
     public static currentId: number = 0;
+    public static gameStarted: boolean;
 
     private currentScreen: GameScreen;
 
@@ -30,6 +31,8 @@ class Game {
         this.loop();
         // Count the ticks in the game
         this.gameCounter = 0;
+        // Gamestartstate
+        Game.gameStarted = false;
     }
 
     /**
@@ -58,7 +61,7 @@ class Game {
         // And the user pressed "s", render the level screen
         if (
             this.currentScreen instanceof StartScreen
-            && this.keyboardListener.isKeyDown(KeyboardListener.KEY_S)
+            && Game.gameStarted === true
         ) {
             // this.currentScreen = new FacebookLevel(this.canvas, this.ctx, this.keyboardListener, null, null);
             this.currentScreen = new FacebookLevel(this.canvas, this.ctx, this.keyboardListener, null, null);

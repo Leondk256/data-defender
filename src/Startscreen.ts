@@ -6,6 +6,7 @@ class StartScreen extends GameScreen {
     private buttonRight: HTMLImageElement;
     private buttonLeft: HTMLImageElement;
     private nameInputField: HTMLImageElement;
+    private startButton: HTMLImageElement;
 
     private playerName: string;
 
@@ -15,6 +16,8 @@ class StartScreen extends GameScreen {
     private buttonLeftY: number;
     private nameInputFieldX: number;
     private nameInputFieldY: number;
+    private startButtonX: number;
+    private startButtonY: number;
     private startScreenObjects: GameObject[];
 
     private youtubePlanet: GameObject;
@@ -37,12 +40,17 @@ class StartScreen extends GameScreen {
         this.startScreenObjects = [];
 
         this.ships = [];
-        //Create both buttons
+        // Create all buttons
         this.buttonRight = new Image();
         this.buttonRight.src = "./assets/img/buttons/arrowRight.png";
 
         this.buttonLeft = new Image();
         this.buttonLeft.src = "./assets/img/buttons/arrowLeft.png";
+
+        Game.gameStarted = false;
+
+        this.startButton = new Image();
+        this.startButton.src = "./assets/img/buttons/startbutton.png"
 
         //Create NameField
         this.nameInputField = new Image();
@@ -54,6 +62,10 @@ class StartScreen extends GameScreen {
 
         this.buttonLeftX = (this.canvas.width / 100) * 34.5;
         this.buttonLeftY = (this.canvas.height / 100) * 55;
+
+        // Postion for startbutton
+        this.startButtonX = (this.canvas.width / 100) * 40;
+        this.startButtonY = (this.canvas.height / 100) * 82;
 
         //Poition for name inputfield
         this.nameInputFieldX = (this.canvas.width / 100) * 50;
@@ -70,63 +82,22 @@ class StartScreen extends GameScreen {
         document.addEventListener("click", this.mouseHandler);
 
         // Add facebookplanet background image
-        this.facebookPlanet = new GameObject(
-            Game.currentId,
-            "./assets/img/environment/facebookplaneet1.png",
-            (this.canvas.width / 100) * 10,
-            (this.canvas.height / 100) * 50,
-            0,
-            0,
-            0
-        );
+        this.createGameObject("./assets/img/environment/facebookplaneet1.png",10, 50, this.startScreenObjects)
 
         // Add TikTokplanet background image
-        // this.tiktokPlanet = new GameObject(
-        //     Game.currentId,
-        //     "./assets/img/environment/tiktokplaneet.png",
-        //     (this.canvas.width / 100) * 75,
-        //     (this.canvas.height / 100) * 12,
-        //     0,
-        //     0,
-        //     0
-        // );
-
         this.createGameObject("./assets/img/environment/tiktokplaneet.png", 75, 12, this.startScreenObjects)
 
         // Add Youtubeplaneet
-        this.youtubePlanet = new GameObject(
-            Game.currentId,
-            "./assets/img/environment/youtubeplaneet.png",
-            (this.canvas.width / 100) * 80,
-            (this.canvas.height / 100) * 65,
-            0,
-            0,
-            0
-        );
-
+        this.createGameObject("./assets/img/environment/youtubeplaneet.png", 80, 65, this.startScreenObjects)
 
         // Add thumbsup
-        this.thumbsUp = new GameObject(
-            Game.currentId,
-            "./assets/img/environment/thumbsupfb.png",
-            (this.canvas.width / 100) * 90,
-            (this.canvas.height / 100) * 85,
-            0,
-            0,
-            0
-        );
+        this.createGameObject("./assets/img/environment/thumbsupfb.png", 90, 85, this.startScreenObjects)
 
         // Add heart
-        this.heart = new GameObject(
-            Game.currentId,
-            "./assets/img/environment/heart.png",
-            (this.canvas.width / 100) * 5,
-            (this.canvas.height / 100) * 10,
-            0,
-            0,
-            0
-        );
+        this.createGameObject("./assets/img/environment/heart.png", 5, 10, this.startScreenObjects)
 
+        // Add instaDM
+        this.createGameObject("./assets/img/environment/instadm.png", 90, 40, this.startScreenObjects)
 
         // Add stars to the stars array
         this.stars = [];
@@ -152,7 +123,7 @@ class StartScreen extends GameScreen {
                     Game.currentId,
                     `./assets/img/ship${i}.png`,
                     this.canvas.width / 2,
-                    (this.canvas.height / 100) * 65,
+                    (this.canvas.height / 100) * 70,
                     5,
                     5,
                     this.keyboardListener,
@@ -169,14 +140,6 @@ class StartScreen extends GameScreen {
             70,
             (this.canvas.width / 100) * 50,
             (this.canvas.height / 100) * 15);
-
-        // Write the press s to start
-        this.writeTextToCanvas(
-            "Druk op s om te beginnen",
-            40,
-            this.canvas.width / 2,
-            (this.canvas.height / 100) * 90
-        );
 
         // 3. add Namebox
         // Add the name input field
@@ -200,6 +163,7 @@ class StartScreen extends GameScreen {
             this.ctx.drawImage(this.buttonRight, this.buttonRightX, this.buttonRightY);
             this.ctx.drawImage(this.buttonLeft, this.buttonLeftX, this.buttonLeftY);
             this.ctx.drawImage(this.nameInputField, this.nameInputFieldX, this.nameInputFieldY)
+            this.ctx.drawImage(this.startButton, this.startButtonX, this.startButtonY)
         }
 
         // Enter player name after filling out has been completed
@@ -276,9 +240,14 @@ class StartScreen extends GameScreen {
             }
             Game.selectedShip = this.shipSelector;
         }
-    };
 
-    public getShipSelector(): number {
-        return this.shipSelector;
-    }
+        if (
+            event.clientX >= this.startButtonX &&
+            event.clientX < this.startButtonX + this.startButton.width &&
+            event.clientY >= this.startButtonY &&
+            event.clientY <= this.startButtonY + this.startButton.width
+        ) {
+        Game.gameStarted =  true;
+        }
+    };
 }
