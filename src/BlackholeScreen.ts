@@ -7,12 +7,25 @@ class BlackholeScreen extends GameScreen {
     }
 
     public draw() {
+        this.blackhole.draw(this.ctx);
+
+        if (this.cooldown > 0) {
+            this.cooldown--;
+        }
+
+        // Draw yes
+        this.yes.draw(this.ctx);
+        // Draw no
+        this.no.draw(this.ctx);
+
         this.writeTextToCanvas(
             "Zwart gat",
             50,
             (this.canvas.width / 100) * 50,
             (this.canvas.height / 100) * 15
         );
+
+        Game.blackholescreenIntoTiktok = this.ship.isCollidingWithProjectile(this.blackhole) === true;
 
         // this.writeTextToCanvas(
         //     "Bedankt voor het spelen!",
@@ -33,6 +46,13 @@ class BlackholeScreen extends GameScreen {
             30,
             (this.canvas.width / 100) * 50,
             (this.canvas.height / 100) * 25
+        );
+
+        this.writeTextToCanvas(
+            "Is het slim om met wie dan ook online gevoelige gegevens te delen?",
+            30,
+            (this.canvas.width / 100) * 50,
+            (this.canvas.height / 100) * 60
         );
 
         this.writeTextToCanvas(
@@ -70,11 +90,11 @@ class BlackholeScreen extends GameScreen {
                 projectile.shootProjectileLeftToRight(this.canvas);
 
                 // Check if the laser shot hits the facebook boss
-                // if (projectile.isCollidingWithProjectile(this.facebookBoss)) {
-                //     // Subtract one health when beamed by laser
-                //     this.facebookBoss.setHealth(this.facebookBoss.getHealth() - 1);
-                //     this.playerProjectiles = this.removeProjectilesWithId(this.playerProjectiles, projectile.getId());
-                // }
+                if (projectile.isCollidingWithProjectile(this.yes)) {
+                    // Move the black hole
+                    this.blackhole.setYPos(this.canvas.height / 100 * 90);
+                    this.playerProjectiles = this.removeProjectilesWithId(this.playerProjectiles, projectile.getId());
+                }
             }
         })
 

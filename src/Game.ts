@@ -7,6 +7,7 @@ class Game {
     public static selectedShip: number;
     public static globalPlayerName: string;
     public static blackholescreen: boolean;
+    public static blackholescreenIntoTiktok: Boolean;
     public static gameOverScreen: boolean;
     public static currentId: number = 0;
 
@@ -37,6 +38,7 @@ class Game {
     public loop = () => {
         //Count the ticks in the game
         this.gameCounter++;
+
         //Check which screen to draw
         this.switchScreen();
 
@@ -65,21 +67,23 @@ class Game {
 
         if (
             this.currentScreen instanceof FacebookLevel
-            && Game.blackholescreen === true)
-         {
-             this.currentScreen = new BlackholeScreen(this.canvas, this.ctx, this.keyboardListener, null, null);
+            && Game.blackholescreen === true) {
+            this.currentScreen = new BlackholeScreen(this.canvas, this.ctx, this.keyboardListener, null, null);
+        }
+
+        if (
+            this.currentScreen instanceof BlackholeScreen && Game.blackholescreenIntoTiktok === true) {
+            this.currentScreen = new TiktokLevel(this.canvas, this.ctx, this.keyboardListener, null, null);
         }
 
         if (
             this.currentScreen instanceof FacebookLevel
-            && Game.gameOverScreen === true)
-        {
+            && Game.gameOverScreen === true) {
             this.currentScreen = new GameOverScreen(this.canvas, this.ctx, this.keyboardListener, null, null);
         }
 
         if (
-            Game.gameOverScreen === true && this.keyboardListener.isKeyDown(KeyboardListener.KEY_ESC))
-        {
+            Game.gameOverScreen === true && this.keyboardListener.isKeyDown(KeyboardListener.KEY_ESC)) {
             this.currentScreen = new StartScreen(this.canvas, this.ctx, this.keyboardListener, null, null);
         }
     }

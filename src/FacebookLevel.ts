@@ -5,7 +5,6 @@ class FacebookLevel extends GameScreen {
     private facebookBoss: FacebookBoss;
     private gameTicker: number;
     private projectiles: Projectile[];
-    private blackhole: GameObject;
     private cooldown: number;
     private facebookPlanet: GameObject;
 
@@ -35,18 +34,6 @@ class FacebookLevel extends GameScreen {
             0,
             0,
             0
-        );
-
-        Game.currentId++;
-
-        this.blackhole = new GameObject(
-            Game.currentId,
-            "./assets/img/environment/blackhole.png",
-            this.canvas.width / 100 * 95,
-            -1000,
-            0,
-            0,
-            1
         );
 
         Game.currentId++;
