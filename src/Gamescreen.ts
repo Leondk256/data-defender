@@ -23,6 +23,7 @@ class GameScreen {
             this.keyboardListener,
             3,
         );
+<<<<<<< HEAD
 
         Game.currentId++;
 
@@ -35,6 +36,9 @@ class GameScreen {
             0,
             0
         );
+=======
+        this.keyboardListener = new KeyboardListener;
+>>>>>>> 1e0e186e8a8e1767f23585d6dbf438126fd81590
 
         Game.currentId++;
 
