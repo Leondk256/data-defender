@@ -26,8 +26,7 @@ class StartScreen extends GameScreen {
 
     public constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, keyboardListener: KeyboardListener, ship: Ship, playerProjectiles: Projectile) {
         super(canvas, ctx, keyboardListener, ship, playerProjectiles);
-        // this.canvas = canvas;
-        // this.ctx = ctx;
+
         this.ships = [];
         //Create both buttons
         this.buttonRight = new Image();
@@ -84,7 +83,7 @@ class StartScreen extends GameScreen {
                     0
                 )
             )
-        };
+        }
 
         // add the selectable ships to the ship array
         this.ships = [];
@@ -121,8 +120,7 @@ class StartScreen extends GameScreen {
         );
 
         //Draw all cosmetic background images
-        this.facebookPlanet.draw(this.ctx)
-
+        this.facebookPlanet.draw(this.ctx);
 
         // 3. add Namebox
         // Add the name input field
