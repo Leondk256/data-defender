@@ -64,14 +64,14 @@ class Game {
         }
 
         if (
-            this.currentScreen instanceof FacebookLevel
+            this.currentScreen instanceof FacebookLevel  || this.currentScreen instanceof YoutubeLevel
             && Game.blackholescreen === true)
          {
              this.currentScreen = new BlackholeScreen(this.canvas, this.ctx, this.keyboardListener, null, null);
         }
 
         if (
-            this.currentScreen instanceof FacebookLevel
+            this.currentScreen instanceof FacebookLevel || this.currentScreen instanceof YoutubeLevel
             && Game.gameOverScreen === true)
         {
             this.currentScreen = new GameOverScreen(this.canvas, this.ctx, this.keyboardListener, null, null);
