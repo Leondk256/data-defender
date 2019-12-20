@@ -3,7 +3,6 @@ class YoutubeLevel extends GameScreen {
     private youtubeBoss: YoutubeBoss;
     private gameTicker: number;
     private projectiles: Projectile[];
-    private blackhole: GameObject;
     private cooldown: number;
 
     public constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, keyboardListener: KeyboardListener, ship: Ship, playerProjectiles: Projectile) {
