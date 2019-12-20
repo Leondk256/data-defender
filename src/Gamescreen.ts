@@ -4,6 +4,10 @@ class GameScreen {
     protected playerProjectiles: Projectile[];
     protected keyboardListener: KeyboardListener;
     protected ship: Ship;
+    protected blackhole: GameObject;
+    protected yes: GameObject;
+    protected no: GameObject;
+
     public constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, keyboardListener: KeyboardListener, ship: Ship, playerProjectiles: Projectile) {
         this.playerProjectiles = [];
         this.canvas = canvas;
@@ -19,9 +23,50 @@ class GameScreen {
             this.keyboardListener,
             3,
         );
-        this.keyboardListener = new KeyboardListener;
+<<<<<<< HEAD
 
         Game.currentId++;
+
+        this.yes = new GameObject(
+            Game.currentId,
+            "./assets/img/environment/facebookplaneet1.png",
+            (this.canvas.width / 100) * 50,
+            (this.canvas.height / 100) * 40,
+            0,
+            0,
+            0
+        );
+=======
+        this.keyboardListener = new KeyboardListener;
+>>>>>>> 1e0e186e8a8e1767f23585d6dbf438126fd81590
+
+        Game.currentId++;
+
+        this.no = new GameObject(
+            Game.currentId,
+            "./assets/img/environment/facebookplaneet1.png",
+            (this.canvas.width / 100) * 50,
+            (this.canvas.height / 100) * 80,
+            0,
+            0,
+            0
+        );
+        
+        Game.currentId++;
+
+        this.blackhole = new GameObject(
+            Game.currentId,
+            "./assets/img/environment/blackhole.png",
+            this.canvas.width / 100 * 95,
+            -1000,
+            0,
+            0,
+            1
+        );
+
+        Game.currentId++;
+
+        this.keyboardListener = new KeyboardListener;
     }
 
     public draw() { }
