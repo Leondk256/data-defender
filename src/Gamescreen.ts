@@ -27,6 +27,33 @@ class GameScreen {
     public draw() { }
 
     /**
+     * 
+     * @param imgFileName Object image file path
+     * @param objectX Percentage position of the width of the screen
+     * @param objectY Percentage position of the height of the screen
+     * @param screenObjectArray Array of Gameobjects for the present screen in which to put the create GameObjects
+     */
+
+    public createGameObject(
+        imgFileName: string,
+        objectX: number,
+        objectY: number,
+        screenObjectArray: GameObject[]
+    ) {
+        screenObjectArray.push(
+            new GameObject(
+                Game.currentId,
+                imgFileName,
+                (this.canvas.width / 100) * objectX,
+                (this.canvas.height / 100) * objectY,
+                0,
+                0,
+                0
+            )
+        )
+    }
+
+    /**
      * Writes text to the canvas
      * @param {string} text - Text to write
      * @param {number} fontSize - Font size in pixels
