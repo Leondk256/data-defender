@@ -19,7 +19,6 @@ class GameScreen {
             this.keyboardListener,
             3,
         );
-
         this.keyboardListener = new KeyboardListener;
 
         Game.currentId++;

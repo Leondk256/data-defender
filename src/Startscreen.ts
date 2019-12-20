@@ -20,7 +20,10 @@ class StartScreen extends GameScreen {
     private shipSelector: number;
     private ships: Ship[];
     private stars: GameObject[];
-
+    private starsX: number [];
+    private starsY: number [];
+    private thumbsUp: GameObject;
+    private heart: GameObject;
     //count all gamecycles
     private gamecounter: number;
 
@@ -50,6 +53,9 @@ class StartScreen extends GameScreen {
         this.nameInputFieldX = (this.canvas.width / 100) * 50;
         this.nameInputFieldY = (this.canvas.height / 100) * 20;
 
+        this.starsX = [(this.canvas.width / 100) * 25, (this.canvas.width / 100) * 10, (this.canvas.width / 100) * 90]
+        this.starsY = [(this.canvas.height / 100) * 10, (this.canvas.height / 100) * 80, (this.canvas.height / 100) * 10]
+
         //Ship selection default index
         this.shipSelector = 0;
         Game.selectedShip = this.shipSelector;
@@ -57,7 +63,7 @@ class StartScreen extends GameScreen {
         //Add mouselistener
         document.addEventListener("click", this.mouseHandler);
 
-        //Add all cosmetic background images
+        // Add facebook background image
         this.facebookPlanet = new GameObject(
             Game.currentId,
             "./assets/img/environment/facebookplaneet1.png",
@@ -67,25 +73,47 @@ class StartScreen extends GameScreen {
             0,
             0
         );
-            
-        // add stars to the array
+
+        // Add thumbsup
+        this.thumbsUp = new GameObject(
+            Game.currentId,
+            "./assets/img/environment/thumbsupfb.png",
+            (this.canvas.width / 100) * 15,
+            (this.canvas.height / 100) * 15,
+            0,
+            0,
+            0
+        );
+
+        // Add heart
+        this.heart = new GameObject(
+            Game.currentId,
+            "./assets/img/environment/heart.png",
+            (this.canvas.width / 100) * 5,
+            (this.canvas.height / 100) * 10,
+            0,
+            0,
+            0
+        );
+
+        // Add stars to the stars array
         this.stars = [];
         for (let i = 0; i <= 2; i++) {
 
             this.stars.push(
                 new GameObject(
                     Game.currentId,
-                    `./assets/environment/stars/star${i}.png`,
-                    this.canvas.width / 2,
-                    (this.canvas.height / 100) * 65,
+                    `./assets/img/environment/stars/star${i}.png`,
+                    this.starsX[i],
+                    this.starsY[i],
                     0,
                     0,
                     0
                 )
             )
-        }
+        };
 
-        // add the selectable ships to the ship array
+        // Add the selectable ships to the ship array
         this.ships = [];
         for (let i = 0; i <= 2; i++) {
             this.ships.push(
@@ -160,6 +188,11 @@ class StartScreen extends GameScreen {
 
         // Draw selected ship
         this.ships[this.shipSelector].draw(this.ctx)
+        for (let i = 0;i <= 2; i++) {
+            this.stars[i].draw(this.ctx)
+        }
+        this.thumbsUp.draw(this.ctx);
+        this.heart.draw(this.ctx);
     }
 
     /**
