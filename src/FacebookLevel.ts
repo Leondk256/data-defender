@@ -21,7 +21,7 @@ class FacebookLevel extends GameScreen {
             this.canvas.height / 100 * 50,
             0,
             10,
-            1,
+            1
         );
 
         Game.currentId++;
