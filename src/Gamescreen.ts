@@ -28,7 +28,7 @@ class GameScreen {
 
         this.yes = new GameObject(
             Game.currentId,
-            "./assets/img/environment/facebookplaneet1.png",
+            "./assets/img/buttons/Yes.png",
             (this.canvas.width / 100) * 50,
             (this.canvas.height / 100) * 40,
             0,
@@ -42,7 +42,7 @@ class GameScreen {
 
         this.no = new GameObject(
             Game.currentId,
-            "./assets/img/environment/facebookplaneet1.png",
+            "./assets/img/buttons/No.png",
             (this.canvas.width / 100) * 50,
             (this.canvas.height / 100) * 80,
             0,
