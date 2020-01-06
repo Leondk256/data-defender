@@ -49,6 +49,9 @@ class FacebookLevel extends GameScreen {
         // Draw facebookplanet
         this.facebookPlanet.draw(this.ctx);
 
+        // Draw stars
+        this.drawStars();
+
         // Set the standard text color to white
         let color = "black";
 

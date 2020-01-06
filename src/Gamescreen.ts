@@ -5,6 +5,9 @@ class GameScreen {
     protected keyboardListener: KeyboardListener;
     protected ship: Ship;
     protected blackhole: GameObject;
+    protected stars: GameObject[];
+    protected starsX: number[];
+    protected starsY: number[];
     protected yes: GameObject;
     protected no: GameObject;
 
@@ -49,7 +52,7 @@ class GameScreen {
             0,
             0
         );
-        
+
         Game.currentId++;
 
         this.blackhole = new GameObject(
@@ -61,6 +64,26 @@ class GameScreen {
             0,
             1
         );
+        //decide where the default star position is on all screens
+        this.starsX = [(this.canvas.width / 100) * 25, (this.canvas.width / 100) * 10, (this.canvas.width / 100) * 90]
+        this.starsY = [(this.canvas.height / 100) * 10, (this.canvas.height / 100) * 80, (this.canvas.height / 100) * 10]
+
+        // Add stars to the stars array
+        this.stars = [];
+        for (let i = 0; i <= 2; i++) {
+            this.stars.push(
+                new GameObject(
+                    Game.currentId,
+                    `./assets/img/environment/stars/star${i}.png`,
+                    this.starsX[i],
+                    this.starsY[i],
+                    0,
+                    0,
+                    0
+                )
+            )
+        };
+
 
         Game.currentId++;
 
@@ -68,6 +91,14 @@ class GameScreen {
     }
 
     public draw() { }
+
+    //use this function to draw stars on your desired screen
+    public drawStars () {
+        for (let i = 0; i <= 2; i++) {
+            this.stars[i].draw(this.ctx)
+        }
+    }
+
 
     /**
      * 

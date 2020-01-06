@@ -21,6 +21,9 @@ class TiktokLevel extends GameScreen {
             this.cooldown--;
         }
 
+        // Draw stars
+        this.drawStars();
+
         // // Draw facebookplanet
         // this.facebookPlanet.draw(this.ctx);
 

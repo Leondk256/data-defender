@@ -25,9 +25,6 @@ class StartScreen extends GameScreen {
     private facebookPlanet: GameObject;
     private shipSelector: number;
     private ships: Ship[];
-    private stars: GameObject[];
-    private starsX: number[];
-    private starsY: number[];
     private thumbsUp: GameObject;
     private heart: GameObject;
     //count all gamecycles
@@ -71,9 +68,6 @@ class StartScreen extends GameScreen {
         this.nameInputFieldX = (this.canvas.width / 100) * 50;
         this.nameInputFieldY = (this.canvas.height / 100) * 20;
 
-        this.starsX = [(this.canvas.width / 100) * 25, (this.canvas.width / 100) * 10, (this.canvas.width / 100) * 90]
-        this.starsY = [(this.canvas.height / 100) * 10, (this.canvas.height / 100) * 80, (this.canvas.height / 100) * 10]
-
         //Ship selection default index
         this.shipSelector = 0;
         Game.selectedShip = this.shipSelector;
@@ -98,22 +92,6 @@ class StartScreen extends GameScreen {
 
         // Add instaDM
         this.createGameObject("./assets/img/environment/instadm.png", 90, 40, this.startScreenObjects)
-
-        // Add stars to the stars array
-        this.stars = [];
-        for (let i = 0; i <= 2; i++) {
-            this.stars.push(
-                new GameObject(
-                    Game.currentId,
-                    `./assets/img/environment/stars/star${i}.png`,
-                    this.starsX[i],
-                    this.starsY[i],
-                    0,
-                    0,
-                    0
-                )
-            )
-        };
 
         // Add the selectable ships to the ship array
         this.ships = [];
@@ -180,9 +158,9 @@ class StartScreen extends GameScreen {
 
         // Draw selected ship
         this.ships[this.shipSelector].draw(this.ctx)
-        for (let i = 0; i <= 2; i++) {
-            this.stars[i].draw(this.ctx)
-        }
+
+        // Draw stars
+        this.drawStars();
 
         // Draw background design
         this.startScreenObjects.forEach(element => {

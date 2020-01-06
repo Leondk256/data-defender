@@ -13,6 +13,9 @@ class BlackholeScreen extends GameScreen {
             this.cooldown--;
         }
 
+        // Draw stars
+        this.drawStars();
+
         // Draw yes
         this.yes.draw(this.ctx);
         // Draw no
