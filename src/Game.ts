@@ -61,7 +61,7 @@ class Game {
         // And the user pressed "s", render the level screen
         if (
             this.currentScreen instanceof StartScreen
-            && Game.gameStarted === true
+            && (Game.gameStarted === true || this.keyboardListener.isKeyDown(KeyboardListener.KEY_S))
         ) {
             // this.currentScreen = new FacebookLevel(this.canvas, this.ctx, this.keyboardListener, null, null);
             this.currentScreen = new FacebookLevel(this.canvas, this.ctx, this.keyboardListener, null, null);
