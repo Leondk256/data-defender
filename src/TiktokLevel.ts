@@ -10,6 +10,8 @@ class TiktokLevel extends GameScreen {
     private tiktokBoss: TiktokBoss;
     private canFireSplitFire: boolean;
     private splitFireAmount: number;
+    private facebookPlanet: GameObject;
+    private tiktokObjects: GameObject[];
 
     public constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, keyboardListener: KeyboardListener, ship: Ship, playerProjectiles: Projectile) {
         super(canvas, ctx, keyboardListener, ship, playerProjectiles);
@@ -30,6 +32,18 @@ class TiktokLevel extends GameScreen {
             10,
             1,
         );
+        // Create empty tiktokobject array
+        this.tiktokObjects = [];
+
+        // Create tiktokplanets objects
+        this.createGameObject("./assets/img/environment/tiktokplaneet.png", 30, 40, this.tiktokObjects)
+        this.createGameObject("./assets/img/environment/tiktokplaneet.png", 70, 60, this.tiktokObjects)
+
+        // Create Heart objects
+        this.createGameObject("./assets/img/environment/Heart.png", 50, 70, this.tiktokObjects)
+        this.createGameObject("./assets/img/environment/Heart.png", 60, 15, this.tiktokObjects)
+
+        
     }
 
     public draw() {
@@ -47,16 +61,14 @@ class TiktokLevel extends GameScreen {
         if (this.ship.getHealth() < 2) {
             color = "red";
         }
+        // Draw background design
+        this.drawAllObjects(this.tiktokObjects)
 
-        // Write the lives left to the screen
-        this.writeTextToCanvas(
-            `Levens: ${this.ship.getHealth()}`,
-            30,
-            90,
-            60,
-            "center",
-            color,
-        );
+        // Draw stars
+        this.drawStars();
+
+        // Draw lives
+        this.drawLives();
 
         // If the Ship collides, remove one live
         if (this.ship.isCollidingWithProjectile(this.tiktokBoss) === true) {

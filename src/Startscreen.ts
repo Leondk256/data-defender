@@ -25,9 +25,6 @@ class StartScreen extends GameScreen {
     private facebookPlanet: GameObject;
     private shipSelector: number;
     private ships: Ship[];
-    private stars: GameObject[];
-    private starsX: number[];
-    private starsY: number[];
     private thumbsUp: GameObject;
     private heart: GameObject;
     //count all gamecycles
@@ -49,6 +46,9 @@ class StartScreen extends GameScreen {
 
         Game.gameStarted = false;
 
+        // Reset playerlives when start screen is initiated
+        Game.playerLives = 3;
+
         this.startButton = new Image();
         this.startButton.src = "./assets/img/buttons/startbutton.png"
 
@@ -60,7 +60,7 @@ class StartScreen extends GameScreen {
         this.buttonRightX = (this.canvas.width / 100) * 55;
         this.buttonRightY = (this.canvas.height / 100) * 55;
 
-        this.buttonLeftX = (this.canvas.width / 100) * 34.5;
+        this.buttonLeftX = (this.canvas.width / 100) * 32;
         this.buttonLeftY = (this.canvas.height / 100) * 55;
 
         // Postion for startbutton
@@ -71,18 +71,18 @@ class StartScreen extends GameScreen {
         this.nameInputFieldX = (this.canvas.width / 100) * 50;
         this.nameInputFieldY = (this.canvas.height / 100) * 20;
 
-        this.starsX = [(this.canvas.width / 100) * 25, (this.canvas.width / 100) * 10, (this.canvas.width / 100) * 90]
-        this.starsY = [(this.canvas.height / 100) * 10, (this.canvas.height / 100) * 80, (this.canvas.height / 100) * 10]
-
         //Ship selection default index
         this.shipSelector = 0;
         Game.selectedShip = this.shipSelector;
+
+        // Set initial blackholescreen counter
+        Game.blackholeScreenCounter = -1;
 
         //Add mouselistener
         document.addEventListener("click", this.mouseHandler);
 
         // Add facebookplanet background image
-        this.createGameObject("./assets/img/environment/facebookplaneet1.png",10, 50, this.startScreenObjects)
+        this.createGameObject("./assets/img/environment/facebookplaneet1.png", 10, 50, this.startScreenObjects)
 
         // Add TikTokplanet background image
         this.createGameObject("./assets/img/environment/tiktokplaneet.png", 75, 12, this.startScreenObjects)
@@ -99,25 +99,9 @@ class StartScreen extends GameScreen {
         // Add instaDM
         this.createGameObject("./assets/img/environment/instadm.png", 90, 40, this.startScreenObjects)
 
-        // Add stars to the stars array
-        this.stars = [];
-        for (let i = 0; i <= 2; i++) {
-            this.stars.push(
-                new GameObject(
-                    Game.currentId,
-                    `./assets/img/environment/stars/star${i}.png`,
-                    this.starsX[i],
-                    this.starsY[i],
-                    0,
-                    0,
-                    0
-                )
-            )
-        };
-
         // Add the selectable ships to the ship array
         this.ships = [];
-        for (let i = 0; i <= 2; i++) {
+        for (let i = 0; i <= 3; i++) {
             this.ships.push(
                 new Ship(
                     Game.currentId,
@@ -180,14 +164,12 @@ class StartScreen extends GameScreen {
 
         // Draw selected ship
         this.ships[this.shipSelector].draw(this.ctx)
-        for (let i = 0; i <= 2; i++) {
-            this.stars[i].draw(this.ctx)
-        }
+
+        // Draw stars
+        this.drawStars();
 
         // Draw background design
-        this.startScreenObjects.forEach(element => {
-            element.draw(this.ctx)
-        });
+        this.drawAllObjects(this.startScreenObjects)
     }
 
     /**
@@ -218,7 +200,7 @@ class StartScreen extends GameScreen {
             event.clientY <= this.buttonRightY + this.buttonRight.width
         ) {
             //Change ship when the button is clicked
-            if (this.shipSelector === 2) {
+            if (this.shipSelector === 3) {
                 this.shipSelector = 0;
             } else {
                 this.shipSelector += 1;
@@ -234,7 +216,7 @@ class StartScreen extends GameScreen {
         ) {
             //Change ship when the button is clicked
             if (this.shipSelector === 0) {
-                this.shipSelector = 2;
+                this.shipSelector = 3;
             } else {
                 this.shipSelector -= 1;
             }
@@ -247,7 +229,7 @@ class StartScreen extends GameScreen {
             event.clientY >= this.startButtonY &&
             event.clientY <= this.startButtonY + this.startButton.width
         ) {
-        Game.gameStarted =  true;
+            Game.gameStarted = true;
         }
     };
 }

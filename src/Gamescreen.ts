@@ -5,6 +5,9 @@ class GameScreen {
     protected keyboardListener: KeyboardListener;
     protected ship: Ship;
     protected blackhole: GameObject;
+    protected stars: GameObject[];
+    protected starsX: number[];
+    protected starsY: number[];
     protected yes: GameObject;
     protected no: GameObject;
 
@@ -21,14 +24,14 @@ class GameScreen {
             6,
             6,
             this.keyboardListener,
-            3,
+            3
         );
 
         Game.currentId++;
 
         this.yes = new GameObject(
             Game.currentId,
-            "./assets/img/environment/facebookplaneet1.png",
+            "./assets/img/buttons/Yes.png",
             (this.canvas.width / 100) * 50,
             (this.canvas.height / 100) * 40,
             0,
@@ -42,7 +45,7 @@ class GameScreen {
 
         this.no = new GameObject(
             Game.currentId,
-            "./assets/img/environment/facebookplaneet1.png",
+            "./assets/img/buttons/No.png",
             (this.canvas.width / 100) * 50,
             (this.canvas.height / 100) * 80,
             0,
@@ -62,12 +65,62 @@ class GameScreen {
             1
         );
 
+        //decide where the default star position is on all screens
+        this.starsX = [(this.canvas.width / 100) * 25, (this.canvas.width / 100) * 10, (this.canvas.width / 100) * 90]
+        this.starsY = [(this.canvas.height / 100) * 10, (this.canvas.height / 100) * 80, (this.canvas.height / 100) * 10]
+
+        // Add stars to the stars array
+        this.stars = [];
+        for (let i = 0; i <= 2; i++) {
+            this.stars.push(
+                new GameObject(
+                    Game.currentId,
+                    `./assets/img/environment/stars/star${i}.png`,
+                    this.starsX[i],
+                    this.starsY[i],
+                    0,
+                    0,
+                    0
+                )
+            )
+        };
+
+
         Game.currentId++;
 
         this.keyboardListener = new KeyboardListener;
     }
 
-    public draw() { }
+    public draw() {
+    }
+
+    public drawLives() {
+        // Set the standard text color to white
+        let color = "black";
+
+        // Set the text color to red if the player only has 1 live left
+        if (this.ship.getHealth() < 2) {
+            color = "red";
+        }
+
+        // Write the lives on the top left of the screen
+        this.writeTextToCanvas(
+            `Levens: ${this.ship.getHealth()}`,
+            30,
+            90,
+            60,
+            "center",
+            color,
+        );
+    }
+
+    //use this function to draw stars on your desired screen
+    public drawStars() {
+        for (let i = 0; i <= 2; i++) {
+            this.stars[i].draw(this.ctx)
+        }
+    }
+
 
     /**
      * 
@@ -94,6 +147,14 @@ class GameScreen {
                 0
             )
         )
+    }
+
+    public drawAllObjects(
+        objectArray: GameObject [],
+    ) {
+        objectArray.forEach(element => {
+            element.draw(this.ctx)
+        });
     }
 
     /**

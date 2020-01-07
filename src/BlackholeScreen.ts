@@ -1,9 +1,16 @@
 /// <reference path="GameScreen.ts" />
 class BlackholeScreen extends GameScreen {
     private cooldown: number;
+    private blackholeQuestions: [string, string, string];
     public constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, keyboardListener: KeyboardListener, ship: Ship, playerProjectiles: Projectile) {
         super(canvas, ctx, keyboardListener, ship, playerProjectiles);
         this.cooldown = 0;
+        Game.blackholeScreenCounter++;
+        this.blackholeQuestions = [
+            "Is het slim om met wie dan ook online gevoelige gegevens te delen?", 
+            "Je krijgt een vriendschapsverzoek van een vreemde, is het slim om deze te accepteren?", 
+            "Iemand vraagt je een foto te sturen om je identiteit te bevestigen, is het slim om deze actie uit te voeren?"
+        ]
     }
 
     public draw() {
@@ -13,10 +20,16 @@ class BlackholeScreen extends GameScreen {
             this.cooldown--;
         }
 
+        // Draw stars
+        this.drawStars();
+
         // Draw yes
         this.yes.draw(this.ctx);
         // Draw no
         this.no.draw(this.ctx);
+
+        // Draw lives
+        this.drawLives();
 
         this.writeTextToCanvas(
             "Zwart gat",
@@ -27,20 +40,6 @@ class BlackholeScreen extends GameScreen {
 
         Game.blackholescreenIntoTiktok = this.ship.isCollidingWithProjectile(this.blackhole) === true;
 
-        // this.writeTextToCanvas(
-        //     "Bedankt voor het spelen!",
-        //     50,
-        //     (this.canvas.width / 100) * 50,
-        //     (this.canvas.height / 100) * 15
-        // );
-
-        // this.writeTextToCanvas(
-        //     "Wij gaan verder met het ontwikkelen van het spel.",
-        //     50,
-        //     (this.canvas.width / 100) * 50,
-        //     (this.canvas.height / 100) * 20
-        // );
-
         this.writeTextToCanvas(
             "Schiet op het juiste antwoord",
             30,
@@ -49,7 +48,7 @@ class BlackholeScreen extends GameScreen {
         );
 
         this.writeTextToCanvas(
-            "Is het slim om met wie dan ook online gevoelige gegevens te delen?",
+            this.blackholeQuestions[Game.blackholeScreenCounter],
             30,
             (this.canvas.width / 100) * 50,
             (this.canvas.height / 100) * 60
@@ -89,10 +88,16 @@ class BlackholeScreen extends GameScreen {
                 projectile.draw(this.ctx);
                 projectile.shootProjectileLeftToRight(this.canvas);
 
-                // Check if the laser shot hits the facebook boss
-                if (projectile.isCollidingWithProjectile(this.yes)) {
+                // Check if the yes box is hit and handle accordingly
+                if (projectile.isCollidingWithProjectile(this.no)) {
                     // Move the black hole
                     this.blackhole.setYPos(this.canvas.height / 100 * 90);
+                    this.playerProjectiles = this.removeProjectilesWithId(this.playerProjectiles, projectile.getId());
+                }
+                // Check if the no box is hit and handle accordingly
+                if (projectile.isCollidingWithProjectile(this.yes)) {
+                    // Punish
+                    this.ship.setHealth(this.ship.getHealth() - 1);
                     this.playerProjectiles = this.removeProjectilesWithId(this.playerProjectiles, projectile.getId());
                 }
             }

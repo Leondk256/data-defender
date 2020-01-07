@@ -11,6 +11,8 @@ class Game {
     public static gameOverScreen: boolean;
     public static currentId: number = 0;
     public static gameStarted: boolean;
+    public static playerLives: number;
+    public static blackholeScreenCounter: number;
 
     private currentScreen: GameScreen;
 
@@ -25,7 +27,7 @@ class Game {
         this.ctx = this.canvas.getContext("2d");
         // Set the current screen
         this.currentScreen = new StartScreen(this.canvas, this.ctx, null, null, null);
-        //call keyboard listener
+        // Call keyboard listener
         this.keyboardListener = new KeyboardListener();
         // Loop the game
         this.loop();
@@ -64,7 +66,7 @@ class Game {
             && (Game.gameStarted === true || this.keyboardListener.isKeyDown(KeyboardListener.KEY_S))
         ) {
             // this.currentScreen = new FacebookLevel(this.canvas, this.ctx, this.keyboardListener, null, null);
-            this.currentScreen = new TiktokLevel(this.canvas, this.ctx, this.keyboardListener, null, null);
+            this.currentScreen = new FacebookLevel(this.canvas, this.ctx, this.keyboardListener, null, null);
             Game.gameOverScreen = false;
         }
 
