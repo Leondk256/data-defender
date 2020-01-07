@@ -21,7 +21,7 @@ class FacebookLevel extends GameScreen {
         this.facebookBoss = new FacebookBoss(
             Game.currentId,
             "./assets/img/gameobject/enemies/facebookbossr.png",
-            this.canvas.width / 100 * 80,
+            this.canvas.width / 100 * 95,
             this.canvas.height / 100 * 50,
             0,
             10,
