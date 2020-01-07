@@ -35,10 +35,7 @@ class GameScreen {
             0,
             0
         );
-<<<<<<< HEAD
-=======
 
->>>>>>> 34187e4a5eed58cec0cf131950b70bab0e10ba00
         this.keyboardListener = new KeyboardListener;
 
         Game.currentId++;
@@ -52,7 +49,7 @@ class GameScreen {
             0,
             0
         );
-        
+
         Game.currentId++;
 
         this.blackhole = new GameObject(

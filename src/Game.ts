@@ -64,7 +64,7 @@ class Game {
             && (Game.gameStarted === true || this.keyboardListener.isKeyDown(KeyboardListener.KEY_S))
         ) {
             // this.currentScreen = new FacebookLevel(this.canvas, this.ctx, this.keyboardListener, null, null);
-            this.currentScreen = new FacebookLevel(this.canvas, this.ctx, this.keyboardListener, null, null);
+            this.currentScreen = new TiktokLevel(this.canvas, this.ctx, this.keyboardListener, null, null);
             Game.gameOverScreen = false;
         }
 
@@ -81,6 +81,12 @@ class Game {
 
         if (
             this.currentScreen instanceof FacebookLevel
+            && Game.gameOverScreen === true) {
+            this.currentScreen = new GameOverScreen(this.canvas, this.ctx, this.keyboardListener, null, null);
+        }
+
+        if (
+            this.currentScreen instanceof TiktokLevel
             && Game.gameOverScreen === true) {
             this.currentScreen = new GameOverScreen(this.canvas, this.ctx, this.keyboardListener, null, null);
         }
