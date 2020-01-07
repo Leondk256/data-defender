@@ -149,6 +149,14 @@ class GameScreen {
         )
     }
 
+    public drawAllObjects(
+        objectArray: GameObject [],
+    ) {
+        objectArray.forEach(element => {
+            element.draw(this.ctx)
+        });
+    }
+
     /**
      * Writes text to the canvas
      * @param {string} text - Text to write

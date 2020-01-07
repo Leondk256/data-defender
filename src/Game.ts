@@ -12,6 +12,7 @@ class Game {
     public static currentId: number = 0;
     public static gameStarted: boolean;
     public static playerLives: number;
+    public static blackholeScreenCounter: number;
 
     private currentScreen: GameScreen;
 

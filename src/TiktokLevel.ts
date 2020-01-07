@@ -6,12 +6,25 @@ class TiktokLevel extends GameScreen {
     private projectiles: Projectile[];
     private cooldown: number;
     private facebookPlanet: GameObject;
+    private tiktokObjects: GameObject[];
 
     public constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, keyboardListener: KeyboardListener, ship: Ship, playerProjectiles: Projectile) {
         super(canvas, ctx, keyboardListener, ship, playerProjectiles);
         this.gameTicker = 0;
         this.projectiles = [];
         this.cooldown = 0;
+        // Create empty tiktokobject array
+        this.tiktokObjects = [];
+
+        // Create tiktokplanets objects
+        this.createGameObject("./assets/img/environment/tiktokplaneet.png", 30, 40, this.tiktokObjects)
+        this.createGameObject("./assets/img/environment/tiktokplaneet.png", 70, 60, this.tiktokObjects)
+
+        // Create Heart objects
+        this.createGameObject("./assets/img/environment/Heart.png", 50, 70, this.tiktokObjects)
+        this.createGameObject("./assets/img/environment/Heart.png", 60, 15, this.tiktokObjects)
+
+        
     }
 
     public draw() {
@@ -20,6 +33,9 @@ class TiktokLevel extends GameScreen {
         if (this.cooldown > 0) {
             this.cooldown--;
         }
+
+        // Draw background design
+        this.drawAllObjects(this.tiktokObjects)
 
         // Draw stars
         this.drawStars();

@@ -75,6 +75,9 @@ class StartScreen extends GameScreen {
         this.shipSelector = 0;
         Game.selectedShip = this.shipSelector;
 
+        // Set initial blackholescreen counter
+        Game.blackholeScreenCounter = -1;
+
         //Add mouselistener
         document.addEventListener("click", this.mouseHandler);
 
@@ -166,9 +169,7 @@ class StartScreen extends GameScreen {
         this.drawStars();
 
         // Draw background design
-        this.startScreenObjects.forEach(element => {
-            element.draw(this.ctx)
-        });
+        this.drawAllObjects(this.startScreenObjects)
     }
 
     /**

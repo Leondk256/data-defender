@@ -1,9 +1,16 @@
 /// <reference path="GameScreen.ts" />
 class BlackholeScreen extends GameScreen {
     private cooldown: number;
+    private blackholeQuestions: [string, string, string];
     public constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, keyboardListener: KeyboardListener, ship: Ship, playerProjectiles: Projectile) {
         super(canvas, ctx, keyboardListener, ship, playerProjectiles);
         this.cooldown = 0;
+        Game.blackholeScreenCounter++;
+        this.blackholeQuestions = [
+            "Is het slim om met wie dan ook online gevoelige gegevens te delen?", 
+            "Je krijgt een vriendschapsverzoek van een vreemde, is het slim om deze te accepteren?", 
+            "Iemand vraagt je een foto te sturen om je identiteit te bevestigen, is het slim om deze actie uit te voeren?"
+        ]
     }
 
     public draw() {
@@ -41,7 +48,7 @@ class BlackholeScreen extends GameScreen {
         );
 
         this.writeTextToCanvas(
-            "Is het slim om met wie dan ook online gevoelige gegevens te delen?",
+            this.blackholeQuestions[Game.blackholeScreenCounter],
             30,
             (this.canvas.width / 100) * 50,
             (this.canvas.height / 100) * 60

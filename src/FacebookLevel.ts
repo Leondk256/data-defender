@@ -48,9 +48,7 @@ class FacebookLevel extends GameScreen {
         this.drawStars();
 
         // Draw background design
-        this.facebookLevelObjects.forEach(element => {
-            element.draw(this.ctx)
-        });
+        this.drawAllObjects(this.facebookLevelObjects)
 
         this.drawLives();
 
