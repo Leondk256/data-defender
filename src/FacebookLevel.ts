@@ -5,8 +5,7 @@ class FacebookLevel extends GameScreen {
     private facebookBoss: FacebookBoss;
     private gameTicker: number;
     private projectiles: Projectile[];
-    private cooldown: number;
-    private facebookPlanet: GameObject;
+    private cooldown: number;    
     private facebookLevelObjects: GameObject[];
 
     public constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, keyboardListener: KeyboardListener, ship: Ship, playerProjectiles: Projectile) {
