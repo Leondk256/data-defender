@@ -64,6 +64,7 @@ class GameScreen {
             0,
             1
         );
+
         //decide where the default star position is on all screens
         this.starsX = [(this.canvas.width / 100) * 25, (this.canvas.width / 100) * 10, (this.canvas.width / 100) * 90]
         this.starsY = [(this.canvas.height / 100) * 10, (this.canvas.height / 100) * 80, (this.canvas.height / 100) * 10]

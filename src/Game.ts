@@ -25,7 +25,7 @@ class Game {
         this.ctx = this.canvas.getContext("2d");
         // Set the current screen
         this.currentScreen = new StartScreen(this.canvas, this.ctx, null, null, null);
-        //call keyboard listener
+        // Call keyboard listener
         this.keyboardListener = new KeyboardListener();
         // Loop the game
         this.loop();

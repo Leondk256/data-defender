@@ -7,12 +7,16 @@ class FacebookLevel extends GameScreen {
     private projectiles: Projectile[];
     private cooldown: number;
     private facebookPlanet: GameObject;
+    private facebookLevelObjects: GameObject[];
 
     public constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, keyboardListener: KeyboardListener, ship: Ship, playerProjectiles: Projectile) {
         super(canvas, ctx, keyboardListener, ship, playerProjectiles);
         this.gameTicker = 0;
         this.projectiles = [];
         this.cooldown = 0;
+
+        // Create facebookLevelObjects array
+        this.facebookLevelObjects = [];
 
         this.facebookBoss = new FacebookBoss(
             Game.currentId,
@@ -26,17 +30,11 @@ class FacebookLevel extends GameScreen {
 
         Game.currentId++;
 
-        this.facebookPlanet = new GameObject(
-            Game.currentId,
-            "./assets/img/environment/facebookplaneet1.png",
-            (this.canvas.width / 100) * 10,
-            (this.canvas.height / 100) * 75,
-            0,
-            0,
-            0
-        );
+        // Create thumbsup object
+        this.createGameObject("./assets/img/environment/thumbsupfb.png", 60, 20, this.facebookLevelObjects);
 
-        Game.currentId++;
+        // Create facebookplanet object
+        this.createGameObject("./assets/img/environment/facebookplaneet1.png", 50, 80, this.facebookLevelObjects);
     }
 
     public draw() {
@@ -46,11 +44,13 @@ class FacebookLevel extends GameScreen {
             this.cooldown--;
         }
 
-        // Draw facebookplanet
-        this.facebookPlanet.draw(this.ctx);
-
         // Draw stars
         this.drawStars();
+
+        // Draw background design
+        this.facebookLevelObjects.forEach(element => {
+            element.draw(this.ctx)
+        });
 
         // Set the standard text color to white
         let color = "black";

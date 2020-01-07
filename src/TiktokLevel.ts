@@ -24,9 +24,6 @@ class TiktokLevel extends GameScreen {
         // Draw stars
         this.drawStars();
 
-        // // Draw facebookplanet
-        // this.facebookPlanet.draw(this.ctx);
-
         // Set the standard text color to white
         let color = "black";
 
