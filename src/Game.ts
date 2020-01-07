@@ -88,6 +88,12 @@ class Game {
         }
 
         if (
+            this.currentScreen instanceof TiktokLevel
+            && Game.gameOverScreen === true) {
+            this.currentScreen = new GameOverScreen(this.canvas, this.ctx, this.keyboardListener, null, null);
+        }
+
+        if (
             Game.gameOverScreen === true && this.keyboardListener.isKeyDown(KeyboardListener.KEY_ESC)) {
             this.currentScreen = new StartScreen(this.canvas, this.ctx, this.keyboardListener, null, null);
         }
