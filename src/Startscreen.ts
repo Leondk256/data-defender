@@ -57,7 +57,7 @@ class StartScreen extends GameScreen {
         this.buttonRightX = (this.canvas.width / 100) * 55;
         this.buttonRightY = (this.canvas.height / 100) * 55;
 
-        this.buttonLeftX = (this.canvas.width / 100) * 34.5;
+        this.buttonLeftX = (this.canvas.width / 100) * 32;
         this.buttonLeftY = (this.canvas.height / 100) * 55;
 
         // Postion for startbutton
@@ -95,7 +95,7 @@ class StartScreen extends GameScreen {
 
         // Add the selectable ships to the ship array
         this.ships = [];
-        for (let i = 0; i <= 2; i++) {
+        for (let i = 0; i <= 3; i++) {
             this.ships.push(
                 new Ship(
                     Game.currentId,
@@ -196,7 +196,7 @@ class StartScreen extends GameScreen {
             event.clientY <= this.buttonRightY + this.buttonRight.width
         ) {
             //Change ship when the button is clicked
-            if (this.shipSelector === 2) {
+            if (this.shipSelector === 3) {
                 this.shipSelector = 0;
             } else {
                 this.shipSelector += 1;
@@ -212,7 +212,7 @@ class StartScreen extends GameScreen {
         ) {
             //Change ship when the button is clicked
             if (this.shipSelector === 0) {
-                this.shipSelector = 2;
+                this.shipSelector = 3;
             } else {
                 this.shipSelector -= 1;
             }
