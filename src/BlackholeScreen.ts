@@ -82,13 +82,13 @@ class BlackholeScreen extends GameScreen {
                 projectile.shootProjectileLeftToRight(this.canvas);
 
                 // Check if the yes box is hit and handle accordingly
-                if (projectile.isCollidingWithProjectile(this.yes)) {
+                if (projectile.isCollidingWithProjectile(this.no)) {
                     // Move the black hole
                     this.blackhole.setYPos(this.canvas.height / 100 * 90);
                     this.playerProjectiles = this.removeProjectilesWithId(this.playerProjectiles, projectile.getId());
                 }
                 // Check if the no box is hit and handle accordingly
-                if (projectile.isCollidingWithProjectile(this.no)) {
+                if (projectile.isCollidingWithProjectile(this.yes)) {
                     // Punish
                     this.ship.setHealth(this.ship.getHealth() - 1);
                     this.playerProjectiles = this.removeProjectilesWithId(this.playerProjectiles, projectile.getId());
