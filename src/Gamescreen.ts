@@ -24,7 +24,7 @@ class GameScreen {
             6,
             6,
             this.keyboardListener,
-            3,
+            3
         );
 
         Game.currentId++;
@@ -91,10 +91,31 @@ class GameScreen {
         this.keyboardListener = new KeyboardListener;
     }
 
-    public draw() { }
+    public draw() {
+    }
+
+    public drawLives() {
+        // Set the standard text color to white
+        let color = "black";
+
+        // Set the text color to red if the player only has 1 live left
+        if (this.ship.getHealth() < 2) {
+            color = "red";
+        }
+
+        // Write the lives on the top left of the screen
+        this.writeTextToCanvas(
+            `Levens: ${this.ship.getHealth()}`,
+            30,
+            90,
+            60,
+            "center",
+            color,
+        );
+    }
 
     //use this function to draw stars on your desired screen
-    public drawStars () {
+    public drawStars() {
         for (let i = 0; i <= 2; i++) {
             this.stars[i].draw(this.ctx)
         }

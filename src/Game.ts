@@ -11,6 +11,7 @@ class Game {
     public static gameOverScreen: boolean;
     public static currentId: number = 0;
     public static gameStarted: boolean;
+    public static playerLives: number;
 
     private currentScreen: GameScreen;
 

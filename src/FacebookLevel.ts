@@ -52,23 +52,7 @@ class FacebookLevel extends GameScreen {
             element.draw(this.ctx)
         });
 
-        // Set the standard text color to white
-        let color = "black";
-
-        // Set the text color to red if the player only has 1 live left
-        if (this.ship.getHealth() < 2) {
-            color = "red";
-        }
-
-        // Write the lives left to the screen
-        this.writeTextToCanvas(
-            `Levens: ${this.ship.getHealth()}`,
-            30,
-            90,
-            60,
-            "center",
-            color,
-        );
+        this.drawLives();
 
         // If the Ship collides, remove one live
         if (this.ship.isCollidingWithProjectile(this.facebookBoss) === true) {

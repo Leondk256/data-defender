@@ -21,6 +21,9 @@ class BlackholeScreen extends GameScreen {
         // Draw no
         this.no.draw(this.ctx);
 
+        // Draw lives
+        this.drawLives();
+
         this.writeTextToCanvas(
             "Zwart gat",
             50,
@@ -29,20 +32,6 @@ class BlackholeScreen extends GameScreen {
         );
 
         Game.blackholescreenIntoTiktok = this.ship.isCollidingWithProjectile(this.blackhole) === true;
-
-        // this.writeTextToCanvas(
-        //     "Bedankt voor het spelen!",
-        //     50,
-        //     (this.canvas.width / 100) * 50,
-        //     (this.canvas.height / 100) * 15
-        // );
-
-        // this.writeTextToCanvas(
-        //     "Wij gaan verder met het ontwikkelen van het spel.",
-        //     50,
-        //     (this.canvas.width / 100) * 50,
-        //     (this.canvas.height / 100) * 20
-        // );
 
         this.writeTextToCanvas(
             "Schiet op het juiste antwoord",
@@ -92,10 +81,16 @@ class BlackholeScreen extends GameScreen {
                 projectile.draw(this.ctx);
                 projectile.shootProjectileLeftToRight(this.canvas);
 
-                // Check if the laser shot hits the facebook boss
+                // Check if the yes box is hit and handle accordingly
                 if (projectile.isCollidingWithProjectile(this.yes)) {
                     // Move the black hole
                     this.blackhole.setYPos(this.canvas.height / 100 * 90);
+                    this.playerProjectiles = this.removeProjectilesWithId(this.playerProjectiles, projectile.getId());
+                }
+                // Check if the no box is hit and handle accordingly
+                if (projectile.isCollidingWithProjectile(this.no)) {
+                    // Punish
+                    this.ship.setHealth(this.ship.getHealth() - 1);
                     this.playerProjectiles = this.removeProjectilesWithId(this.playerProjectiles, projectile.getId());
                 }
             }

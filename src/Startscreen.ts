@@ -46,6 +46,9 @@ class StartScreen extends GameScreen {
 
         Game.gameStarted = false;
 
+        // Reset playerlives when start screen is initiated
+        Game.playerLives = 3;
+
         this.startButton = new Image();
         this.startButton.src = "./assets/img/buttons/startbutton.png"
 
@@ -76,7 +79,7 @@ class StartScreen extends GameScreen {
         document.addEventListener("click", this.mouseHandler);
 
         // Add facebookplanet background image
-        this.createGameObject("./assets/img/environment/facebookplaneet1.png",10, 50, this.startScreenObjects)
+        this.createGameObject("./assets/img/environment/facebookplaneet1.png", 10, 50, this.startScreenObjects)
 
         // Add TikTokplanet background image
         this.createGameObject("./assets/img/environment/tiktokplaneet.png", 75, 12, this.startScreenObjects)
@@ -225,7 +228,7 @@ class StartScreen extends GameScreen {
             event.clientY >= this.startButtonY &&
             event.clientY <= this.startButtonY + this.startButton.width
         ) {
-        Game.gameStarted =  true;
+            Game.gameStarted = true;
         }
     };
 }
