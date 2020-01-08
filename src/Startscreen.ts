@@ -18,7 +18,7 @@ class StartScreen extends GameScreen {
     private nameInputFieldY: number;
     private startButtonX: number;
     private startButtonY: number;
-
+    
     private startScreenObjects: GameObject[];
 
     private shipSelector: number;
@@ -79,20 +79,17 @@ class StartScreen extends GameScreen {
         // Set initial blackholescreen counter
         Game.blackholeScreenCounter = -1;
 
-        // Set default friendly projectile
-        Game.currentFriendlyProjectile = 0; 
-
         //Add mouselistener
         document.addEventListener("click", this.mouseHandler);
 
         // Add facebookplanet background image
-        this.createGameObject("./assets/img/environment/facebookplaneet1.png", 10, 40, this.startScreenObjects)
+        this.createGameObject("./assets/img/environment/facebookplaneet1.png", 10, 50, this.startScreenObjects)
 
         // Add TikTokplanet background image
         this.createGameObject("./assets/img/environment/tiktokplaneet.png", 75, 12, this.startScreenObjects)
 
         // Add Youtubeplaneet
-        this.createGameObject("./assets/img/environment/youtubeplaneet.png", 25, 85, this.startScreenObjects)
+        this.createGameObject("./assets/img/environment/youtubeplaneet.png", 80, 65, this.startScreenObjects)
 
         // Add thumbsup
         this.createGameObject("./assets/img/environment/thumbsupfb.png", 90, 85, this.startScreenObjects)

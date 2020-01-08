@@ -16,7 +16,6 @@ class Game {
     public static gameStarted: boolean;
     public static playerLives: number;
     public static blackholeScreenCounter: number;
-    public static currentFriendlyProjectile: number;
 
     private currentScreen: GameScreen;
 
