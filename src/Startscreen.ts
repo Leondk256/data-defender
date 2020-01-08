@@ -155,7 +155,7 @@ class StartScreen extends GameScreen {
         //Tutorial: Write controls to the canvas of the Startcreen
         this.writeMultipleTextLinesToCanvas(
             this.ctx,
-            'Besturing:\n\nGebruik de pijltjestoetsen om\n projectielen te ontwijken!\n\nGebruik spatiebalk om te schieten!',
+            'Besturing:\n\nGebruik W, A, S en D om\n projectielen te ontwijken!\n\nGebruik spatiebalk om te schieten!',
             80,
             60,
             17
