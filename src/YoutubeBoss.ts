@@ -8,8 +8,10 @@ class YoutubeBoss extends Projectile {
      * @param xVel
      * @param yVel
      * @param health
+     * @param angle
+     * @param moveAngle
      */
-    public constructor(id: number, image: string, xPos: number, yPos: number, xVel: number, yVel: number, health: number) {
-        super(id, image, xPos, yPos, xVel, yVel, health);
+    public constructor(id: number, image: string, xPos: number, yPos: number, xVel: number, yVel: number, health: number, angle: number, moveAngle: number) {
+        super(id, image, xPos, yPos, xVel, yVel, health, angle, moveAngle);
     }
 }

@@ -6,15 +6,20 @@ class GameObject {
     protected yVel: number;
     protected img: HTMLImageElement;
     protected health: number;
+    protected angle: number;
+    protected moveAngle: number;
 
     /**
-     *
-     * @param imgUrl
-     * @param xPos
-     * @param yPos
-     * @param xVel
-     * @param yVel
-     * @param health
+     * constructor
+     * @param gameobjectId 
+     * @param imgUrl 
+     * @param xPos 
+     * @param yPos 
+     * @param xVel 
+     * @param yVel 
+     * @param health 
+     * @param angle 
+     * @param moveAngle 
      */
     public constructor(
         gameobjectId: number,
@@ -23,7 +28,9 @@ class GameObject {
         yPos: number,
         xVel: number,
         yVel: number,
-        health: number
+        health: number,
+        angle: number,
+        moveAngle: number
     ) {
         this.gameobjectId = gameobjectId;
         this.loadImage(imgUrl);
@@ -32,6 +39,8 @@ class GameObject {
         this.xVel = xVel;
         this.yVel = yVel;
         this.health = health;
+        this.angle = angle;
+        this.moveAngle = moveAngle
     }
 
     /**
@@ -74,6 +83,16 @@ class GameObject {
         // Use the velocity to change the position
         this.xPos += this.xVel;
         this.yPos += this.yVel;
+    }
+
+    /**
+     * Make object move in circles
+     * @param canvas the canvas
+     */
+    public moveInCircles(canvas: HTMLCanvasElement) {
+        this.angle += this.moveAngle * Math.PI / 20;
+        this.xPos -= this.xVel * Math.sin(this.angle);
+        this.yPos -= this.yVel * Math.cos(this.angle);
     }
 
     /**

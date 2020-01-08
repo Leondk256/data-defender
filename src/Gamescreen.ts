@@ -24,7 +24,9 @@ class GameScreen {
             6,
             6,
             this.keyboardListener,
-            3
+            3,
+            0,
+            0
         );
 
         Game.currentId++;
@@ -34,6 +36,8 @@ class GameScreen {
             "./assets/img/buttons/Yes.png",
             (this.canvas.width / 100) * 50,
             (this.canvas.height / 100) * 40,
+            0,
+            0,
             0,
             0,
             0
@@ -50,6 +54,8 @@ class GameScreen {
             (this.canvas.height / 100) * 80,
             0,
             0,
+            0,
+            0,
             0
         );
 
@@ -62,7 +68,9 @@ class GameScreen {
             -1000,
             0,
             0,
-            1
+            1,
+            0,
+            0
         );
 
         //decide where the default star position is on all screens
@@ -78,6 +86,8 @@ class GameScreen {
                     `./assets/img/environment/stars/star${i}.png`,
                     this.starsX[i],
                     this.starsY[i],
+                    0,
+                    0,
                     0,
                     0,
                     0
@@ -142,6 +152,8 @@ class GameScreen {
                 imgFileName,
                 (this.canvas.width / 100) * objectX,
                 (this.canvas.height / 100) * objectY,
+                0,
+                0,
                 0,
                 0,
                 0

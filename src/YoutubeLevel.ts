@@ -19,6 +19,8 @@ class YoutubeLevel extends GameScreen {
             0,
             10,
             1,
+            0,
+            0
         );
         Game.currentId++;
 
@@ -29,7 +31,9 @@ class YoutubeLevel extends GameScreen {
             -1000,
             0,
             0,
-            1
+            1,
+            0,
+            0
         );
 
         Game.currentId++;
@@ -128,7 +132,9 @@ class YoutubeLevel extends GameScreen {
                 this.ship.getYPos(),
                 10,
                 0,
-                1
+                1,
+                0,
+                0
             ));
             this.cooldown = 15;
             Game.currentId++;

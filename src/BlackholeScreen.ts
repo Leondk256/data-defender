@@ -76,7 +76,9 @@ class BlackholeScreen extends GameScreen {
                 this.ship.getYPos(),
                 10,
                 0,
-                1
+                1,
+                0,
+                0
             ));
             this.cooldown = 15;
             Game.currentId++;

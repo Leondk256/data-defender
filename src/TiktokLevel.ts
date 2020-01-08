@@ -4,33 +4,28 @@
 class TiktokLevel extends GameScreen {
     private gameTicker: number;
     private projectiles: Projectile[];
-    private splitFireProjectiles: Projectile[];
     private cooldown: number;
     private gameObjects: GameObject[];
     private tiktokBoss: TiktokBoss;
-    private canFireSplitFire: boolean;
-    private splitFireAmount: number;
-    private facebookPlanet: GameObject;
     private tiktokObjects: GameObject[];
 
     public constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, keyboardListener: KeyboardListener, ship: Ship, playerProjectiles: Projectile) {
         super(canvas, ctx, keyboardListener, ship, playerProjectiles);
         this.gameTicker = 0;
         this.projectiles = [];
-        this.splitFireProjectiles = [];
         this.cooldown = 0;
         this.gameObjects = [];
-        this.canFireSplitFire = false;
-        this.splitFireAmount = 2;
 
         this.tiktokBoss = new TiktokBoss(
             Game.currentId,
             "./assets/img/gameobject/enemies/tiktokboss1.png",
             this.canvas.width / 100 * 90,
             this.canvas.height / 100 * 50,
-            5,
-            15,
-            1,
+            6,
+            6,
+            50,
+            0,
+            0
         );
         // Create empty tiktokobject array
         this.tiktokObjects = [];
@@ -42,8 +37,6 @@ class TiktokLevel extends GameScreen {
         // Create Heart objects
         this.createGameObject("./assets/img/environment/Heart.png", 50, 70, this.tiktokObjects)
         this.createGameObject("./assets/img/environment/Heart.png", 60, 15, this.tiktokObjects)
-
-        
     }
 
     public draw() {
@@ -128,34 +121,19 @@ class TiktokLevel extends GameScreen {
         );
 
         // add projectiles to the projectile array
-        if (this.gameTicker % 30 === 0) {
+        if (this.gameTicker % 45 === 0) {
             this.projectiles.push(new Projectile(
                 Game.currentId,
                 "./assets/img/gameobject/projectiles/hostile/music_note.png",
                 this.tiktokBoss.getXPos() - 130,
                 this.tiktokBoss.getYPos(),
                 5,
-                0,
+                15,
+                1,
+                1,
                 1
             ));
             Game.currentId++;
-
-            if (this.splitFireProjectiles.length !== this.splitFireAmount && this.canFireSplitFire !== true) {
-                this.splitFireProjectiles.push(new Projectile(
-                    Game.currentId,
-                    "./assets/img/gameobject/projectiles/hostile/music_note.png",
-                    this.tiktokBoss.getXPos() - 130,
-                    this.tiktokBoss.getYPos(),
-                    5,
-                    0,
-                    1
-                ));
-                if (this.splitFireProjectiles.length === this.splitFireAmount) {
-                    this.splitFireAmount++;
-                    this.canFireSplitFire = true;
-                }
-                Game.currentId++;
-            }
         }
 
         // Move and draw all the game entities
@@ -163,6 +141,8 @@ class TiktokLevel extends GameScreen {
             if (projectile.inBounds(this.canvas)) {
                 projectile.draw(this.ctx);
                 projectile.shootProjectileRightToLeft(this.canvas);
+                projectile.moveInCircles(this.canvas);
+
 
                 // check if projectile collides with ship
                 if (this.ship.isCollidingWithProjectile(projectile)) {
@@ -179,28 +159,6 @@ class TiktokLevel extends GameScreen {
             }
         });
 
-        // if (this.canFireSplitFire === true) {
-        //     this.splitFireProjectiles.forEach((projectile) => {
-        //         if (projectile.inBounds(this.canvas)) {
-        //             projectile.draw(this.ctx);
-        //             projectile.shootProjectileRightToLeft(this.canvas);
-        //             // check if projectile collides with ship
-        //             if (this.ship.isCollidingWithProjectile(projectile)) {
-        //                 this.ship.setHealth(this.ship.getHealth() - 1);
-        //                 for (let i = this.splitFireProjectiles.length - 1; i >= 0; --i) {
-        //                     this.splitFireProjectiles = this.removeProjectilesWithId(this.splitFireProjectiles, projectile.getId());
-        //                 }
-        //             }
-        //         }
-        //         else {
-        //             for (let i = this.splitFireProjectiles.length - 1; i >= 0; --i) {
-        //                 this.splitFireProjectiles = this.removeProjectilesWithId(this.splitFireProjectiles, projectile.getId());
-        //             }
-        //             this.canFireSplitFire = false;
-        //         }
-        //     });
-        // }
-
         // Move the Ship
         this.ship.move(this.canvas);
 
@@ -215,7 +173,9 @@ class TiktokLevel extends GameScreen {
                 this.ship.getYPos(),
                 10,
                 0,
-                1
+                1,
+                0,
+                0
             ));
             this.cooldown = 15;
             Game.currentId++;
