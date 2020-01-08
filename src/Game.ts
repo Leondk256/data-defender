@@ -71,7 +71,7 @@ class Game {
             && (Game.gameStarted === true || this.keyboardListener.isKeyDown(KeyboardListener.KEY_S))
         ) {
             // this.currentScreen = new FacebookLevel(this.canvas, this.ctx, this.keyboardListener, null, null);
-            this.currentScreen = new FacebookLevel(this.canvas, this.ctx, this.keyboardListener, null, null);
+            this.currentScreen = new TitleScreen(this.canvas, this.ctx, this.keyboardListener, null, null);
             Game.gameOverScreen = false;
         }
 

@@ -199,14 +199,13 @@ class GameScreen {
     }
 
     /**
- * 
- * @param ctx : Canvasrenderingcontext to write on.
- * @param str : The string to write if you want a new line use \n.
- * @param xPos : Xposition of the text.
- * @param yPos : Ypostition of the text.
- * @param lineheight : How large the linebreaks or 'enters' should be.
- */
-
+     * 
+     * @param ctx : Canvasrenderingcontext to write on.
+     * @param str : The string to write if you want a new line use \n.
+     * @param xPos : Xposition of the text.
+     * @param yPos : Ypostition of the text.
+     * @param lineheight : How large the linebreaks or 'enters' should be.
+     */
     protected writeMultipleTextLinesToCanvas(
         ctx: CanvasRenderingContext2D,
         str: string,
