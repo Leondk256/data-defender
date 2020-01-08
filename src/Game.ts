@@ -11,6 +11,9 @@ class Game {
     public static gameOverScreen: boolean;
     public static currentId: number = 0;
     public static gameStarted: boolean;
+    public static playerLives: number;
+    public static blackholeScreenCounter: number;
+    public static currentFriendlyProjectile: number;
 
     private currentScreen: GameScreen;
 
@@ -25,7 +28,7 @@ class Game {
         this.ctx = this.canvas.getContext("2d");
         // Set the current screen
         this.currentScreen = new StartScreen(this.canvas, this.ctx, null, null, null);
-        //call keyboard listener
+        // Call keyboard listener
         this.keyboardListener = new KeyboardListener();
         // Loop the game
         this.loop();
@@ -85,6 +88,12 @@ class Game {
 
         if (
             this.currentScreen instanceof YoutubeLevel && Game.gameOverScreen === true) {
+            this.currentScreen = new GameOverScreen(this.canvas, this.ctx, this.keyboardListener, null, null);
+        }
+
+        if (
+            this.currentScreen instanceof TiktokLevel
+            && Game.gameOverScreen === true) {
             this.currentScreen = new GameOverScreen(this.canvas, this.ctx, this.keyboardListener, null, null);
         }
 

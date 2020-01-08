@@ -6,15 +6,20 @@ class GameObject {
     protected yVel: number;
     protected img: HTMLImageElement;
     protected health: number;
+    protected angle: number;
+    protected moveAngle: number;
 
     /**
-     *
-     * @param imgUrl
-     * @param xPos
-     * @param yPos
-     * @param xVel
-     * @param yVel
-     * @param health
+     * constructor
+     * @param gameobjectId 
+     * @param imgUrl 
+     * @param xPos 
+     * @param yPos 
+     * @param xVel 
+     * @param yVel 
+     * @param health 
+     * @param angle 
+     * @param moveAngle 
      */
     public constructor(
         gameobjectId: number,
@@ -23,7 +28,9 @@ class GameObject {
         yPos: number,
         xVel: number,
         yVel: number,
-        health: number
+        health: number,
+        angle: number,
+        moveAngle: number
     ) {
         this.gameobjectId = gameobjectId;
         this.loadImage(imgUrl);
@@ -32,6 +39,8 @@ class GameObject {
         this.xVel = xVel;
         this.yVel = yVel;
         this.health = health;
+        this.angle = angle;
+        this.moveAngle = moveAngle
     }
 
     /**
@@ -77,6 +86,41 @@ class GameObject {
     }
 
     /**
+     * Make object move in circles
+     * @param canvas the canvas
+     */
+    public moveInCircles(canvas: HTMLCanvasElement) {
+        this.angle += this.moveAngle * Math.PI / 20;
+        this.xPos -= this.xVel * Math.sin(this.angle);
+        this.yPos -= this.yVel * Math.cos(this.angle);
+    }
+
+    /**
+     * Let the game object move itself with its own given speed. It should also handle the offscreen
+     * events correctly
+     *
+     * @param canvas the canvas
+     */
+    public moveTillOneFourthScreen(canvas: HTMLCanvasElement) {
+        if (
+            this.xPos + this.img.width / 2 > canvas.width ||
+            this.xPos - this.img.width / 2 < 1000
+        ) {
+            this.xVel = -this.xVel;
+        }
+        if (
+            this.yPos + this.img.height / 2 > canvas.height ||
+            this.yPos - this.img.height / 2 < 0
+        ) {
+            this.yVel = -this.yVel;
+        }
+
+        // Use the velocity to change the position
+        this.xPos += this.xVel;
+        this.yPos += this.yVel;
+    }
+
+    /**
      * Shoot a projectile
      *
      * @param canvas the canvas
@@ -104,7 +148,6 @@ class GameObject {
             this.yPos >= -200 && this.yPos <= canvas.height;
     }
 
-
     /**
      * Check if projectile collides with game object
      * @param gameObject
@@ -113,7 +156,7 @@ class GameObject {
         return this.yPos + this.img.height > gameObject.getYPos()
             && this.yPos < gameObject.getYPos() + gameObject.getImgHeight()
             && this.xPos + this.img.width > gameObject.getXPos()
-            && this.xPos < gameObject.getXPos() + gameObject.getImgWidth();
+            && this.xPos < gameObject.getXPos() + gameObject.getImgWidth()
     }
 
     /**

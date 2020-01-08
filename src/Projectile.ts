@@ -9,6 +9,8 @@ class Projectile extends GameObject{
      * @param xVel x part of the velocity vector
      * @param yVel y part of the velocity vector
      * @param health
+     * @param angle
+     * @param moveAngle
      */
     public constructor(
         projectileId: number,
@@ -17,8 +19,10 @@ class Projectile extends GameObject{
         yPos: number,
         xVel: number,
         yVel: number,
-        health: number
+        health: number,
+        angle: number,
+        moveAngle: number
     ) {
-        super(projectileId, image, xPos, yPos, xVel, yVel, health);
+        super(projectileId, image, xPos, yPos, xVel, yVel, health, angle, moveAngle);
     }
 }

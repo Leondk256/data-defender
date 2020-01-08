@@ -1,5 +1,5 @@
 ///<reference path="Projectile.ts"/>
-class YoutubeBoss extends Projectile {
+class TiktokBoss extends Projectile {
     /**
      * Constructor
      * @param image

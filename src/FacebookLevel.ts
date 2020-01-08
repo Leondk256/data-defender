@@ -5,8 +5,8 @@ class FacebookLevel extends GameScreen {
     private facebookBoss: FacebookBoss;
     private gameTicker: number;
     private projectiles: Projectile[];
-    private cooldown: number;
-    private facebookPlanet: GameObject;
+    private cooldown: number;    
+    private facebookLevelObjects: GameObject[];
 
     public constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, keyboardListener: KeyboardListener, ship: Ship, playerProjectiles: Projectile) {
         super(canvas, ctx, keyboardListener, ship, playerProjectiles);
@@ -14,29 +14,28 @@ class FacebookLevel extends GameScreen {
         this.projectiles = [];
         this.cooldown = 0;
 
+        // Create facebookLevelObjects array
+        this.facebookLevelObjects = [];
+
         this.facebookBoss = new FacebookBoss(
             Game.currentId,
             "./assets/img/gameobject/enemies/facebookbossr.png",
-            this.canvas.width / 100 * 80,
+            this.canvas.width / 100 * 95,
             this.canvas.height / 100 * 50,
             0,
             10,
-            1
-        );
-
-        Game.currentId++;
-
-        this.facebookPlanet = new GameObject(
-            Game.currentId,
-            "./assets/img/environment/facebookplaneet1.png",
-            (this.canvas.width / 100) * 10,
-            (this.canvas.height / 100) * 75,
-            0,
+            1,
             0,
             0
         );
 
         Game.currentId++;
+
+        // Create thumbsup object
+        this.createGameObject("./assets/img/environment/thumbsupfb.png", 60, 20, this.facebookLevelObjects);
+
+        // Create facebookplanet object
+        this.createGameObject("./assets/img/environment/facebookplaneet1.png", 50, 80, this.facebookLevelObjects);
     }
 
     public draw() {
@@ -46,26 +45,14 @@ class FacebookLevel extends GameScreen {
             this.cooldown--;
         }
 
-        // Draw facebookplanet
-        this.facebookPlanet.draw(this.ctx);
+        // Draw stars
+        this.drawStars();
 
-        // Set the standard text color to white
-        let color = "black";
+        // Draw background design
+        this.drawAllObjects(this.facebookLevelObjects)
 
-        // Set the text color to red if the player only has 1 live left
-        if (this.ship.getHealth() < 2) {
-            color = "red";
-        }
-
-        // Write the lives left to the screen
-        this.writeTextToCanvas(
-            `Levens: ${this.ship.getHealth()}`,
-            30,
-            90,
-            60,
-            "center",
-            color,
-        );
+        // Draw Lives
+        this.drawLives();
 
         // If the Ship collides, remove one live
         if (this.ship.isCollidingWithProjectile(this.facebookBoss) === true) {
@@ -124,7 +111,9 @@ class FacebookLevel extends GameScreen {
                 this.facebookBoss.getYPos(),
                 5,
                 0,
-                1
+                1,
+                0,
+                0
             ));
             Game.currentId++;
         }
@@ -157,12 +146,14 @@ class FacebookLevel extends GameScreen {
         if (this.keyboardListener.isKeyDown(KeyboardListener.KEY_SPACE) && this.cooldown === 0) {
             this.playerProjectiles.push(new Projectile(
                 Game.currentId,
-                "./assets/img/gameobject/projectiles/friendly/lvl1r.png",
+                this.friendlyProjectileArray[0],
                 this.ship.getXPos() + 90,
                 this.ship.getYPos(),
                 10,
                 0,
-                1
+                1,
+                0,
+                0
             ));
             this.cooldown = 15;
             Game.currentId++;

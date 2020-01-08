@@ -5,8 +5,12 @@ class GameScreen {
     protected keyboardListener: KeyboardListener;
     protected ship: Ship;
     protected blackhole: GameObject;
+    protected stars: GameObject[];
+    protected starsX: number[];
+    protected starsY: number[];
     protected yes: GameObject;
     protected no: GameObject;
+    protected friendlyProjectileArray: string[];
 
     public constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, keyboardListener: KeyboardListener, ship: Ship, playerProjectiles: Projectile) {
         this.playerProjectiles = [];
@@ -22,15 +26,19 @@ class GameScreen {
             6,
             this.keyboardListener,
             3,
+            0,
+            0
         );
 
         Game.currentId++;
 
         this.yes = new GameObject(
             Game.currentId,
-            "./assets/img/environment/facebookplaneet1.png",
+            "./assets/img/buttons/Yes.png",
             (this.canvas.width / 100) * 50,
             (this.canvas.height / 100) * 40,
+            0,
+            0,
             0,
             0,
             0
@@ -42,14 +50,16 @@ class GameScreen {
 
         this.no = new GameObject(
             Game.currentId,
-            "./assets/img/environment/facebookplaneet1.png",
+            "./assets/img/buttons/No.png",
             (this.canvas.width / 100) * 50,
             (this.canvas.height / 100) * 80,
             0,
             0,
+            0,
+            0,
             0
         );
-        
+
         Game.currentId++;
 
         this.blackhole = new GameObject(
@@ -59,15 +69,74 @@ class GameScreen {
             -1000,
             0,
             0,
-            1
+            1,
+            0,
+            0
         );
+        this.friendlyProjectileArray = [
+            "./assets/img/gameobject/projectiles/friendly/lvl1r.png",
+            "./assets/img/gameobject/projectiles/friendly/lvl2r.png",
+            "./assets/img/gameobject/projectiles/friendly/lvl3r.png"
+        ]
+
+        //decide where the default star position is on all screens
+        this.starsX = [(this.canvas.width / 100) * 25, (this.canvas.width / 100) * 10, (this.canvas.width / 100) * 90]
+        this.starsY = [(this.canvas.height / 100) * 10, (this.canvas.height / 100) * 80, (this.canvas.height / 100) * 10]
+
+        // Add stars to the stars array
+        this.stars = [];
+        for (let i = 0; i <= 2; i++) {
+            this.stars.push(
+                new GameObject(
+                    Game.currentId,
+                    `./assets/img/environment/stars/star${i}.png`,
+                    this.starsX[i],
+                    this.starsY[i],
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                )
+            )
+        };
+
 
         Game.currentId++;
 
         this.keyboardListener = new KeyboardListener;
     }
 
-    public draw() { }
+    public draw() {
+    }
+
+    public drawLives() {
+        // Set the standard text color to white
+        let color = "black";
+
+        // Set the text color to red if the player only has 1 live left
+        if (this.ship.getHealth() < 2) {
+            color = "red";
+        }
+
+        // Write the lives on the top left of the screen
+        this.writeTextToCanvas(
+            `Levens: ${this.ship.getHealth()}`,
+            30,
+            90,
+            60,
+            "center",
+            color,
+        );
+    }
+
+    //use this function to draw stars on your desired screen
+    public drawStars() {
+        for (let i = 0; i <= 2; i++) {
+            this.stars[i].draw(this.ctx)
+        }
+    }
+
 
     /**
      * 
@@ -91,9 +160,19 @@ class GameScreen {
                 (this.canvas.height / 100) * objectY,
                 0,
                 0,
+                0,
+                0,
                 0
             )
         )
+    }
+
+    public drawAllObjects(
+        objectArray: GameObject[],
+    ) {
+        objectArray.forEach(element => {
+            element.draw(this.ctx)
+        });
     }
 
     /**
@@ -118,6 +197,36 @@ class GameScreen {
         this.ctx.textAlign = alignment;
         this.ctx.fillText(text, xCoordinate, yCoordinate);
     }
+
+    /**
+ * 
+ * @param ctx : Canvasrenderingcontext to write on.
+ * @param str : The string to write if you want a new line use \n.
+ * @param xPos : Xposition of the text.
+ * @param yPos : Ypostition of the text.
+ * @param lineheight : How large the linebreaks or 'enters' should be.
+ */
+
+    protected writeMultipleTextLinesToCanvas(
+        ctx: CanvasRenderingContext2D,
+        str: string,
+        xPos: number,
+        yPos: number,
+        lineheight: number
+    ) {
+        // based on https://www.tutorialspoint.com/HTML5-canvas-ctx-fillText-won-t-do-line-breaks
+        this.ctx.font = '20px Spacecomics';
+
+        // use \n as a delimiter (you can choose any delimter), the split function uses this delimiter to cut the string into two strings
+        // lines is an array with all the strings
+        let lines = str.split('\n');
+
+        // loop over all the strings and write each string a number of lineheights under eacht oter 
+        for (let j = 0; j < lines.length; j++) {
+            ctx.fillText(lines[j], ((this.canvas.width / 100) * xPos), ((this.canvas.height / 100) * yPos) + (j * lineheight));
+        }
+    }
+
 
     /**
      * Renders a random number between min and max

@@ -13,6 +13,8 @@ class Ship extends GameObject {
      * @param yVel
      * @param keyboardListener
      * @param health
+     * @param angle
+     * @param moveAngle
      */
     public constructor(
         id: number,
@@ -23,8 +25,10 @@ class Ship extends GameObject {
         yVel: number,
         keyboardListener: KeyboardListener,
         health: number,
+        angle: number,
+        moveAngle: number
     ) {
-        super(id, imgUrl, xPos, yPos, xVel, yVel, health);
+        super(id, imgUrl, xPos, yPos, xVel, yVel, health, angle, moveAngle);
         this.keyboardListener = new KeyboardListener();
         this.projectiles = [];
     }
