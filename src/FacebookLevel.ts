@@ -52,14 +52,6 @@ class FacebookLevel extends GameScreen {
         // Draw Lives
         this.drawLives();
 
-        // Draw objective
-        this.writeTextToCanvas(
-            "Versla Facebook, gebruik spatiebalk om te schieten!",
-            30,
-            (this.canvas.width / 100) * 50,
-            (this.canvas.height / 100) * 5
-        );
-
         // If the Ship collides, remove one live
         if (this.ship.isCollidingWithProjectile(this.facebookBoss) === true) {
             this.ship.setHealth(this.ship.getHealth() - 1);

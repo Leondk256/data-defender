@@ -18,7 +18,7 @@ class StartScreen extends GameScreen {
     private nameInputFieldY: number;
     private startButtonX: number;
     private startButtonY: number;
-    
+
     private startScreenObjects: GameObject[];
 
     private shipSelector: number;
@@ -78,13 +78,13 @@ class StartScreen extends GameScreen {
         document.addEventListener("click", this.mouseHandler);
 
         // Add facebookplanet background image
-        this.createGameObject("./assets/img/environment/facebookplaneet1.png", 10, 50, this.startScreenObjects)
+        this.createGameObject("./assets/img/environment/facebookplaneet1.png", 10, 40, this.startScreenObjects)
 
         // Add TikTokplanet background image
         this.createGameObject("./assets/img/environment/tiktokplaneet.png", 75, 12, this.startScreenObjects)
 
         // Add Youtubeplaneet
-        this.createGameObject("./assets/img/environment/youtubeplaneet.png", 80, 65, this.startScreenObjects)
+        this.createGameObject("./assets/img/environment/youtubeplaneet.png", 25, 85, this.startScreenObjects)
 
         // Add thumbsup
         this.createGameObject("./assets/img/environment/thumbsupfb.png", 90, 85, this.startScreenObjects)
@@ -136,6 +136,24 @@ class StartScreen extends GameScreen {
             30,
             this.canvas.width / 2,
             (this.canvas.height / 100) * 45
+        );
+
+        // Tutorial: Write goal to canvas of the Startscreen
+        this.writeMultipleTextLinesToCanvas(
+            this.ctx,
+            'Doel: \n\nVersla de sociale media!\n\n',
+            20,
+            60,
+            17
+        );
+
+        //Tutorial: Write controls to the canvas of the Startcreen
+        this.writeMultipleTextLinesToCanvas(
+            this.ctx,
+            'Besturing:\n\nGebruik de pijltjestoetsen om\n projectielen te ontwijken!\n\nGebruik spatiebalk om te schieten!',
+            80,
+            60,
+            17
         );
 
         // Add ship selector buttons
