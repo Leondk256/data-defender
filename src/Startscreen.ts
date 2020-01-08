@@ -40,7 +40,12 @@ class StartScreen extends GameScreen {
         this.buttonLeft = new Image();
         this.buttonLeft.src = "./assets/img/buttons/arrowLeft.png";
 
+        // Reset all gamestates
         Game.gameStarted = false;
+        Game.blackholescreenIntoYoutube = false;
+        Game.blackholescreenIntoTiktok = false;
+        Game.stateCounter = 0;
+        Game.stateCounter2 = 0;
 
         // Reset playerlives when start screen is initiated
         Game.playerLives = 3;

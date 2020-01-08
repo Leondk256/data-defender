@@ -8,6 +8,9 @@ class Game {
     public static globalPlayerName: string;
     public static blackholescreen: boolean;
     public static blackholescreenIntoTiktok: Boolean;
+    public static blackholescreenIntoYoutube: Boolean;
+    public static stateCounter: number;
+    public static stateCounter2: number;
     public static gameOverScreen: boolean;
     public static currentId: number = 0;
     public static gameStarted: boolean;
@@ -42,6 +45,8 @@ class Game {
      * Method game loop
      */
     public loop = () => {
+        console.log(Game.blackholescreenIntoTiktok)
+        console.log(Game.stateCounter);
         //Count the ticks in the game
         this.gameCounter++;
 
@@ -78,14 +83,33 @@ class Game {
         }
 
         if (
-            this.currentScreen instanceof BlackholeScreen && Game.blackholescreenIntoTiktok === true) {
+            this.currentScreen instanceof YoutubeLevel
+            && Game.blackholescreen === true) {
+            this.currentScreen = new BlackholeScreen(this.canvas, this.ctx, this.keyboardListener, null, null);
+        }
+
+        if (
+            this.currentScreen instanceof BlackholeScreen 
+            && Game.blackholescreenIntoTiktok === true) {
             this.currentScreen = new TiktokLevel(this.canvas, this.ctx, this.keyboardListener, null, null);
+        }
+
+        if (
+            this.currentScreen instanceof BlackholeScreen 
+            && Game.blackholescreenIntoYoutube === true) {
+            this.currentScreen = new YoutubeLevel(this.canvas, this.ctx, this.keyboardListener, null, null);
         }
 
         if (
             this.currentScreen instanceof FacebookLevel
             && Game.gameOverScreen === true) {
             this.currentScreen = new GameOverScreen(this.canvas, this.ctx, this.keyboardListener, null, null);
+        }
+
+        if (
+            this.currentScreen instanceof TiktokLevel
+            && Game.blackholescreen === true) {
+            this.currentScreen = new BlackholeScreen(this.canvas, this.ctx, this.keyboardListener, null, null);
         }
 
         if (

@@ -77,7 +77,9 @@ class FacebookLevel extends GameScreen {
             this.blackhole.setYPos(this.canvas.height / 100 * 90);
 
             // Check if the Ship is colliding with the blackhole once it's visible
-            Game.blackholescreen = this.ship.isCollidingWithProjectile(this.blackhole) === true;
+            if (this.ship.isCollidingWithProjectile(this.blackhole) === true) {
+                Game.blackholescreen = true;
+            }
 
         } else {
             // Draw the Facebook boss

@@ -23,7 +23,7 @@ class TiktokLevel extends GameScreen {
             this.canvas.height / 100 * 50,
             6,
             6,
-            50,
+            1,
             0,
             0
         );
@@ -86,7 +86,11 @@ class TiktokLevel extends GameScreen {
             this.blackhole.setYPos(this.canvas.height / 100 * 90);
 
             // Check if the Ship is colliding with the blackhole once it's visible
-            Game.blackholescreen = this.ship.isCollidingWithProjectile(this.blackhole) === true;
+             if (this.ship.isCollidingWithProjectile(this.blackhole) === true) {
+                Game.blackholescreen = true
+                Game.blackholescreenIntoTiktok = false;
+                Game.blackholescreenIntoYoutube = false;
+            }
 
         } else {
             // Draw the Facebook boss
