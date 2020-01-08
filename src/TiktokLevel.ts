@@ -97,7 +97,7 @@ class TiktokLevel extends GameScreen {
         }
 
         this.writeTextToCanvas(
-            `Health: ${this.tiktokBoss.getHealth()}`,
+            `Levens: ${this.tiktokBoss.getHealth()}`,
             30,
             this.tiktokBoss.getXPos(),
             this.tiktokBoss.getYPos() - 100,
@@ -134,7 +134,6 @@ class TiktokLevel extends GameScreen {
                 projectile.draw(this.ctx);
                 projectile.shootProjectileRightToLeft(this.canvas);
                 projectile.moveInCircles(this.canvas);
-
 
                 // check if projectile collides with ship
                 if (this.ship.isCollidingWithProjectile(projectile)) {

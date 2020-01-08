@@ -88,7 +88,7 @@ class FacebookLevel extends GameScreen {
         }
 
         this.writeTextToCanvas(
-            `Health: ${this.facebookBoss.getHealth()}`,
+            `Levens: ${this.facebookBoss.getHealth()}`,
             30,
             this.facebookBoss.getXPos(),
             this.facebookBoss.getYPos() - 100,

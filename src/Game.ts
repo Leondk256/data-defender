@@ -13,7 +13,6 @@ class Game {
     public static gameStarted: boolean;
     public static playerLives: number;
     public static blackholeScreenCounter: number;
-    public static currentFriendlyProjectile: number;
 
     private currentScreen: GameScreen;
 
@@ -71,16 +70,16 @@ class Game {
             Game.gameOverScreen = false;
         }
 
-        if (
-            this.currentScreen instanceof FacebookLevel
-            && Game.blackholescreen === true) {
-            this.currentScreen = new BlackholeScreen(this.canvas, this.ctx, this.keyboardListener, null, null);
-        }
+        // if (
+        //     this.currentScreen instanceof FacebookLevel
+        //     && Game.blackholescreen === true) {
+        //     this.currentScreen = new BlackholeScreen(this.canvas, this.ctx, this.keyboardListener, null, null);
+        // }
 
-        if (
-            this.currentScreen instanceof BlackholeScreen && Game.blackholescreenIntoTiktok === true) {
-            this.currentScreen = new TiktokLevel(this.canvas, this.ctx, this.keyboardListener, null, null);
-        }
+        // if (
+        //     this.currentScreen instanceof BlackholeScreen && Game.blackholescreenIntoTiktok === true) {
+        //     this.currentScreen = new TiktokLevel(this.canvas, this.ctx, this.keyboardListener, null, null);
+        // }
 
         if (
             this.currentScreen instanceof FacebookLevel
