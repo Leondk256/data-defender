@@ -11,5 +11,12 @@ class GameOverScreen extends GameScreen{
             (this.canvas.width / 100) * 50,
             (this.canvas.height / 100) * 15
         );
+
+        this.writeTextToCanvas(
+            "Druk op de esc knop om terug te gaan naar het hoofdmenu",
+            24,
+            (this.canvas.width / 100) * 50,
+            (this.canvas.height / 100) * 25
+        );
     }
 }
