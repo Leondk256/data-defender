@@ -9,8 +9,10 @@ class Game {
     public static blackholescreen: boolean;
     public static blackholescreenIntoTiktok: Boolean;
     public static blackholescreenIntoYoutube: Boolean;
+    public static blackholescreenIntoTitle: Boolean;
     public static stateCounter: number;
     public static stateCounter2: number;
+    public static stateCounter3: number;
     public static gameOverScreen: boolean;
     public static currentId: number = 0;
     public static gameStarted: boolean;
@@ -103,6 +105,12 @@ class Game {
             this.currentScreen instanceof BlackholeScreen 
             && Game.blackholescreenIntoYoutube === true) {
             this.currentScreen = new YoutubeLevel(this.canvas, this.ctx, this.keyboardListener, null, null);
+        }
+
+        if (
+            this.currentScreen instanceof BlackholeScreen 
+            && Game.blackholescreenIntoTitle === true) {
+            this.currentScreen = new TitleScreen(this.canvas, this.ctx, this.keyboardListener, null, null);
         }
 
         if (

@@ -44,8 +44,10 @@ class StartScreen extends GameScreen {
         Game.gameStarted = false;
         Game.blackholescreenIntoYoutube = false;
         Game.blackholescreenIntoTiktok = false;
+        Game.blackholescreenIntoTitle = false;
         Game.stateCounter = 0;
         Game.stateCounter2 = 0;
+        Game.stateCounter3 = 0;
 
         // Reset playerlives when start screen is initiated
         Game.playerLives = 3;

@@ -84,17 +84,26 @@ class BlackholeScreen extends GameScreen {
             Game.currentId++;
         }
 
+        if (this.ship.isCollidingWithProjectile(this.blackhole) === true && Game.stateCounter3 === 1) {
+            Game.blackholescreenIntoTiktok = false;
+            Game.blackholescreenIntoYoutube = false;
+            Game.blackholescreenIntoTitle = true;
+            Game.blackholescreen = false;
+        }
+
         if (this.ship.isCollidingWithProjectile(this.blackhole) === true && Game.stateCounter2 === 1) {
             Game.blackholescreenIntoTiktok = false;
             Game.blackholescreenIntoYoutube = true;
             Game.blackholescreen = false;
-            Game.stateCounter = 2;
+            Game.stateCounter2 = 50;
+            Game.stateCounter3 = 1; 
         }
 
         if (this.ship.isCollidingWithProjectile(this.blackhole) === true && Game.stateCounter === 0) {
             Game.blackholescreen = false;
             Game.blackholescreenIntoTiktok = true;
             Game.blackholescreenIntoYoutube = false;
+            Game.stateCounter = 50;
             Game.stateCounter2 = 1;
         }
 
