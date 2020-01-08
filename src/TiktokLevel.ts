@@ -29,7 +29,7 @@ class TiktokLevel extends GameScreen {
             this.canvas.width / 100 * 90,
             this.canvas.height / 100 * 50,
             5,
-            10,
+            15,
             1,
         );
         // Create empty tiktokobject array
@@ -123,7 +123,7 @@ class TiktokLevel extends GameScreen {
         if (this.gameTicker % 30 === 0) {
             this.projectiles.push(new Projectile(
                 Game.currentId,
-                "./assets/img/gameobject/projectiles/hostile/thumbsdownr.png",
+                "./assets/img/gameobject/projectiles/hostile/music_note.png",
                 this.tiktokBoss.getXPos() - 130,
                 this.tiktokBoss.getYPos(),
                 5,
@@ -135,7 +135,7 @@ class TiktokLevel extends GameScreen {
             if (this.splitFireProjectiles.length !== this.splitFireAmount && this.canFireSplitFire !== true) {
                 this.splitFireProjectiles.push(new Projectile(
                     Game.currentId,
-                    "./assets/img/gameobject/projectiles/hostile/thumbsdownr.png",
+                    "./assets/img/gameobject/projectiles/hostile/music_note.png",
                     this.tiktokBoss.getXPos() - 130,
                     this.tiktokBoss.getYPos(),
                     5,

@@ -103,7 +103,7 @@ class StartScreen extends GameScreen {
                     Game.currentId,
                     `./assets/img/ship${i}.png`,
                     this.canvas.width / 2,
-                    (this.canvas.height / 100) * 70,
+                    (this.canvas.height / 100) * 66,
                     5,
                     5,
                     this.keyboardListener,
