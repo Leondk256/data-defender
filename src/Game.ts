@@ -76,6 +76,13 @@ class Game {
         }
 
         if (
+            this.currentScreen instanceof TitleScreen
+            && (Game.gameStarted === true || this.keyboardListener.isKeyDown(KeyboardListener.KEY_ESC))
+        ) {
+            this.currentScreen = new StartScreen(this.canvas, this.ctx, this.keyboardListener, null, null);
+        }
+
+        if (
             this.currentScreen instanceof FacebookLevel && Game.blackholescreen === true) {
             this.currentScreen = new BlackholeScreen(this.canvas, this.ctx, this.keyboardListener, null, null);
         }
