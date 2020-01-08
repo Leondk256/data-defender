@@ -9,7 +9,7 @@ class BlackholeScreen extends GameScreen {
         this.blackholeQuestions = [
             "Is het slim om met wie dan ook online gevoelige gegevens te delen?",
             "Je krijgt een vriendschapsverzoek van een vreemde, is het slim om deze te accepteren?",
-            "Iemand vraagt je een foto te sturen om je identiteit te bevestigen, is het slim om deze actie uit te voeren?"
+            "Iemand vraagt je een foto te sturen om je identiteit te bevestigen,\n is het slim om deze actie uit te voeren?"
         ]
     }
 
@@ -45,11 +45,13 @@ class BlackholeScreen extends GameScreen {
             (this.canvas.height / 100) * 25
         );
 
-        this.writeTextToCanvas(
-            this.blackholeQuestions[Game.blackholeScreenCounter],
+        this.writeMultipleTextLinesToCanvas(
             30,
-            (this.canvas.width / 100) * 50,
-            (this.canvas.height / 100) * 60
+            this.ctx,
+            this.blackholeQuestions[Game.blackholeScreenCounter],
+            50,
+            60,
+            30
         );
 
         this.writeTextToCanvas(
