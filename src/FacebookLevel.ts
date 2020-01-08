@@ -5,8 +5,7 @@ class FacebookLevel extends GameScreen {
     private facebookBoss: FacebookBoss;
     private gameTicker: number;
     private projectiles: Projectile[];
-    private cooldown: number;
-    private facebookPlanet: GameObject;
+    private cooldown: number;    
     private facebookLevelObjects: GameObject[];
 
     public constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, keyboardListener: KeyboardListener, ship: Ship, playerProjectiles: Projectile) {
@@ -50,7 +49,16 @@ class FacebookLevel extends GameScreen {
         // Draw background design
         this.drawAllObjects(this.facebookLevelObjects)
 
+        // Draw Lives
         this.drawLives();
+
+        // Draw objective
+        this.writeTextToCanvas(
+            "Versla Facebook, gebruik spatiebalk om te schieten!",
+            30,
+            (this.canvas.width / 100) * 50,
+            (this.canvas.height / 100) * 5
+        );
 
         // If the Ship collides, remove one live
         if (this.ship.isCollidingWithProjectile(this.facebookBoss) === true) {

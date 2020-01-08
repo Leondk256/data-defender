@@ -18,15 +18,11 @@ class StartScreen extends GameScreen {
     private nameInputFieldY: number;
     private startButtonX: number;
     private startButtonY: number;
+    
     private startScreenObjects: GameObject[];
 
-    private youtubePlanet: GameObject;
-    private tiktokPlanet: GameObject;
-    private facebookPlanet: GameObject;
     private shipSelector: number;
     private ships: Ship[];
-    private thumbsUp: GameObject;
-    private heart: GameObject;
     //count all gamecycles
     private gamecounter: number;
 
