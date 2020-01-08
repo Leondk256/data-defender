@@ -64,13 +64,12 @@ class Game {
             && (Game.gameStarted === true || this.keyboardListener.isKeyDown(KeyboardListener.KEY_S))
         ) {
             // this.currentScreen = new FacebookLevel(this.canvas, this.ctx, this.keyboardListener, null, null);
-            this.currentScreen = new FacebookLevel(this.canvas, this.ctx, this.keyboardListener, null, null);
+            this.currentScreen = new YoutubeLevel(this.canvas, this.ctx, this.keyboardListener, null, null);
             Game.gameOverScreen = false;
         }
 
         if (
-            this.currentScreen instanceof FacebookLevel
-            && Game.blackholescreen === true) {
+            this.currentScreen instanceof FacebookLevel && Game.blackholescreen === true) {
             this.currentScreen = new BlackholeScreen(this.canvas, this.ctx, this.keyboardListener, null, null);
         }
 
@@ -80,9 +79,18 @@ class Game {
         }
 
         if (
-            this.currentScreen instanceof FacebookLevel
-            && Game.gameOverScreen === true) {
+            this.currentScreen instanceof FacebookLevel && Game.gameOverScreen === true) {
             this.currentScreen = new GameOverScreen(this.canvas, this.ctx, this.keyboardListener, null, null);
+        }
+
+        if (
+            this.currentScreen instanceof YoutubeLevel && Game.gameOverScreen === true) {
+            this.currentScreen = new GameOverScreen(this.canvas, this.ctx, this.keyboardListener, null, null);
+        }
+
+        if (
+            this.currentScreen instanceof YoutubeLevel && Game.blackholescreen === true) {
+            this.currentScreen = new BlackholeScreen(this.canvas, this.ctx, this.keyboardListener, null, null);
         }
 
         if (
