@@ -40,7 +40,12 @@ class StartScreen extends GameScreen {
         this.buttonLeft = new Image();
         this.buttonLeft.src = "./assets/img/buttons/arrowLeft.png";
 
+        // Reset all gamestates
         Game.gameStarted = false;
+        Game.blackholescreenIntoYoutube = false;
+        Game.blackholescreenIntoTiktok = false;
+        Game.stateCounter = 0;
+        Game.stateCounter2 = 0;
 
         // Reset playerlives when start screen is initiated
         Game.playerLives = 3;
@@ -138,6 +143,24 @@ class StartScreen extends GameScreen {
             30,
             this.canvas.width / 2,
             (this.canvas.height / 100) * 45
+        );
+
+        // Tutorial: Write goal to canvas of the Startscreen
+        this.writeMultipleTextLinesToCanvas(
+            this.ctx,
+            'Doel: \n\nVersla de sociale media!\n\n',
+            20,
+            60,
+            17
+        );
+
+        //Tutorial: Write controls to the canvas of the Startcreen
+        this.writeMultipleTextLinesToCanvas(
+            this.ctx,
+            'Besturing:\n\nGebruik W, A, S en D om\n projectielen te ontwijken!\n\nGebruik spatiebalk om te schieten!',
+            80,
+            60,
+            17
         );
 
         // Add ship selector buttons

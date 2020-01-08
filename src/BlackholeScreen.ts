@@ -7,8 +7,8 @@ class BlackholeScreen extends GameScreen {
         this.cooldown = 0;
         Game.blackholeScreenCounter++;
         this.blackholeQuestions = [
-            "Is het slim om met wie dan ook online gevoelige gegevens te delen?", 
-            "Je krijgt een vriendschapsverzoek van een vreemde, is het slim om deze te accepteren?", 
+            "Is het slim om met wie dan ook online gevoelige gegevens te delen?",
+            "Je krijgt een vriendschapsverzoek van een vreemde, is het slim om deze te accepteren?",
             "Iemand vraagt je een foto te sturen om je identiteit te bevestigen, is het slim om deze actie uit te voeren?"
         ]
     }
@@ -37,8 +37,6 @@ class BlackholeScreen extends GameScreen {
             (this.canvas.width / 100) * 50,
             (this.canvas.height / 100) * 15
         );
-
-        Game.blackholescreenIntoTiktok = this.ship.isCollidingWithProjectile(this.blackhole) === true;
 
         this.writeTextToCanvas(
             "Schiet op het juiste antwoord",
@@ -83,6 +81,21 @@ class BlackholeScreen extends GameScreen {
             this.cooldown = 15;
             Game.currentId++;
         }
+
+        if (this.ship.isCollidingWithProjectile(this.blackhole) === true && Game.stateCounter2 === 1) {
+            Game.blackholescreenIntoTiktok = false;
+            Game.blackholescreenIntoYoutube = true;
+            Game.blackholescreen = false;
+            Game.stateCounter = 2;
+        }
+
+        if (this.ship.isCollidingWithProjectile(this.blackhole) === true && Game.stateCounter === 0) {
+            Game.blackholescreen = false;
+            Game.blackholescreenIntoTiktok = true;
+            Game.blackholescreenIntoYoutube = false;
+            Game.stateCounter2 = 1;
+        }
+
 
         // Move and draw all the game entities
         this.playerProjectiles.forEach((projectile) => {
