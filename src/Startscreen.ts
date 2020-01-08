@@ -83,13 +83,13 @@ class StartScreen extends GameScreen {
         document.addEventListener("click", this.mouseHandler);
 
         // Add facebookplanet background image
-        this.createGameObject("./assets/img/environment/facebookplaneet1.png", 10, 50, this.startScreenObjects)
+        this.createGameObject("./assets/img/environment/facebookplaneet1.png", 10, 40, this.startScreenObjects)
 
         // Add TikTokplanet background image
         this.createGameObject("./assets/img/environment/tiktokplaneet.png", 75, 12, this.startScreenObjects)
 
         // Add Youtubeplaneet
-        this.createGameObject("./assets/img/environment/youtubeplaneet.png", 80, 65, this.startScreenObjects)
+        this.createGameObject("./assets/img/environment/youtubeplaneet.png", 30, 85, this.startScreenObjects)
 
         // Add thumbsup
         this.createGameObject("./assets/img/environment/thumbsupfb.png", 90, 85, this.startScreenObjects)
