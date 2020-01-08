@@ -20,7 +20,7 @@ class YoutubeLevel extends GameScreen {
             this.canvas.height / 100 * 50,
             4,
             9,
-            20,
+            1,
             1,
             1,
         );
@@ -145,7 +145,8 @@ class YoutubeLevel extends GameScreen {
 
             // Check if the Ship is colliding with the blackhole once it's visible
             if (this.ship.isCollidingWithProjectile(this.blackhole) === true) {
-                Game.blackholescreen = true
+                Game.blackholescreen = true;
+                Game.blackholescreenIntoYoutube = false;
             }
 
         } else {

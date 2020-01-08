@@ -150,6 +150,7 @@ class StartScreen extends GameScreen {
 
         // Tutorial: Write goal to canvas of the Startscreen
         this.writeMultipleTextLinesToCanvas(
+            20,
             this.ctx,
             'Doel: \n\nVersla de sociale media!\n\n',
             20,
@@ -159,6 +160,7 @@ class StartScreen extends GameScreen {
 
         //Tutorial: Write controls to the canvas of the Startcreen
         this.writeMultipleTextLinesToCanvas(
+            20,
             this.ctx,
             'Besturing:\n\nGebruik W, A, S en D om\n projectielen te ontwijken!\n\nGebruik spatiebalk om te schieten!',
             80,

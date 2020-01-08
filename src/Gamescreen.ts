@@ -208,14 +208,15 @@ class GameScreen {
  */
 
     protected writeMultipleTextLinesToCanvas(
+        fontSize: number = 20,
         ctx: CanvasRenderingContext2D,
         str: string,
         xPos: number,
         yPos: number,
-        lineheight: number
+        lineheight: number = 15
     ) {
         // based on https://www.tutorialspoint.com/HTML5-canvas-ctx-fillText-won-t-do-line-breaks
-        this.ctx.font = '20px Spacecomics';
+        this.ctx.font = `${fontSize}px Spacecomics`;
 
         // use \n as a delimiter (you can choose any delimter), the split function uses this delimiter to cut the string into two strings
         // lines is an array with all the strings
