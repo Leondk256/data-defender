@@ -14,10 +14,10 @@ class KeyboardListener {
     // keycode, see:https://keycode.info/
     public static readonly KEY_ESC   = 27;
     public static readonly KEY_SPACE = 32;
-    public static readonly KEY_LEFT  = 37;
-    public static readonly KEY_UP    = 38;
-    public static readonly KEY_RIGHT = 39;
-    public static readonly KEY_DOWN  = 40;
+    public static readonly KEY_LEFT  = 65;
+    public static readonly KEY_UP    = 87;
+    public static readonly KEY_RIGHT = 68;
+    public static readonly KEY_DOWN  = 83;
     public static readonly KEY_S     = 83;
 
     // Array that holds the state of all keys
