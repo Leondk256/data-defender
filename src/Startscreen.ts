@@ -74,6 +74,9 @@ class StartScreen extends GameScreen {
         // Set initial blackholescreen counter
         Game.blackholeScreenCounter = -1;
 
+        // Set default friendly projectile
+        Game.currentFriendlyProjectile = 0; 
+
         //Add mouselistener
         document.addEventListener("click", this.mouseHandler);
 

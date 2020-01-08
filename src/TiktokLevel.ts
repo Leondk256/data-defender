@@ -43,7 +43,7 @@ class TiktokLevel extends GameScreen {
         this.createGameObject("./assets/img/environment/Heart.png", 50, 70, this.tiktokObjects)
         this.createGameObject("./assets/img/environment/Heart.png", 60, 15, this.tiktokObjects)
 
-        
+
     }
 
     public draw() {
@@ -202,7 +202,7 @@ class TiktokLevel extends GameScreen {
         if (this.keyboardListener.isKeyDown(KeyboardListener.KEY_SPACE) && this.cooldown === 0) {
             this.playerProjectiles.push(new Projectile(
                 Game.currentId,
-                "./assets/img/gameobject/projectiles/friendly/lvl1r.png",
+                this.friendlyProjectileArray[1],
                 this.ship.getXPos() + 90,
                 this.ship.getYPos(),
                 10,

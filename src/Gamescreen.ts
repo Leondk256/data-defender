@@ -10,6 +10,7 @@ class GameScreen {
     protected starsY: number[];
     protected yes: GameObject;
     protected no: GameObject;
+    protected friendlyProjectileArray: string[];
 
     public constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, keyboardListener: KeyboardListener, ship: Ship, playerProjectiles: Projectile) {
         this.playerProjectiles = [];
@@ -64,6 +65,11 @@ class GameScreen {
             0,
             1
         );
+        this.friendlyProjectileArray = [
+            "./assets/img/gameobject/projectiles/friendly/lvl1r.png",
+            "./assets/img/gameobject/projectiles/friendly/lvl2r.png",
+            "./assets/img/gameobject/projectiles/friendly/lvl3r.png"
+        ]
 
         //decide where the default star position is on all screens
         this.starsX = [(this.canvas.width / 100) * 25, (this.canvas.width / 100) * 10, (this.canvas.width / 100) * 90]
@@ -150,7 +156,7 @@ class GameScreen {
     }
 
     public drawAllObjects(
-        objectArray: GameObject [],
+        objectArray: GameObject[],
     ) {
         objectArray.forEach(element => {
             element.draw(this.ctx)
@@ -180,14 +186,14 @@ class GameScreen {
         this.ctx.fillText(text, xCoordinate, yCoordinate);
     }
 
-        /**
-     * 
-     * @param ctx : Canvasrenderingcontext to write on.
-     * @param str : The string to write if you want a new line use \n.
-     * @param xPos : Xposition of the text.
-     * @param yPos : Ypostition of the text.
-     * @param lineheight : How large the linebreaks or 'enters' should be.
-     */
+    /**
+ * 
+ * @param ctx : Canvasrenderingcontext to write on.
+ * @param str : The string to write if you want a new line use \n.
+ * @param xPos : Xposition of the text.
+ * @param yPos : Ypostition of the text.
+ * @param lineheight : How large the linebreaks or 'enters' should be.
+ */
 
     protected writeMultipleTextLinesToCanvas(
         ctx: CanvasRenderingContext2D,
