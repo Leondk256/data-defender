@@ -71,8 +71,15 @@ class Game {
             && (Game.gameStarted === true || this.keyboardListener.isKeyDown(KeyboardListener.KEY_S))
         ) {
             // this.currentScreen = new FacebookLevel(this.canvas, this.ctx, this.keyboardListener, null, null);
-            this.currentScreen = new TitleScreen(this.canvas, this.ctx, this.keyboardListener, null, null);
+            this.currentScreen = new FacebookLevel(this.canvas, this.ctx, this.keyboardListener, null, null);
             Game.gameOverScreen = false;
+        }
+
+        if (
+            this.currentScreen instanceof TitleScreen
+            && (Game.gameStarted === true || this.keyboardListener.isKeyDown(KeyboardListener.KEY_ESC))
+        ) {
+            this.currentScreen = new StartScreen(this.canvas, this.ctx, this.keyboardListener, null, null);
         }
 
         if (

@@ -137,7 +137,6 @@ class GameScreen {
         }
     }
 
-
     /**
      * 
      * @param imgFileName Object image file path
