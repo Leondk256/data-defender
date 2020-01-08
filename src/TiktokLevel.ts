@@ -63,14 +63,6 @@ class TiktokLevel extends GameScreen {
         // Draw lives
         this.drawLives();
 
-        // Draw objective
-        this.writeTextToCanvas(
-            "Versla Tiktok, gebruik spatiebalk om te schieten!",
-            30,
-            (this.canvas.width / 100) * 50,
-            (this.canvas.height / 100) * 5
-        );
-
         // If the Ship collides, remove one live
         if (this.ship.isCollidingWithProjectile(this.tiktokBoss) === true) {
             this.ship.setHealth(this.ship.getHealth() - 1);
@@ -168,7 +160,7 @@ class TiktokLevel extends GameScreen {
         if (this.keyboardListener.isKeyDown(KeyboardListener.KEY_SPACE) && this.cooldown === 0) {
             this.playerProjectiles.push(new Projectile(
                 Game.currentId,
-                "./assets/img/gameobject/projectiles/friendly/lvl1r.png",
+                this.friendlyProjectileArray[1],
                 this.ship.getXPos() + 90,
                 this.ship.getYPos(),
                 10,

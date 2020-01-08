@@ -10,6 +10,7 @@ class GameScreen {
     protected starsY: number[];
     protected yes: GameObject;
     protected no: GameObject;
+    protected friendlyProjectileArray: string[];
 
     public constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, keyboardListener: KeyboardListener, ship: Ship, playerProjectiles: Projectile) {
         this.playerProjectiles = [];
@@ -72,6 +73,11 @@ class GameScreen {
             0,
             0
         );
+        this.friendlyProjectileArray = [
+            "./assets/img/gameobject/projectiles/friendly/lvl1r.png",
+            "./assets/img/gameobject/projectiles/friendly/lvl2r.png",
+            "./assets/img/gameobject/projectiles/friendly/lvl3r.png"
+        ]
 
         //decide where the default star position is on all screens
         this.starsX = [(this.canvas.width / 100) * 25, (this.canvas.width / 100) * 10, (this.canvas.width / 100) * 90]
@@ -162,7 +168,7 @@ class GameScreen {
     }
 
     public drawAllObjects(
-        objectArray: GameObject [],
+        objectArray: GameObject[],
     ) {
         objectArray.forEach(element => {
             element.draw(this.ctx)
@@ -191,6 +197,36 @@ class GameScreen {
         this.ctx.textAlign = alignment;
         this.ctx.fillText(text, xCoordinate, yCoordinate);
     }
+
+    /**
+ * 
+ * @param ctx : Canvasrenderingcontext to write on.
+ * @param str : The string to write if you want a new line use \n.
+ * @param xPos : Xposition of the text.
+ * @param yPos : Ypostition of the text.
+ * @param lineheight : How large the linebreaks or 'enters' should be.
+ */
+
+    protected writeMultipleTextLinesToCanvas(
+        ctx: CanvasRenderingContext2D,
+        str: string,
+        xPos: number,
+        yPos: number,
+        lineheight: number
+    ) {
+        // based on https://www.tutorialspoint.com/HTML5-canvas-ctx-fillText-won-t-do-line-breaks
+        this.ctx.font = '20px Spacecomics';
+
+        // use \n as a delimiter (you can choose any delimter), the split function uses this delimiter to cut the string into two strings
+        // lines is an array with all the strings
+        let lines = str.split('\n');
+
+        // loop over all the strings and write each string a number of lineheights under eacht oter 
+        for (let j = 0; j < lines.length; j++) {
+            ctx.fillText(lines[j], ((this.canvas.width / 100) * xPos), ((this.canvas.height / 100) * yPos) + (j * lineheight));
+        }
+    }
+
 
     /**
      * Renders a random number between min and max
