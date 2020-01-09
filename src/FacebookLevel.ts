@@ -8,6 +8,8 @@ class FacebookLevel extends GameScreen {
     private cooldown: number;    
     private facebookLevelObjects: GameObject[];
     private specialAttackTimer: number;
+    private specialAttackTimer2: number;
+    private specialAttackState: Boolean;
     private pleaseDontShootMrFacebookBossIDontFeelSoGood: number;
 
     public constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, keyboardListener: KeyboardListener, ship: Ship, playerProjectiles: Projectile) {
@@ -16,7 +18,9 @@ class FacebookLevel extends GameScreen {
         this.projectiles = [];
         this.cooldown = 0;
         this.specialAttackTimer = 9000000000000000;
+        this.specialAttackTimer2 = 9000000000000000;
         this.pleaseDontShootMrFacebookBossIDontFeelSoGood = 50;
+        this.specialAttackState = false;
 
         // Create facebookLevelObjects array
         this.facebookLevelObjects = [];
@@ -28,7 +32,7 @@ class FacebookLevel extends GameScreen {
             this.canvas.height / 100 * 50,
             0,
             10,
-            1,
+            40,
             0,
             0
         );
@@ -109,18 +113,35 @@ class FacebookLevel extends GameScreen {
             "center",
         );
 
-        if (this.gameTicker % 300 === 0) {
+        // Burst fire mechanic
+        if (this.gameTicker % 200 === 0 && this.specialAttackState === false) {
+            this.specialAttackState = true;
+            console.log('aan')
+            this.specialAttackTimer2 = this.gameTicker;
+            this.pleaseDontShootMrFacebookBossIDontFeelSoGood = 3;
+        }
+        if (this.gameTicker >= (this.specialAttackTimer2 + 30)) {
+            console.log("uit")
+            this.pleaseDontShootMrFacebookBossIDontFeelSoGood = 50;
+            this.specialAttackTimer2 = 500000;
+            this.specialAttackState = false;
+        }
+
+        // Move forward mechanic
+        if (this.gameTicker % 300 === 0 && this.specialAttackState === false) {
+            this.specialAttackState = true;
             this.specialAttackTimer = this.gameTicker
             this.pleaseDontShootMrFacebookBossIDontFeelSoGood = 5000000;
             this.facebookBoss.setYVel(0);
             this.facebookBoss.setXVel(15);
         }
-        if (this.facebookBoss.getXPos() === (this.canvas.width / 100) * 90 && this.gameTicker >= (this.specialAttackTimer + 120)) {
+        if (this.facebookBoss.getXPos() === (this.canvas.width / 100) * 90 && this.gameTicker >= (this.specialAttackTimer + 120)) {2
             this.facebookBoss.setXVel(0);
             this.facebookBoss.setYVel(10);
             this.facebookBoss.setXPos(this.canvas.width / 100 * 90);
             this.specialAttackTimer = 9000000000000000;
             this.pleaseDontShootMrFacebookBossIDontFeelSoGood = 50;
+            this.specialAttackState = false;
         }
 
         if (this.gameTicker % this.pleaseDontShootMrFacebookBossIDontFeelSoGood === 0) {
