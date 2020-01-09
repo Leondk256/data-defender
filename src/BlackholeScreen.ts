@@ -74,8 +74,6 @@ class BlackholeScreen extends GameScreen {
             Game.gameOverScreen = true;
         }
 
-        console.log(this.ship.getHealth());
-
         if (this.keyboardListener.isKeyDown(KeyboardListener.KEY_SPACE) && this.cooldown === 0) {
             this.playerProjectiles.push(new Projectile(
                 Game.currentId,

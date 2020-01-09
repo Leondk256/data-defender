@@ -144,6 +144,7 @@ class Game {
             this.currentScreen instanceof BlackholeScreen
             && Game.gameOverScreen === true) {
             this.currentScreen = new GameOverScreen(this.canvas, this.ctx, this.keyboardListener, null, null);
+
         }
 
         if (
