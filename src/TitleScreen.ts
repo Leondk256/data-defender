@@ -4,8 +4,8 @@
 class TitleScreen extends GameScreen {
     public constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, keyboardListener: KeyboardListener, ship: Ship, playerProjectiles: Projectile) {
         super(canvas, ctx, keyboardListener, ship, playerProjectiles);
-        this.ship.setXPos(950);
-        this.ship.setYPos(260);
+        this.ship.setXPos(this.canvas.width / 2);
+        this.ship.setYPos(this.canvas.height / 4);
     }
 
     public draw() {
