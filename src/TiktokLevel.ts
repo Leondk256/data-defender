@@ -23,9 +23,9 @@ class TiktokLevel extends GameScreen {
             this.canvas.height / 100 * 50,
             6,
             6,
-            1,
+            40,
             0,
-            0
+            40
         );
         // Create empty tiktokobject array
         this.tiktokObjects = [];
