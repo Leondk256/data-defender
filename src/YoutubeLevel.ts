@@ -85,10 +85,16 @@ class YoutubeLevel extends GameScreen {
             Game.gameOverScreen = true;
         }
 
+        if (this.gameTicker % 200 === 0) {
+            this.youtubeBoss.setXVel(10);
+        } else if (this.gameTicker % 100  === 0) {
+            this.youtubeBoss.setXVel(7);
+        }
+
         if (this.gameTicker % 50 === 0) {
             this.projectiles.push(new Projectile(
                 Game.currentId,
-                "./assets/img/gameobject/projectiles/hostile/thumbsdownr.png",
+                "./assets/img/gameobject/projectiles/hostile/youtube_boss_projectile.png",
                 this.youtubeBoss.getXPos() - 100,
                 this.youtubeBoss.getYPos(),
                 5,
@@ -103,7 +109,7 @@ class YoutubeLevel extends GameScreen {
         if (this.gameTicker % 50 === 0) {
             this.projectiles2.push(new Projectile(
                 Game.currentId,
-                "./assets/img/gameobject/projectiles/hostile/thumbsdownr.png",
+                "./assets/img/gameobject/projectiles/hostile/youtube_boss_projectile.png",
                 this.youtubeBoss.getXPos() + 100,
                 this.youtubeBoss.getYPos(),
                 5,
