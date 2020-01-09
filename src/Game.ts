@@ -100,8 +100,6 @@ class Game {
      * Method game loop
      */
     public loop = () => {
-        
-        //console.log(Game.questionsArray);
         //Count the ticks in the game
         this.gameCounter++;
 
@@ -139,7 +137,8 @@ class Game {
         }
 
         if (
-            this.currentScreen instanceof FacebookLevel && Game.blackholescreen === true) {
+            this.currentScreen instanceof FacebookLevel
+            && Game.blackholescreen === true) {
             this.currentScreen = new BlackholeScreen(this.canvas, this.ctx, this.keyboardListener, null, null);
         }
 
@@ -193,6 +192,13 @@ class Game {
         if (
             this.currentScreen instanceof YoutubeLevel && Game.blackholescreen === true) {
             this.currentScreen = new BlackholeScreen(this.canvas, this.ctx, this.keyboardListener, null, null);
+        }
+
+        if (
+            this.currentScreen instanceof BlackholeScreen
+            && Game.gameOverScreen === true) {
+            this.currentScreen = new GameOverScreen(this.canvas, this.ctx, this.keyboardListener, null, null);
+
         }
 
         if (

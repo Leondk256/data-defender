@@ -64,6 +64,12 @@ class BlackholeScreen extends GameScreen {
         // Draw the Ship
         this.ship.draw(this.ctx);
 
+        // If the Ship doesn't have any lives left, head to game over screen
+        if (this.ship.getHealth() <= 0) {
+            this.ship.setHealth(3);
+            Game.gameOverScreen = true;
+        }
+
         if (this.keyboardListener.isKeyDown(KeyboardListener.KEY_SPACE) && this.cooldown === 0) {
             this.playerProjectiles.push(new Projectile(
                 Game.currentId,
