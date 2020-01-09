@@ -99,15 +99,9 @@ class YoutubeLevel extends GameScreen {
             "center",
         );
 
-        // If the Ship doesn't have any lives left, head to game over screen
-        if (this.ship.getHealth() <= 0) {
-            this.ship.setHealth(3);
-            Game.gameOverScreen = true;
-        }
-
         if (this.gameTicker % 200 === 0) {
             this.youtubeBoss.setXVel(10);
-        } else if (this.gameTicker % 100  === 0) {
+        } else if (this.gameTicker % 100 === 0) {
             this.youtubeBoss.setXVel(7);
         }
 
@@ -160,6 +154,17 @@ class YoutubeLevel extends GameScreen {
 
         // If the boss has no health, do not draw, move or shoot it
         if (this.youtubeBoss.getHealth() <= 0) {
+            this.youtubeLevelObjects.push(new GameObject(
+                Game.currentId,
+                "./assets/img/gameobject/projectiles/explosion2.png",
+                this.youtubeBoss.getXPos(),
+                this.youtubeBoss.getYPos(),
+                0,
+                10,
+                1,
+                0,
+                0
+            ));
             // Set his soul outside of the canvas
             this.youtubeBoss.setYPos(-1000);
 

@@ -5,7 +5,7 @@ class FacebookLevel extends GameScreen {
     private facebookBoss: FacebookBoss;
     private gameTicker: number;
     private projectiles: Projectile[];
-    private cooldown: number;    
+    private cooldown: number;
     private facebookLevelObjects: GameObject[];
     private specialAttackTimer: number;
     private pleaseDontShootMrFacebookBossIDontFeelSoGood: number;
@@ -55,6 +55,8 @@ class FacebookLevel extends GameScreen {
         // Draw background design
         this.drawAllObjects(this.facebookLevelObjects)
 
+        console.log(this.facebookLevelObjects);
+
         // Draw Lives
         this.drawLives();
 
@@ -71,6 +73,17 @@ class FacebookLevel extends GameScreen {
 
         // If the boss has no health, do not draw, move or shoot it
         if (this.facebookBoss.getHealth() <= 0) {
+            this.facebookLevelObjects.push(new GameObject(
+                Game.currentId,
+                "./assets/img/gameobject/projectiles/explosion2.png",
+                this.facebookBoss.getXPos(),
+                this.facebookBoss.getYPos(),
+                0,
+                10,
+                1,
+                0,
+                0
+            ));
             // Set his soul outside of the canvas
             this.facebookBoss.setYPos(-1000);
 

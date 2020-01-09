@@ -76,6 +76,18 @@ class TiktokLevel extends GameScreen {
 
         // If the boss has no health, do not draw, move or shoot it
         if (this.tiktokBoss.getHealth() <= 0) {
+            this.tiktokObjects.push(new GameObject(
+                Game.currentId,
+                "./assets/img/gameobject/projectiles/explosion2.png",
+                this.tiktokBoss.getXPos(),
+                this.tiktokBoss.getYPos(),
+                0,
+                10,
+                1,
+                0,
+                0
+            ));
+
             // Set his soul outside of the canvas
             this.tiktokBoss.setYPos(-1000);
 

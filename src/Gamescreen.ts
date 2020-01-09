@@ -165,6 +165,7 @@ class GameScreen {
                 0
             )
         )
+        Game.currentId++;
     }
 
     public drawAllObjects(
