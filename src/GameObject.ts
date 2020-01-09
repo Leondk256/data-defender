@@ -101,10 +101,10 @@ class GameObject {
      *
      * @param canvas the canvas
      */
-    public moveTillOneFourthScreen(canvas: HTMLCanvasElement) {
+    public tiktokBossMove(canvas: HTMLCanvasElement) {
         if (
             this.xPos + this.img.width / 2 > canvas.width ||
-            this.xPos - this.img.width / 2 < 1000
+            this.xPos - this.img.width / 2 < canvas.width / 2
         ) {
             this.xVel = -this.xVel;
         }

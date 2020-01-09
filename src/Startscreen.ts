@@ -18,7 +18,7 @@ class StartScreen extends GameScreen {
     private nameInputFieldY: number;
     private startButtonX: number;
     private startButtonY: number;
-    
+
     private startScreenObjects: GameObject[];
 
     private shipSelector: number;
@@ -48,6 +48,59 @@ class StartScreen extends GameScreen {
         Game.stateCounter = 0;
         Game.stateCounter2 = 0;
         Game.stateCounter3 = 0;
+
+        // Add questions to array
+        Game.questionsArray = [
+            {
+                question: 'Is het slim om met wie dan ook online gevoelige gegevens te delen?',
+                correctAnswer: 'no'
+            },
+            {
+                question: 'Je krijgt een vriendschapsverzoek van iemand die je niet kent, is het slim om deze te accepteren?',
+                correctAnswer: 'no',
+
+            },
+            {
+                question: 'Een willekeurig iemand op social media vraagt je een foto te sturen om je identiteit te bevestigen. \n Is het slim om deze actie uit te voeren?',
+                correctAnswer: 'no'
+            },
+            {
+                question: 'Is het slim om op elke website dezelfde wachtwoord te gebruiken?',
+                correctAnswer: 'no'
+            },
+            {
+                question: 'Is het verantwoord om je gegevens te delen met bekende bedrijven als bol.com?',
+                correctAnswer: 'yes'
+            },
+            {
+                question: 'Is het een goede idee om de online vriendschapsverzoek van een goede vriend te accepteren?',
+                correctAnswer: 'yes'
+            },
+            {
+                question: 'Accepteer je de uitnodiging als een vreemde vraagt om ergens met je te ontmoeten?',
+                correctAnswer: 'no'
+            },
+            {
+                question: 'Is het slim om je profiel goed af te schermen met privacy-instellingen?',
+                correctAnswer: 'yes'
+            },
+            {
+                question: 'Is het slim om een naaktfoto door te sturen naar iemand?',
+                correctAnswer: 'no'
+            },
+            {
+                question: 'Iemand die je niet kent stelt rare vragen aan je op het internet. \n Is het slim om deze persoon te blokkeren en rapporteren?',
+                correctAnswer: 'yes'
+            },
+            {
+                question: 'Is het slim om je gegevens op onveilige websites in te vullen(geen HTTPS)?',
+                correctAnswer: 'no'
+            },
+            {
+                question: 'Is het slim om iemand te cyberpesten?',
+                correctAnswer: 'no'
+            }
+        ];
 
         // Reset playerlives when start screen is initiated
         Game.playerLives = 3;
