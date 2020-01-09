@@ -16,6 +16,7 @@ class GameScreen {
         this.playerProjectiles = [];
         this.canvas = canvas;
         this.ctx = ctx;
+
         // Create a ship
         this.ship = new Ship(
             Game.currentId,

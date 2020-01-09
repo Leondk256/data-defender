@@ -97,7 +97,7 @@ class TiktokLevel extends GameScreen {
             this.tiktokBoss.draw(this.ctx);
 
             // Move the Facebook boss
-            this.tiktokBoss.moveTillOneFourthScreen(this.canvas);
+            this.tiktokBoss.tiktokBossMove(this.canvas);
         }
 
         this.writeTextToCanvas(
