@@ -45,14 +45,14 @@ class YoutubeLevel extends GameScreen {
         Game.currentId++;
 
         // Add Youtubeplanet
-        this.createGameObject("./assets/img/environment/youtubeplaneet.png", 30, 85, this.youtubeLevelObjects)
+        this.createGameObject("./assets/img/environment/youtubeplaneet.png", 30, 85, this.youtubeLevelObjects);
         // Another one
-        this.createGameObject("./assets/img/environment/youtubeplaneet.png", 70, 30, this.youtubeLevelObjects)
+        this.createGameObject("./assets/img/environment/youtubeplaneet.png", 70, 30, this.youtubeLevelObjects);
 
         // Add heart
-        this.createGameObject("./assets/img/environment/heart.png", 25, 30, this.youtubeLevelObjects)
+        this.createGameObject("./assets/img/environment/heart.png", 25, 30, this.youtubeLevelObjects);
         // Add heart
-        this.createGameObject("./assets/img/environment/heart.png", 65, 80, this.youtubeLevelObjects)
+        this.createGameObject("./assets/img/environment/heart.png", 65, 80, this.youtubeLevelObjects);
     }
 
     public draw() {
@@ -68,7 +68,7 @@ class YoutubeLevel extends GameScreen {
         this.drawStars();
 
         // Draw background design
-        this.drawAllObjects(this.youtubeLevelObjects)
+        this.drawAllObjects(this.youtubeLevelObjects);
 
         // Set the standard text color to white
         let color = "black";
@@ -105,10 +105,16 @@ class YoutubeLevel extends GameScreen {
             Game.gameOverScreen = true;
         }
 
+        if (this.gameTicker % 200 === 0) {
+            this.youtubeBoss.setXVel(10);
+        } else if (this.gameTicker % 100  === 0) {
+            this.youtubeBoss.setXVel(7);
+        }
+
         if (this.gameTicker % 50 === 0) {
             this.projectiles.push(new Projectile(
                 Game.currentId,
-                "./assets/img/gameobject/projectiles/hostile/thumbsdownr.png",
+                "./assets/img/gameobject/projectiles/hostile/youtube_boss_projectile.png",
                 this.youtubeBoss.getXPos() - 100,
                 this.youtubeBoss.getYPos(),
                 5,
@@ -123,7 +129,7 @@ class YoutubeLevel extends GameScreen {
         if (this.gameTicker % 50 === 0) {
             this.projectiles2.push(new Projectile(
                 Game.currentId,
-                "./assets/img/gameobject/projectiles/hostile/thumbsdownr.png",
+                "./assets/img/gameobject/projectiles/hostile/youtube_boss_projectile.png",
                 this.youtubeBoss.getXPos() + 100,
                 this.youtubeBoss.getYPos(),
                 5,
