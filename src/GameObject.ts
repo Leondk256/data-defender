@@ -141,6 +141,26 @@ class GameObject {
     }
 
     /**
+     * Shoot a projectile
+     *
+     * @param canvas the canvas
+     */
+    public shootProjectileTopToBottom(canvas: HTMLCanvasElement) {
+        // Use the velocity to change the position
+        this.yPos += this.yVel;
+    }
+
+    /**
+     * Shoot a projectile
+     *
+     * @param canvas the canvas
+     */
+    public shootProjectileBottomToTop(canvas: HTMLCanvasElement) {
+        // Use the velocity to change the position
+        this.yPos -= this.yVel;
+    }
+
+    /**
      * Check if object is inside canvas
      */
     public inBounds(canvas: HTMLCanvasElement) {
