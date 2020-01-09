@@ -45,14 +45,14 @@ class YoutubeLevel extends GameScreen {
         Game.currentId++;
 
         // Add Youtubeplanet
-        this.createGameObject("./assets/img/environment/youtubeplaneet.png", 30, 85, this.youtubeLevelObjects)
+        this.createGameObject("./assets/img/environment/youtubeplaneet.png", 30, 85, this.youtubeLevelObjects);
         // Another one
-        this.createGameObject("./assets/img/environment/youtubeplaneet.png", 70, 30, this.youtubeLevelObjects)
+        this.createGameObject("./assets/img/environment/youtubeplaneet.png", 70, 30, this.youtubeLevelObjects);
 
         // Add heart
-        this.createGameObject("./assets/img/environment/heart.png", 25, 30, this.youtubeLevelObjects)
+        this.createGameObject("./assets/img/environment/heart.png", 25, 30, this.youtubeLevelObjects);
         // Add heart
-        this.createGameObject("./assets/img/environment/heart.png", 65, 80, this.youtubeLevelObjects)
+        this.createGameObject("./assets/img/environment/heart.png", 65, 80, this.youtubeLevelObjects);
     }
 
     public draw() {
@@ -68,7 +68,7 @@ class YoutubeLevel extends GameScreen {
         this.drawStars();
 
         // Draw background design
-        this.drawAllObjects(this.youtubeLevelObjects)
+        this.drawAllObjects(this.youtubeLevelObjects);
 
         // Set the standard text color to white
         let color = "black";
