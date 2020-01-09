@@ -1,19 +1,24 @@
 /// <reference path="GameScreen.ts" />
 class BlackholeScreen extends GameScreen {
     private cooldown: number;
-    private blackholeQuestions: [string, string, string];
+    private questionToAsk: number;
     public constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, keyboardListener: KeyboardListener, ship: Ship, playerProjectiles: Projectile) {
         super(canvas, ctx, keyboardListener, ship, playerProjectiles);
         this.cooldown = 0;
         Game.blackholeScreenCounter++;
-        this.blackholeQuestions = [
-            "Is het slim om met wie dan ook online gevoelige gegevens te delen?",
-            "Je krijgt een vriendschapsverzoek van een vreemde, is het slim om deze te accepteren?",
-            "Iemand vraagt je een foto te sturen om je identiteit te bevestigen,\n is het slim om deze actie uit te voeren?"
-        ]
-    }
+        this.questionToAsk = this.randomNumber(0, Game.questionsArray.length - 1);
+    };
 
     public draw() {
+        this.writeMultipleTextLinesToCanvas(
+            30,
+            this.ctx,
+            Game.questionsArray[this.questionToAsk]['question'],
+            50,
+            60,
+            30
+        );
+
         this.blackhole.draw(this.ctx);
 
         if (this.cooldown > 0) {
@@ -43,15 +48,6 @@ class BlackholeScreen extends GameScreen {
             30,
             (this.canvas.width / 100) * 50,
             (this.canvas.height / 100) * 25
-        );
-
-        this.writeMultipleTextLinesToCanvas(
-            30,
-            this.ctx,
-            this.blackholeQuestions[Game.blackholeScreenCounter],
-            50,
-            60,
-            30
         );
 
         this.writeTextToCanvas(
@@ -95,6 +91,7 @@ class BlackholeScreen extends GameScreen {
             Game.blackholescreenIntoYoutube = false;
             Game.blackholescreenIntoTitle = true;
             Game.blackholescreen = false;
+            Game.questionsArray.splice(this.questionToAsk, 1);
         }
 
         if (this.ship.isCollidingWithProjectile(this.blackhole) === true && Game.stateCounter2 === 1) {
@@ -102,7 +99,8 @@ class BlackholeScreen extends GameScreen {
             Game.blackholescreenIntoYoutube = true;
             Game.blackholescreen = false;
             Game.stateCounter2 = 50;
-            Game.stateCounter3 = 1; 
+            Game.stateCounter3 = 1;
+            Game.questionsArray.splice(this.questionToAsk, 1);
         }
 
         if (this.ship.isCollidingWithProjectile(this.blackhole) === true && Game.stateCounter === 0) {
@@ -111,8 +109,8 @@ class BlackholeScreen extends GameScreen {
             Game.blackholescreenIntoYoutube = false;
             Game.stateCounter = 50;
             Game.stateCounter2 = 1;
+            Game.questionsArray.splice(this.questionToAsk, 1);
         }
-
 
         // Move and draw all the game entities
         this.playerProjectiles.forEach((projectile) => {
@@ -121,14 +119,25 @@ class BlackholeScreen extends GameScreen {
                 projectile.shootProjectileLeftToRight(this.canvas);
 
                 // Check if the yes box is hit and handle accordingly
-                if (projectile.isCollidingWithProjectile(this.no)) {
+                if (projectile.isCollidingWithProjectile(this.yes) && Game.questionsArray[this.questionToAsk]['correctAnswer'] === 'yes') {
                     // Move the black hole
                     this.blackhole.setYPos(this.canvas.height / 100 * 90);
                     this.playerProjectiles = this.removeProjectilesWithId(this.playerProjectiles, projectile.getId());
                 }
+                else if (projectile.isCollidingWithProjectile(this.yes)) {
+                    // Remove health
+                    this.ship.setHealth(this.ship.getHealth() - 1);
+                    this.playerProjectiles = this.removeProjectilesWithId(this.playerProjectiles, projectile.getId());
+                }
+
                 // Check if the no box is hit and handle accordingly
-                if (projectile.isCollidingWithProjectile(this.yes)) {
-                    // Punish
+                if (projectile.isCollidingWithProjectile(this.no) && Game.questionsArray[this.questionToAsk]['correctAnswer'] === 'no') {
+                    // Move the black hole
+                    this.blackhole.setYPos(this.canvas.height / 100 * 90);
+                    this.playerProjectiles = this.removeProjectilesWithId(this.playerProjectiles, projectile.getId());
+                }
+                else if (projectile.isCollidingWithProjectile(this.no)) {
+                    // Remove health
                     this.ship.setHealth(this.ship.getHealth() - 1);
                     this.playerProjectiles = this.removeProjectilesWithId(this.playerProjectiles, projectile.getId());
                 }

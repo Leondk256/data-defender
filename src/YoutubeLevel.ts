@@ -30,7 +30,7 @@ class YoutubeLevel extends GameScreen {
             11,
             1,
             1,
-            1,
+            40,
         );
         Game.currentId++;
 
@@ -57,8 +57,6 @@ class YoutubeLevel extends GameScreen {
         this.createGameObject("./assets/img/environment/heart.png", 25, 30, this.youtubeLevelObjects);
         // Add heart
         this.createGameObject("./assets/img/environment/heart.png", 65, 80, this.youtubeLevelObjects);
-
-        this.ship.setHealth(300000);
     }
 
     public draw() {
@@ -190,6 +188,17 @@ class YoutubeLevel extends GameScreen {
 
         // If the boss has no health, do not draw, move or shoot it
         if (this.youtubeBoss.getHealth() <= 0) {
+            this.youtubeLevelObjects.push(new GameObject(
+                Game.currentId,
+                "./assets/img/gameobject/projectiles/explosion2.png",
+                this.youtubeBoss.getXPos(),
+                this.youtubeBoss.getYPos(),
+                0,
+                10,
+                1,
+                0,
+                0
+            ));
             // Set his soul outside of the canvas
             this.youtubeBoss.setYPos(-1000);
 
