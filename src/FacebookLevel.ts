@@ -7,12 +7,16 @@ class FacebookLevel extends GameScreen {
     private projectiles: Projectile[];
     private cooldown: number;    
     private facebookLevelObjects: GameObject[];
+    private specialAttackTimer: number;
+    private pleaseDontShootMrFacebookBossIDontFeelSoGood: number;
 
     public constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, keyboardListener: KeyboardListener, ship: Ship, playerProjectiles: Projectile) {
         super(canvas, ctx, keyboardListener, ship, playerProjectiles);
         this.gameTicker = 0;
         this.projectiles = [];
         this.cooldown = 0;
+        this.specialAttackTimer = 9000000000000000;
+        this.pleaseDontShootMrFacebookBossIDontFeelSoGood = 50;
 
         // Create facebookLevelObjects array
         this.facebookLevelObjects = [];
@@ -20,7 +24,7 @@ class FacebookLevel extends GameScreen {
         this.facebookBoss = new FacebookBoss(
             Game.currentId,
             "./assets/img/gameobject/enemies/facebookbossr.png",
-            this.canvas.width / 100 * 95,
+            this.canvas.width / 100 * 90,
             this.canvas.height / 100 * 50,
             0,
             10,
@@ -105,7 +109,21 @@ class FacebookLevel extends GameScreen {
             "center",
         );
 
-        if (this.gameTicker % 50 === 0) {
+        if (this.gameTicker % 300 === 0) {
+            this.specialAttackTimer = this.gameTicker
+            this.pleaseDontShootMrFacebookBossIDontFeelSoGood = 5000000;
+            this.facebookBoss.setYVel(0);
+            this.facebookBoss.setXVel(15);
+        }
+        if (this.facebookBoss.getXPos() === (this.canvas.width / 100) * 90 && this.gameTicker >= (this.specialAttackTimer + 120)) {
+            this.facebookBoss.setXVel(0);
+            this.facebookBoss.setYVel(10);
+            this.facebookBoss.setXPos(this.canvas.width / 100 * 90);
+            this.specialAttackTimer = 9000000000000000;
+            this.pleaseDontShootMrFacebookBossIDontFeelSoGood = 50;
+        }
+
+        if (this.gameTicker % this.pleaseDontShootMrFacebookBossIDontFeelSoGood === 0) {
             this.projectiles.push(new Projectile(
                 Game.currentId,
                 "./assets/img/gameobject/projectiles/hostile/thumbsdownr.png",
