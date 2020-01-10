@@ -47,7 +47,7 @@ class Game {
                 correctAnswer: 'yes'
             },
             {
-                question: 'Is het een goede idee om de online vriendschapsverzoek van een goede vriend te accepteren?',
+                question: 'Is het een goede idee om de online vriendschapsverzoek \n van een goede vriend te accepteren?',
                 correctAnswer: 'yes'
             },
             {
