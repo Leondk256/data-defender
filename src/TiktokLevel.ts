@@ -23,7 +23,7 @@ class TiktokLevel extends GameScreen {
             this.canvas.height / 100 * 50,
             6,
             6,
-            40,
+            30,
             0,
             40
         );

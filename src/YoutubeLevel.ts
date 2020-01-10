@@ -28,7 +28,7 @@ class YoutubeLevel extends GameScreen {
             this.canvas.height / 100 * 50,
             6,
             11,
-            1,
+            40,
             1,
             40,
         );

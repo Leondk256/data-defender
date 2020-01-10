@@ -283,7 +283,7 @@ class FacebookLevel extends GameScreen {
         this.pleaseDontShootMrFacebookBossIDontFeelSoGood = 50;
         this.specialAttackState = false;
         this.facebookLevelObjects = [];
-        this.facebookBoss = new FacebookBoss(Game.currentId, "./assets/img/gameobject/enemies/facebookbossr.png", this.canvas.width / 100 * 90, this.canvas.height / 100 * 50, 0, 10, 40, 0, 0);
+        this.facebookBoss = new FacebookBoss(Game.currentId, "./assets/img/gameobject/enemies/facebookbossr.png", this.canvas.width / 100 * 90, this.canvas.height / 100 * 50, 0, 10, 30, 0, 0);
         Game.currentId++;
         this.createGameObject("./assets/img/environment/thumbsupfb.png", 60, 20, this.facebookLevelObjects);
         this.createGameObject("./assets/img/environment/facebookplaneet1.png", 50, 80, this.facebookLevelObjects);
@@ -407,7 +407,7 @@ class Game {
                 correctAnswer: 'no'
             },
             {
-                question: 'Is het slim om op elke website dezelfde wachtwoord te gebruiken?',
+                question: 'Is het slim om op elke website hetzelfde wachtwoord te gebruiken?',
                 correctAnswer: 'no'
             },
             {
@@ -648,7 +648,7 @@ class StartScreen extends GameScreen {
                 correctAnswer: 'no'
             },
             {
-                question: 'Is het slim om op elke website dezelfde wachtwoord te gebruiken?',
+                question: 'Is het slim om op elke website hetzelfde wachtwoord te gebruiken?',
                 correctAnswer: 'no'
             },
             {
@@ -744,7 +744,7 @@ class TiktokLevel extends GameScreen {
         this.projectiles = [];
         this.cooldown = 0;
         this.gameObjects = [];
-        this.tiktokBoss = new TiktokBoss(Game.currentId, "./assets/img/gameobject/enemies/tiktokboss1.png", this.canvas.width / 100 * 90, this.canvas.height / 100 * 50, 6, 6, 40, 0, 40);
+        this.tiktokBoss = new TiktokBoss(Game.currentId, "./assets/img/gameobject/enemies/tiktokboss1.png", this.canvas.width / 100 * 90, this.canvas.height / 100 * 50, 6, 6, 30, 0, 40);
         this.tiktokObjects = [];
         this.createGameObject("./assets/img/environment/tiktokplaneet.png", 30, 40, this.tiktokObjects);
         this.createGameObject("./assets/img/environment/tiktokplaneet.png", 70, 60, this.tiktokObjects);
@@ -860,7 +860,7 @@ class YoutubeLevel extends GameScreen {
         this.projectiles4 = [];
         this.cooldown = 0;
         this.youtubeLevelObjects = [];
-        this.youtubeBoss = new YoutubeBoss(Game.currentId, "./assets/img/gameobject/enemies/youtubeboss1.png", this.canvas.width / 100 * 80, this.canvas.height / 100 * 50, 6, 11, 1, 1, 40);
+        this.youtubeBoss = new YoutubeBoss(Game.currentId, "./assets/img/gameobject/enemies/youtubeboss1.png", this.canvas.width / 100 * 80, this.canvas.height / 100 * 50, 6, 11, 40, 1, 40);
         Game.currentId++;
         this.blackhole = new GameObject(Game.currentId, "./assets/img/environment/blackhole.png", this.canvas.width / 100 * 95, -1000, 0, 0, 1, 1, 1);
         Game.currentId++;

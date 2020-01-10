@@ -39,7 +39,7 @@ class Game {
                 correctAnswer: 'no'
             },
             {
-                question: 'Is het slim om op elke website dezelfde wachtwoord te gebruiken?',
+                question: 'Is het slim om op elke website hetzelfde wachtwoord te gebruiken?',
                 correctAnswer: 'no'
             },
             {
