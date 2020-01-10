@@ -744,7 +744,7 @@ class TiktokLevel extends GameScreen {
         this.projectiles = [];
         this.cooldown = 0;
         this.gameObjects = [];
-        this.tiktokBoss = new TiktokBoss(Game.currentId, "./assets/img/gameobject/enemies/tiktokboss1.png", this.canvas.width / 100 * 90, this.canvas.height / 100 * 50, 6, 6, 30, 0, 40);
+        this.tiktokBoss = new TiktokBoss(Game.currentId, "./assets/img/gameobject/enemies/tiktokboss1.png", this.canvas.width / 100 * 80, this.canvas.height / 100 * 50, 6, 6, 30, 0, 40);
         this.tiktokObjects = [];
         this.createGameObject("./assets/img/environment/tiktokplaneet.png", 30, 40, this.tiktokObjects);
         this.createGameObject("./assets/img/environment/tiktokplaneet.png", 70, 60, this.tiktokObjects);

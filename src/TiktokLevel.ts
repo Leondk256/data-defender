@@ -19,7 +19,7 @@ class TiktokLevel extends GameScreen {
         this.tiktokBoss = new TiktokBoss(
             Game.currentId,
             "./assets/img/gameobject/enemies/tiktokboss1.png",
-            this.canvas.width / 100 * 90,
+            this.canvas.width / 100 * 80,
             this.canvas.height / 100 * 50,
             6,
             6,
