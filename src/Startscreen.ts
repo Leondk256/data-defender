@@ -307,7 +307,8 @@ class StartScreen extends GameScreen {
             event.clientX >= this.startButtonX &&
             event.clientX < this.startButtonX + this.startButton.width &&
             event.clientY >= this.startButtonY &&
-            event.clientY <= this.startButtonY + this.startButton.width
+            event.clientY <= this.startButtonY + this.startButton.width &&
+            Game.globalPlayerName !== undefined
         ) {
             Game.gameStarted = true;
         }
