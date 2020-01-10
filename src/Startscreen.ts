@@ -75,7 +75,7 @@ class StartScreen extends GameScreen {
                 correctAnswer: 'yes'
             },
             {
-                question: 'Is het een goede idee om de online vriendschapsverzoek van een goede vriend te accepteren?',
+                question: 'Is het een goede idee om de online vriendschapsverzoek \n van een goede vriend te accepteren?',
                 correctAnswer: 'yes'
             },
             {
@@ -307,7 +307,8 @@ class StartScreen extends GameScreen {
             event.clientX >= this.startButtonX &&
             event.clientX < this.startButtonX + this.startButton.width &&
             event.clientY >= this.startButtonY &&
-            event.clientY <= this.startButtonY + this.startButton.width
+            event.clientY <= this.startButtonY + this.startButton.width &&
+            Game.globalPlayerName !== undefined
         ) {
             Game.gameStarted = true;
         }

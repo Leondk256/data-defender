@@ -13,5 +13,8 @@
   "devDependencies": {
     "typescript": "^3.6",
     "tsc-watch": "^4.0"
+  },
+  "dependencies": {
+    "sweetalert2": "^9.5.4"
   }
 }

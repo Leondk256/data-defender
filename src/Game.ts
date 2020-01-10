@@ -47,7 +47,7 @@ class Game {
                 correctAnswer: 'yes'
             },
             {
-                question: 'Is het een goede idee om de online vriendschapsverzoek van een goede vriend te accepteren?',
+                question: 'Is het een goede idee om de online vriendschapsverzoek \n van een goede vriend te accepteren?',
                 correctAnswer: 'yes'
             },
             {
@@ -119,14 +119,15 @@ class Game {
     private switchScreen() {
         // If the current screen is an instance of the StartScreen class
         // Basically: if the current screen is the start screen
-        // And the user pressed "s", render the level screen
+        // And the user pressed "s", render the Facebook level screen
         if (
             this.currentScreen instanceof StartScreen
             && (Game.gameStarted === true || this.keyboardListener.isKeyDown(KeyboardListener.KEY_S))
         ) {
-            // this.currentScreen = new FacebookLevel(this.canvas, this.ctx, this.keyboardListener, null, null);
-            this.currentScreen = new FacebookLevel(this.canvas, this.ctx, this.keyboardListener, null, null);
-            Game.gameOverScreen = false;
+            if (Game.globalPlayerName !== undefined) {
+                this.currentScreen = new FacebookLevel(this.canvas, this.ctx, this.keyboardListener, null, null);
+                Game.gameOverScreen = false;
+            }
         }
 
         if (
@@ -149,19 +150,19 @@ class Game {
         }
 
         if (
-            this.currentScreen instanceof BlackholeScreen 
+            this.currentScreen instanceof BlackholeScreen
             && Game.blackholescreenIntoTiktok === true) {
             this.currentScreen = new TiktokLevel(this.canvas, this.ctx, this.keyboardListener, null, null);
         }
 
         if (
-            this.currentScreen instanceof BlackholeScreen 
+            this.currentScreen instanceof BlackholeScreen
             && Game.blackholescreenIntoYoutube === true) {
             this.currentScreen = new YoutubeLevel(this.canvas, this.ctx, this.keyboardListener, null, null);
         }
 
         if (
-            this.currentScreen instanceof BlackholeScreen 
+            this.currentScreen instanceof BlackholeScreen
             && Game.blackholescreenIntoTitle === true) {
             this.currentScreen = new TitleScreen(this.canvas, this.ctx, this.keyboardListener, null, null);
         }
@@ -208,7 +209,7 @@ class Game {
     }
 }
 
-// This will get an HTML element. I cast this element in de appropriate type using <>
+// This will get an HTML element. I cast this element in the appropriate type using <>
 let init = () => {
     const DD = new Game(document.getElementById("canvas") as HTMLCanvasElement);
 };

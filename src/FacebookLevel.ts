@@ -59,8 +59,6 @@ class FacebookLevel extends GameScreen {
         // Draw background design
         this.drawAllObjects(this.facebookLevelObjects)
 
-        console.log(this.facebookLevelObjects);
-
         // Draw Lives
         this.drawLives();
 
@@ -129,12 +127,10 @@ class FacebookLevel extends GameScreen {
         // Burst fire mechanic
         if (this.gameTicker % 200 === 0 && this.specialAttackState === false) {
             this.specialAttackState = true;
-            console.log('aan')
             this.specialAttackTimer2 = this.gameTicker;
             this.pleaseDontShootMrFacebookBossIDontFeelSoGood = 3;
         }
         if (this.gameTicker >= (this.specialAttackTimer2 + 30)) {
-            console.log("uit")
             this.pleaseDontShootMrFacebookBossIDontFeelSoGood = 50;
             this.specialAttackTimer2 = 500000;
             this.specialAttackState = false;
