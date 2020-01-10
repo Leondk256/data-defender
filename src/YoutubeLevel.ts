@@ -4,6 +4,8 @@ class YoutubeLevel extends GameScreen {
     private gameTicker: number;
     private projectiles: Projectile[];
     private projectiles2: Projectile[];
+    private projectiles3: Projectile[];
+    private projectiles4: Projectile[];
     private cooldown: number;
     private youtubeLevelObjects: GameObject[];
 
@@ -12,6 +14,8 @@ class YoutubeLevel extends GameScreen {
         this.gameTicker = 0;
         this.projectiles = [];
         this.projectiles2 = [];
+        this.projectiles3 = [];
+        this.projectiles4 = [];
         this.cooldown = 0;
 
         // Create empty objects array
@@ -22,9 +26,9 @@ class YoutubeLevel extends GameScreen {
             "./assets/img/gameobject/enemies/youtubeboss1.png",
             this.canvas.width / 100 * 80,
             this.canvas.height / 100 * 50,
-            4,
-            9,
-            40,
+            6,
+            11,
+            1,
             1,
             40,
         );
@@ -99,10 +103,10 @@ class YoutubeLevel extends GameScreen {
             "center",
         );
 
-        if (this.gameTicker % 200 === 0) {
-            this.youtubeBoss.setXVel(10);
-        } else if (this.gameTicker % 100 === 0) {
-            this.youtubeBoss.setXVel(7);
+        // If the Ship doesn't have any lives left, head to game over screen
+        if (this.ship.getHealth() <= 0) {
+            this.ship.setHealth(3);
+            Game.gameOverScreen = true;
         }
 
         if (this.gameTicker % 50 === 0) {
@@ -128,6 +132,36 @@ class YoutubeLevel extends GameScreen {
                 this.youtubeBoss.getYPos(),
                 5,
                 0,
+                1,
+                1,
+                1,
+            ));
+            Game.currentId++;
+        }
+
+        if (this.gameTicker % 100 === 0) {
+            this.projectiles3.push(new Projectile(
+                Game.currentId,
+                "./assets/img/gameobject/projectiles/hostile/youtube_boss_projectile.png",
+                this.youtubeBoss.getXPos(),
+                this.youtubeBoss.getYPos() + 100,
+                0,
+                5,
+                1,
+                1,
+                1,
+            ));
+            Game.currentId++;
+        }
+
+        if (this.gameTicker % 100 === 0) {
+            this.projectiles4.push(new Projectile(
+                Game.currentId,
+                "./assets/img/gameobject/projectiles/hostile/youtube_boss_projectile.png",
+                this.youtubeBoss.getXPos(),
+                this.youtubeBoss.getYPos() - 100,
+                0,
+                5,
                 1,
                 1,
                 1,
@@ -231,6 +265,44 @@ class YoutubeLevel extends GameScreen {
             else {
                 for (let i = this.projectiles2.length - 1; i >= 0; --i) {
                     this.projectiles2 = this.removeProjectilesWithId(this.projectiles2, projectile.getId());
+                }
+            }
+        });
+
+        // Move and draw all the game entities
+        this.projectiles3.forEach((projectile) => {
+            if (projectile.inBounds(this.canvas)) {
+                projectile.draw(this.ctx);
+                projectile.shootProjectileTopToBottom(this.canvas);
+                if (this.ship.isCollidingWithProjectile(projectile)) {
+                    this.ship.setHealth(this.ship.getHealth() - 1);
+                    for (let i = this.projectiles3.length - 1; i >= 0; --i) {
+                        this.projectiles3 = this.removeProjectilesWithId(this.projectiles3, projectile.getId());
+                    }
+                }
+            }
+            else {
+                for (let i = this.projectiles3.length - 1; i >= 0; --i) {
+                    this.projectiles3 = this.removeProjectilesWithId(this.projectiles3, projectile.getId());
+                }
+            }
+        });
+
+        // Move and draw all the game entities
+        this.projectiles4.forEach((projectile) => {
+            if (projectile.inBounds(this.canvas)) {
+                projectile.draw(this.ctx);
+                projectile.shootProjectileBottomToTop(this.canvas);
+                if (this.ship.isCollidingWithProjectile(projectile)) {
+                    this.ship.setHealth(this.ship.getHealth() - 1);
+                    for (let i = this.projectiles4.length - 1; i >= 0; --i) {
+                        this.projectiles4 = this.removeProjectilesWithId(this.projectiles4, projectile.getId());
+                    }
+                }
+            }
+            else {
+                for (let i = this.projectiles4.length - 1; i >= 0; --i) {
+                    this.projectiles4 = this.removeProjectilesWithId(this.projectiles4, projectile.getId());
                 }
             }
         });
