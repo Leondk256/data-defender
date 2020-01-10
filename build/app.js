@@ -202,6 +202,12 @@ class GameObject {
     shootProjectileLeftToRight(canvas) {
         this.xPos += this.xVel;
     }
+    shootProjectileTopToBottom(canvas) {
+        this.yPos += this.yVel;
+    }
+    shootProjectileBottomToTop(canvas) {
+        this.yPos -= this.yVel;
+    }
     inBounds(canvas) {
         return this.xPos >= -200 && this.xPos <= canvas.width &&
             this.yPos >= -200 && this.yPos <= canvas.height;
@@ -409,7 +415,7 @@ class Game {
                 correctAnswer: 'yes'
             },
             {
-                question: 'Is het een goede idee om de online vriendschapsverzoek van een goede vriend te accepteren?',
+                question: 'Is het een goede idee om de online vriendschapsverzoek \n van een goede vriend te accepteren?',
                 correctAnswer: 'yes'
             },
             {
@@ -650,7 +656,7 @@ class StartScreen extends GameScreen {
                 correctAnswer: 'yes'
             },
             {
-                question: 'Is het een goede idee om de online vriendschapsverzoek van een goede vriend te accepteren?',
+                question: 'Is het een goede idee om de online vriendschapsverzoek \n van een goede vriend te accepteren?',
                 correctAnswer: 'yes'
             },
             {
@@ -850,9 +856,11 @@ class YoutubeLevel extends GameScreen {
         this.gameTicker = 0;
         this.projectiles = [];
         this.projectiles2 = [];
+        this.projectiles3 = [];
+        this.projectiles4 = [];
         this.cooldown = 0;
         this.youtubeLevelObjects = [];
-        this.youtubeBoss = new YoutubeBoss(Game.currentId, "./assets/img/gameobject/enemies/youtubeboss1.png", this.canvas.width / 100 * 80, this.canvas.height / 100 * 50, 4, 9, 40, 1, 40);
+        this.youtubeBoss = new YoutubeBoss(Game.currentId, "./assets/img/gameobject/enemies/youtubeboss1.png", this.canvas.width / 100 * 80, this.canvas.height / 100 * 50, 6, 11, 1, 1, 40);
         Game.currentId++;
         this.blackhole = new GameObject(Game.currentId, "./assets/img/environment/blackhole.png", this.canvas.width / 100 * 95, -1000, 0, 0, 1, 1, 1);
         Game.currentId++;
@@ -875,11 +883,9 @@ class YoutubeLevel extends GameScreen {
         Game.blackholescreen = this.ship.isCollidingWithProjectile(this.blackhole) === true;
         this.writeTextToCanvas(`Levens: ${this.ship.getHealth()}`, 30, 90, 60, "center", color);
         this.writeTextToCanvas(`${Game.globalPlayerName}`, 30, this.ship.getXPos(), this.ship.getYPos() - 50, "center");
-        if (this.gameTicker % 200 === 0) {
-            this.youtubeBoss.setXVel(10);
-        }
-        else if (this.gameTicker % 100 === 0) {
-            this.youtubeBoss.setXVel(7);
+        if (this.ship.getHealth() <= 0) {
+            this.ship.setHealth(3);
+            Game.gameOverScreen = true;
         }
         if (this.gameTicker % 50 === 0) {
             this.projectiles.push(new Projectile(Game.currentId, "./assets/img/gameobject/projectiles/hostile/youtube_boss_projectile.png", this.youtubeBoss.getXPos() - 100, this.youtubeBoss.getYPos(), 5, 0, 1, 1, 1));
@@ -887,6 +893,14 @@ class YoutubeLevel extends GameScreen {
         }
         if (this.gameTicker % 50 === 0) {
             this.projectiles2.push(new Projectile(Game.currentId, "./assets/img/gameobject/projectiles/hostile/youtube_boss_projectile.png", this.youtubeBoss.getXPos() + 100, this.youtubeBoss.getYPos(), 5, 0, 1, 1, 1));
+            Game.currentId++;
+        }
+        if (this.gameTicker % 100 === 0) {
+            this.projectiles3.push(new Projectile(Game.currentId, "./assets/img/gameobject/projectiles/hostile/youtube_boss_projectile.png", this.youtubeBoss.getXPos(), this.youtubeBoss.getYPos() + 100, 0, 5, 1, 1, 1));
+            Game.currentId++;
+        }
+        if (this.gameTicker % 100 === 0) {
+            this.projectiles4.push(new Projectile(Game.currentId, "./assets/img/gameobject/projectiles/hostile/youtube_boss_projectile.png", this.youtubeBoss.getXPos(), this.youtubeBoss.getYPos() - 100, 0, 5, 1, 1, 1));
             Game.currentId++;
         }
         this.ship.move(this.canvas);
@@ -944,6 +958,40 @@ class YoutubeLevel extends GameScreen {
             else {
                 for (let i = this.projectiles2.length - 1; i >= 0; --i) {
                     this.projectiles2 = this.removeProjectilesWithId(this.projectiles2, projectile.getId());
+                }
+            }
+        });
+        this.projectiles3.forEach((projectile) => {
+            if (projectile.inBounds(this.canvas)) {
+                projectile.draw(this.ctx);
+                projectile.shootProjectileTopToBottom(this.canvas);
+                if (this.ship.isCollidingWithProjectile(projectile)) {
+                    this.ship.setHealth(this.ship.getHealth() - 1);
+                    for (let i = this.projectiles3.length - 1; i >= 0; --i) {
+                        this.projectiles3 = this.removeProjectilesWithId(this.projectiles3, projectile.getId());
+                    }
+                }
+            }
+            else {
+                for (let i = this.projectiles3.length - 1; i >= 0; --i) {
+                    this.projectiles3 = this.removeProjectilesWithId(this.projectiles3, projectile.getId());
+                }
+            }
+        });
+        this.projectiles4.forEach((projectile) => {
+            if (projectile.inBounds(this.canvas)) {
+                projectile.draw(this.ctx);
+                projectile.shootProjectileBottomToTop(this.canvas);
+                if (this.ship.isCollidingWithProjectile(projectile)) {
+                    this.ship.setHealth(this.ship.getHealth() - 1);
+                    for (let i = this.projectiles4.length - 1; i >= 0; --i) {
+                        this.projectiles4 = this.removeProjectilesWithId(this.projectiles4, projectile.getId());
+                    }
+                }
+            }
+            else {
+                for (let i = this.projectiles4.length - 1; i >= 0; --i) {
+                    this.projectiles4 = this.removeProjectilesWithId(this.projectiles4, projectile.getId());
                 }
             }
         });
